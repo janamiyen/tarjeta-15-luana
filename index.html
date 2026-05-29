@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Mis 15 · Luana</title>
+
+<!--
+==================================================================
+  TARJETA DE 15 — LUANA   ·   Pink Disco Glam
+==================================================================
+  COMO EDITAR:
+  - Todo lo que cambia (nombre, fecha, lugar, links, precios, textos)
+    esta en el objeto CONFIG, abajo de todo en el <script>.
+    Cambia ahi y listo, no toques el HTML.
+  - Para poner una FOTO real: en cada <div class="photo" ...>
+    agrega  style="background-image:url('mi-foto.jpg')"
+    (o reemplaza la ruta). Se recorta sola.
+  - Fuentes y colores: variables CSS en :root (arriba).
+==================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Poppins:wght@300;400;500;600&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  /* ---- Paleta ---- */
+  --pink:        #d0788d;
+  --pink-deep:   #b15a72;
+  --pink-soft:   #efb7c6;
+  --bg-1:        #fff6f9;
+  --bg-2:        #ffe7f0;
+  --bg-3:        #ffd9e7;
+  --btn-1:       #e58aa3;
+  --btn-2:       #c9657f;
+  --white:       #ffffff;
+  --photo-bg:    #17110f;
+
+  /* ---- Tipografias ---- */
+  --font-script: 'Parisienne', cursive;
+  --font-serif:  'Cormorant Garamond', serif;
+  --font-body:   'Poppins', sans-serif;
+  --font-date:   'Barlow', sans-serif;
+
+  --maxw: 430px;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+html{ scroll-behavior:smooth; }
+
+body{
+  font-family:var(--font-body);
+  color:var(--pink);
+  background:
+    radial-gradient(120% 80% at 50% 0%, var(--bg-1) 0%, var(--bg-2) 55%, var(--bg-3) 100%);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+/* Lienzo centrado tipo "historia" */
+.card{
+  max-width:var(--maxw);
+  margin:0 auto;
+  position:relative;
+  overflow-x:clip;
+  box-shadow:0 0 60px rgba(177,90,114,.12);
+  background:
+    radial-gradient(140% 70% at 0% 0%,   rgba(255,255,255,.55), transparent 40%),
+    radial-gradient(140% 70% at 100% 30%, rgba(255,255,255,.45), transparent 40%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-2) 40%, var(--bg-1) 70%, var(--bg-2));
+}
+
+/* glitter sutil global */
+.card::before{
+  content:""; position:absolute; inset:0; pointer-events:none; z-index:0;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,.9) 0 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(208,120,141,.5) 0 1px, transparent 1.6px);
+  background-size: 90px 120px, 140px 170px;
+  background-position: 10px 20px, 60px 90px;
+  opacity:.35;
+}
+
+/* ============ SECCIONES ============ */
+section{
+  position:relative;
+  padding:64px 28px;
+  text-align:center;
+  z-index:1;
+  overflow:hidden;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+.deco{ display:none; }   /* decoración ahora viene en las imágenes de fondo */
+.inner{ position:relative; z-index:2; }
+/* legibilidad del texto sobre las fotos */
+.title,.poem,.lugar,.prices,.eyebrow{ text-shadow:0 1px 2px rgba(255,255,255,.6); }
+
+/* ============ TIPOGRAFIA ============ */
+.eyebrow{
+  font-family:var(--font-date);
+  text-transform:uppercase;
+  letter-spacing:.42em;
+  font-size:12px;
+  font-weight:500;
+  color:var(--pink);
+  opacity:.85;
+}
+.title{
+  font-family:var(--font-script);
+  font-size:44px;
+  line-height:1;
+  color:var(--pink);
+  font-weight:400;
+}
+.poem{
+  font-size:15px;
+  font-weight:300;
+  line-height:1.9;
+  color:var(--pink);
+  letter-spacing:.01em;
+}
+.poem strong{ font-weight:500; }
+
+/* ============ HERO ============ */
+.hero{
+  padding-top:74px; padding-bottom:48px; min-height:92vh;
+  display:flex; align-items:center;
+  background:#f3d8e1 url('assets/bg-hero.png') center/cover no-repeat;
+}
+.hero .mis,
+.hero .name,
+.hero .datebar,
+.hero .datebar-month{ text-shadow:0 1px 3px rgba(255,255,255,.65); }
+.hero .mis{ font-family:var(--font-date); text-transform:uppercase; letter-spacing:.55em; font-size:13px; opacity:.8; }
+.hero .age{
+  font-family:var(--font-serif);
+  font-style:italic;
+  font-weight:600;
+  font-size:150px;
+  line-height:.9;
+  color:var(--pink);
+  margin:2px 0 -6px;
+  text-shadow:0 2px 0 rgba(255,255,255,.6), 0 10px 30px rgba(208,120,141,.25);
+}
+.hero .name{
+  font-family:var(--font-script);
+  font-size:58px;
+  line-height:1;
+  color:var(--pink-deep);
+  margin-bottom:26px;
+}
+
+/* bloque fecha */
+.datebar{
+  display:flex; align-items:center; justify-content:center; gap:14px;
+  font-family:var(--font-date); text-transform:uppercase; color:var(--pink);
+}
+.datebar .col{ font-size:13px; letter-spacing:.18em; }
+.datebar .day{ display:flex; flex-direction:column; align-items:center; gap:6px; }
+.datebar .day .num{ font-size:34px; letter-spacing:.04em; line-height:1; font-weight:500; }
+.datebar .line{ width:34px; height:1px; background:var(--pink); opacity:.6; }
+.datebar-month{ font-family:var(--font-date); text-transform:uppercase; letter-spacing:.3em; font-size:12px; margin-top:10px; opacity:.85; }
+
+/* dale play */
+.play-wrap{ margin-top:34px; display:flex; flex-direction:column; align-items:center; gap:6px; }
+.play-btn{
+  width:54px; height:54px; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #fff, var(--btn-1) 60%, var(--btn-2));
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 8px 20px rgba(201,101,127,.4), inset 0 2px 4px rgba(255,255,255,.6);
+  border:none; cursor:pointer; transition:transform .25s ease;
+}
+.play-btn:hover{ transform:scale(1.08); }
+.play-btn svg{ width:20px; height:20px; margin-left:3px; fill:#fff; }
+.play-arc{ width:120px; height:34px; }
+.play-arc text{ font-family:var(--font-date); font-size:11px; letter-spacing:.3em; fill:var(--pink); text-transform:uppercase; }
+
+/* ============ FOTO ============ */
+.photo{
+  width:74%;
+  max-width:260px;
+  aspect-ratio:3/4;
+  margin:0 auto;
+  border-radius:6px;
+  background:linear-gradient(135deg,#241a18,#0e0a09);
+  background-size:cover; background-position:center;
+  display:flex; align-items:flex-end; justify-content:center;
+  padding-bottom:22px;
+  box-shadow:0 18px 40px rgba(80,30,45,.28);
+  position:relative;
+  border:1px solid rgba(255,255,255,.12);
+}
+.photo::after{
+  content:""; position:absolute; inset:7px; border:1px solid rgba(255,255,255,.18); border-radius:3px; pointer-events:none;
+}
+.photo .foto-label{
+  font-family:var(--font-body); font-weight:500; letter-spacing:.12em; font-size:13px;
+  color:#fff;
+  text-shadow:0 0 6px rgba(213,98,126,.9), 0 0 16px rgba(213,98,126,.6);
+}
+.photo-name{
+  font-family:var(--font-script); font-size:40px; color:#fff;
+  margin-top:18px; text-shadow:0 2px 8px rgba(0,0,0,.4);
+}
+
+/* ============ BADGE (circulo con icono) ============ */
+.badge{
+  width:74px; height:74px; border-radius:50%; margin:0 auto 14px;
+  background:radial-gradient(circle at 35% 30%, #fff, #ffeef4 70%, #ffe0ea);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 8px 22px rgba(208,120,141,.22), inset 0 2px 4px rgba(255,255,255,.8);
+}
+.badge svg{ width:34px; height:34px; stroke:var(--pink); fill:none; stroke-width:1.6; }
+.badge svg .fillp{ fill:var(--pink); stroke:none; }
+
+/* ============ BOTON ============ */
+.btn{
+  display:inline-block; margin-top:18px;
+  padding:11px 34px; border-radius:999px;
+  font-family:var(--font-body); font-weight:500; font-size:14px; letter-spacing:.02em;
+  color:#fff; text-decoration:none;
+  background:linear-gradient(135deg, var(--btn-1), var(--btn-2));
+  box-shadow:0 8px 18px rgba(201,101,127,.35), inset 0 1px 2px rgba(255,255,255,.5);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.btn:hover{ transform:translateY(-2px); box-shadow:0 12px 24px rgba(201,101,127,.45); }
+
+.block + .block{ margin-top:54px; }
+.lugar{ font-size:14px; font-weight:300; line-height:1.8; }
+.lugar strong{ font-weight:500; }
+
+/* precios */
+.prices{ font-size:14px; font-weight:300; line-height:1; }
+.prices .row{ margin:14px 0; }
+.prices .who{ display:block; }
+.prices .amount{ display:block; font-weight:600; font-size:18px; margin-top:2px; }
+
+/* ============ COUNTDOWN ============ */
+.countdown-card{
+  margin:26px auto 0; max-width:300px;
+  background:rgba(255,255,255,.78); backdrop-filter:blur(4px);
+  border-radius:22px; padding:18px 16px 16px;
+  box-shadow:0 12px 30px rgba(208,120,141,.2), inset 0 1px 0 rgba(255,255,255,.9);
+  border:1px solid rgba(255,255,255,.7);
+}
+.countdown-card .cd-q{ font-family:var(--font-body); font-weight:500; font-size:14px; color:#5a4750; margin-bottom:10px; }
+.cd-grid{ display:flex; justify-content:center; gap:10px; }
+.cd-grid .u{ display:flex; flex-direction:column; align-items:center; min-width:46px; }
+.cd-grid .n{ font-family:var(--font-serif); font-weight:600; font-size:30px; line-height:1; color:var(--pink-deep); }
+.cd-grid .l{ font-family:var(--font-date); text-transform:uppercase; letter-spacing:.12em; font-size:9px; opacity:.75; margin-top:4px; }
+.cd-sep{ font-family:var(--font-serif); font-size:26px; color:var(--pink-soft); align-self:flex-start; }
+
+/* ============ FOOTER ============ */
+.footer{
+  background:#111; color:#fff; padding:26px 24px; text-align:center;
+}
+.footer a{ color:#fff; text-decoration:underline; font-size:13px; letter-spacing:.02em; }
+.footer .brand{ font-family:var(--font-date); letter-spacing:.3em; font-size:14px; margin-bottom:8px; text-transform:uppercase; }
+
+/* ============ DECORACIONES ============ */
+/* bolita espejada */
+.disco{
+  position:absolute; border-radius:50%;
+  background-color:#cfd6e2;
+  background-image:
+    radial-gradient(circle at 32% 26%, rgba(255,255,255,.95), rgba(255,255,255,0) 34%),
+    conic-gradient(from 20deg, #eef2f8, #c3cdde, #f3d9e4, #bcc6d8, #eef2f8, #c8d1e0, #eef2f8);
+  box-shadow:inset -7px -9px 16px rgba(60,70,95,.4), 0 6px 16px rgba(120,90,110,.18);
+  overflow:hidden; opacity:.9;
+}
+.disco::before{
+  content:""; position:absolute; inset:0; border-radius:50%;
+  background-image:
+    linear-gradient(rgba(255,255,255,.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.22) 1px, transparent 1px),
+    linear-gradient(rgba(40,50,70,.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(40,50,70,.16) 1px, transparent 1px);
+  background-size: 22% 16%, 22% 16%, 22% 16%, 22% 16%;
+  background-position: 0 0, 0 0, 11% 8%, 11% 8%;
+}
+
+/* destello / sparkle */
+.spk{ position:absolute; color:#fff; filter:drop-shadow(0 0 4px rgba(255,255,255,.9)) drop-shadow(0 0 8px rgba(208,120,141,.5)); }
+.spk svg{ width:100%; height:100%; display:block; fill:currentColor; }
+
+/* corazon glossy */
+.heartdeco{ position:absolute; filter:drop-shadow(0 6px 10px rgba(180,80,110,.25)); opacity:.92; }
+.heartdeco svg{ width:100%; height:100%; display:block; }
+
+/* helpers de posicion */
+.tl{ top:18px; left:-22px; }
+.tr{ top:24px; right:-26px; }
+.bl{ bottom:20px; left:-20px; }
+.br{ bottom:26px; right:-24px; }
+.soft{ opacity:.5; filter:blur(.4px); }
+
+@media (max-width:380px){
+  .hero .age{ font-size:120px; }
+  .hero .name{ font-size:48px; }
+  section{ padding:54px 22px; }
+}
+</style>
+</head>
+
+<body>
+<main class="card">
+
+  <!-- ===== SVG defs reutilizables (gradiente corazon) ===== -->
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <linearGradient id="gHeart" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f6a8bd"/>
+        <stop offset="1" stop-color="#d0788d"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- ============ 1 · PORTADA ============ -->
+  <section class="hero">
+    <!-- decoración: viene en la imagen de fondo (assets/bg-hero.png) -->
+    <div class="inner" style="width:100%">
+      <div class="mis">Mis</div>
+      <div class="age" data-age>15</div>
+      <div class="name" data-name>Luana</div>
+
+      <div class="datebar">
+        <div class="col" data-weekday>Sábado</div>
+        <div class="day">
+          <span class="line"></span>
+          <span class="num" data-day>10</span>
+          <span class="line"></span>
+        </div>
+        <div class="col" data-time>22:00 hs</div>
+      </div>
+      <div class="datebar-month" data-monthyear>Enero 2026</div>
+
+      <div class="play-wrap">
+        <button class="play-btn" id="btn-music" type="button" aria-label="Reproducir música">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <svg class="play-arc" viewBox="0 0 120 34">
+          <path id="arc" d="M10,30 A55,55 0 0,1 110,30" fill="none"/>
+          <text><textPath href="#arc" startOffset="50%" text-anchor="middle">dale play</textPath></text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2 · FOTO ============ -->
+  <section>
+    <div class="deco">
+      <span class="disco" style="width:50px;height:50px;top:24px;right:18px"></span>
+      <span class="spk" style="width:18px;height:18px;bottom:40px;left:24px"><svg viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z"/></svg></span>
+    </div>
+    <div class="inner">
+      <!-- Para foto real: agrega style="background-image:url('foto1.jpg')" -->
+      <div class="photo"><span class="foto-label">FOTO AQUÍ</span></div>
+    </div>
+  </section>
+
+  <!-- ============ 3 · INVITACIÓN ============ -->
+  <section>
+    <div class="deco">
+      <span class="disco soft" style="width:46px;height:46px;top:30px;left:18px"></span>
+      <span class="heartdeco soft" style="width:26px;height:26px;top:40px;right:30px"><svg viewBox="0 0 32 29"><path fill="url(#gHeart)" d="M16 29C-6 14 4 0 16 8 28 0 38 14 16 29Z"/></svg></span>
+      <span class="disco" style="width:40px;height:40px;bottom:120px;right:20px"></span>
+      <span class="disco soft" style="width:36px;height:36px;bottom:90px;left:22px"></span>
+    </div>
+    <div class="inner">
+      <p class="poem" data-poem>
+        Los momentos más felices de la vida<br>
+        se tornan más lindos cuando los<br>
+        compartimos con familiares y amigos.<br>
+        Acompáñame a disfrutar esta noche<br>
+        especial, <strong>...mis 15 años.</strong>
+      </p>
+      <div class="title" style="margin-top:18px">¡Te espero!</div>
+
+      <div class="countdown-card">
+        <div class="cd-q">¿Cuánto falta?</div>
+        <div class="cd-grid" id="countdown">
+          <div class="u"><span class="n" data-d>00</span><span class="l">días</span></div>
+          <span class="cd-sep">:</span>
+          <div class="u"><span class="n" data-h>00</span><span class="l">hs</span></div>
+          <span class="cd-sep">:</span>
+          <div class="u"><span class="n" data-m>00</span><span class="l">min</span></div>
+          <span class="cd-sep">:</span>
+          <div class="u"><span class="n" data-s>00</span><span class="l">seg</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4 · FIESTA ============ -->
+  <section>
+    <div class="deco">
+      <span class="disco" style="width:48px;height:48px;top:26px;right:20px"></span>
+      <span class="spk soft" style="width:16px;height:16px;bottom:30px;left:26px"><svg viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z"/></svg></span>
+    </div>
+    <div class="inner">
+      <div class="badge"><!-- pin -->
+        <svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      </div>
+      <div class="title">Fiesta</div>
+      <p class="lugar" data-lugar>
+        <strong>El Castillo Eventos</strong><br>
+        Av. Figueroa Alcorta 5575<br>
+        Santa Fe<br>
+        de 21:00 a 05:00 h
+      </p>
+      <a class="btn" id="btn-maps" target="_blank" rel="noopener">Cómo llegar</a>
+    </div>
+  </section>
+
+  <!-- ============ 5 · CONFIRMAR ============ -->
+  <section>
+    <div class="deco">
+      <span class="disco soft" style="width:44px;height:44px;top:28px;left:18px"></span>
+      <span class="heartdeco" style="width:24px;height:24px;bottom:34px;right:26px"><svg viewBox="0 0 32 29"><path fill="url(#gHeart)" d="M16 29C-6 14 4 0 16 8 28 0 38 14 16 29Z"/></svg></span>
+    </div>
+    <div class="inner">
+      <div class="badge"><!-- check -->
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.6 2.6L16 9.5"/></svg>
+      </div>
+      <div class="title">Confirmar</div>
+      <p class="lugar" data-confirmar>
+        Por favor avísanos<br>si vendrás a la fiesta.<br>
+        Tenés tiempo hasta el <strong>20/12/2025</strong>
+      </p>
+      <a class="btn" id="btn-rsvp" target="_blank" rel="noopener">Confirmar aquí</a>
+    </div>
+  </section>
+
+  <!-- ============ 6 · TARJETA / PRECIOS ============ -->
+  <section>
+    <div class="deco">
+      <span class="disco" style="width:50px;height:50px;top:24px;right:18px"></span>
+      <span class="disco soft" style="width:38px;height:38px;bottom:60px;left:20px"></span>
+    </div>
+    <div class="inner">
+      <div class="badge"><!-- ticket -->
+        <svg viewBox="0 0 24 24"><path d="M3 9a2 2 0 0 0 0 6v2a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2a2 2 0 0 1 0-6V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1Z"/><path d="M15 6v12" stroke-dasharray="2 2"/></svg>
+      </div>
+      <div class="title">Tarjeta</div>
+      <div class="prices" data-prices>
+        <div class="row"><span class="who">Menores de 12 años</span><span class="amount">$10.000</span></div>
+        <div class="row"><span class="who">De 13 a 17 años</span><span class="amount">$20.000</span></div>
+        <div class="row"><span class="who">De 18 años en adelante</span><span class="amount">$25.000</span></div>
+      </div>
+      <a class="btn" id="btn-tarjeta" target="_blank" rel="noopener">Reservar aquí</a>
+    </div>
+  </section>
+
+  <!-- ============ 7 · DRESS CODE ============ -->
+  <section>
+    <div class="deco">
+      <span class="heartdeco soft" style="width:30px;height:30px;top:30px;right:22px"><svg viewBox="0 0 32 29"><path fill="url(#gHeart)" d="M16 29C-6 14 4 0 16 8 28 0 38 14 16 29Z"/></svg></span>
+      <span class="spk" style="width:18px;height:18px;bottom:40px;left:24px"><svg viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z"/></svg></span>
+    </div>
+    <div class="inner">
+      <div class="badge"><!-- taco / heel -->
+        <svg viewBox="0 0 24 24"><path d="M4 6c4 0 5 7 9 9 3 1.5 6 1.5 7 2v2H4Z"/><path d="M4 6v8"/></svg>
+      </div>
+      <div class="title">Dress Code</div>
+      <p class="lugar" data-dresscode>
+        <strong>“Elegante Sport”</strong><br>
+        Se reserva el color celeste<br>para la cumpleañera.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 8 · FOTO ============ -->
+  <section>
+    <div class="deco">
+      <span class="disco" style="width:46px;height:46px;top:24px;left:18px"></span>
+      <span class="spk soft" style="width:14px;height:14px;bottom:36px;right:26px"><svg viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z"/></svg></span>
+    </div>
+    <div class="inner">
+      <div class="photo"><span class="foto-label">FOTO AQUÍ</span></div>
+    </div>
+  </section>
+
+  <!-- ============ 9 · MENÚ ESPECIAL ============ -->
+  <section>
+    <div class="deco">
+      <span class="disco soft" style="width:42px;height:42px;top:28px;right:18px"></span>
+      <span class="heartdeco" style="width:24px;height:24px;bottom:34px;left:24px"><svg viewBox="0 0 32 29"><path fill="url(#gHeart)" d="M16 29C-6 14 4 0 16 8 28 0 38 14 16 29Z"/></svg></span>
+    </div>
+    <div class="inner">
+      <div class="badge"><!-- fork/knife -->
+        <svg viewBox="0 0 24 24"><path d="M8 3v8a2 2 0 0 1-4 0V3M6 11v10M16 3c-2 1-3 3-3 6h3v12"/></svg>
+      </div>
+      <div class="title">Menú Especial</div>
+      <p class="lugar" data-menu>
+        Formulario para informar tus<br>
+        restricciones y/o alergias<br>
+        relacionadas a los alimentos.<br>
+        Para poder prepararte<br>una comida especial.
+      </p>
+      <a class="btn" id="btn-menu" target="_blank" rel="noopener">Completar aquí</a>
+    </div>
+  </section>
+
+  <!-- ============ 10 · REGALO ============ -->
+  <section>
+    <div class="deco">
+      <span class="disco" style="width:48px;height:48px;top:24px;left:18px"></span>
+      <span class="disco soft" style="width:36px;height:36px;bottom:50px;right:22px"></span>
+    </div>
+    <div class="inner">
+      <div class="badge"><!-- gift -->
+        <svg viewBox="0 0 24 24"><path d="M4 11h16v9H4z"/><path d="M3 7h18v4H3zM12 7v13M12 7c-1.5-3-5-3-5-1s3 1 5 1Zm0 0c1.5-3 5-3 5-1s-3 1-5 1Z"/></svg>
+      </div>
+      <div class="title">Regalo</div>
+      <p class="lugar" data-regalo>
+        Tu presencia es el mejor regalo,<br>
+        pero si querés brindar algo más...
+      </p>
+      <a class="btn" id="btn-regalo" target="_blank" rel="noopener">Ver aquí</a>
+    </div>
+  </section>
+
+  <!-- ============ 11 · PLAYLIST ============ -->
+  <section>
+    <div class="deco">
+      <span class="spk" style="width:20px;height:20px;top:34px;right:24px"><svg viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z"/></svg></span>
+      <span class="disco soft" style="width:40px;height:40px;bottom:50px;left:20px"></span>
+    </div>
+    <div class="inner">
+      <div class="badge"><!-- music note -->
+        <svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6" cy="18" r="3" class="fillp"/><circle cx="16" cy="16" r="3" class="fillp"/></svg>
+      </div>
+      <div class="title">Playlist</div>
+      <p class="lugar" data-playlist>
+        ¡Que tu tema favorito<br>
+        no deje de sonar en esta gran noche!<br>
+        Ayudá a armar la playlist de la fiesta.
+      </p>
+      <a class="btn" id="btn-playlist" target="_blank" rel="noopener">Sumar canción</a>
+    </div>
+  </section>
+
+  <!-- ============ 12 · CARPETA ============ -->
+  <section>
+    <div class="deco">
+      <span class="disco" style="width:46px;height:46px;top:26px;right:20px"></span>
+      <span class="heartdeco soft" style="width:22px;height:22px;bottom:34px;left:24px"><svg viewBox="0 0 32 29"><path fill="url(#gHeart)" d="M16 29C-6 14 4 0 16 8 28 0 38 14 16 29Z"/></svg></span>
+    </div>
+    <div class="inner">
+      <div class="badge"><!-- camera -->
+        <svg viewBox="0 0 24 24"><path d="M3 8h4l1.5-2h7L17 8h4v11H3z"/><circle cx="12" cy="13" r="3.4"/></svg>
+      </div>
+      <div class="title">Carpeta</div>
+      <p class="lugar" data-carpeta>
+        Creamos una carpeta para que<br>
+        suban las fotos y videos<br>
+        que saquen de la fiesta.
+      </p>
+      <a class="btn" id="btn-carpeta" target="_blank" rel="noopener">Subir aquí</a>
+    </div>
+  </section>
+
+  <!-- ============ 13 · TU MENSAJE ============ -->
+  <section>
+    <div class="deco">
+      <span class="disco soft" style="width:42px;height:42px;top:28px;left:18px"></span>
+      <span class="spk" style="width:16px;height:16px;bottom:38px;right:26px"><svg viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z"/></svg></span>
+    </div>
+    <div class="inner">
+      <div class="badge"><!-- chat -->
+        <svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-4 3v-3H4z"/></svg>
+      </div>
+      <div class="title">Tu Mensaje</div>
+      <p class="lugar" data-mensaje>
+        Cada palabra y cada deseo<br>
+        es un recuerdo único<br>
+        para guardar en el corazón.<br>
+        Dejá tu mensaje especial.
+      </p>
+      <a class="btn" id="btn-mensaje" target="_blank" rel="noopener">Dejar mensaje</a>
+    </div>
+  </section>
+
+  <!-- ============ 14 · FOTO DE CIERRE ============ -->
+  <section style="padding-bottom:72px">
+    <div class="deco">
+      <span class="disco" style="width:54px;height:54px;top:30px;right:18px"></span>
+      <span class="disco soft" style="width:40px;height:40px;bottom:70px;left:22px"></span>
+      <span class="heartdeco" style="width:28px;height:28px;top:50%;left:24px"><svg viewBox="0 0 32 29"><path fill="url(#gHeart)" d="M16 29C-6 14 4 0 16 8 28 0 38 14 16 29Z"/></svg></span>
+    </div>
+    <div class="inner">
+      <div class="photo"><span class="foto-label">FOTO AQUÍ</span></div>
+      <div class="photo-name" data-name>Luana</div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="brand" data-brand>STUDIOMAX</div>
+    <a id="btn-brand" target="_blank" rel="noopener">Consultá por nuestras invitaciones aquí</a>
+  </footer>
+
+  <!-- Reproductor de música oculto: la canción suena DENTRO de la página -->
+  <div id="yt-player" aria-hidden="true"
+       style="position:fixed;left:-9999px;top:0;width:320px;height:180px;opacity:0;pointer-events:none"></div>
+
+</main>
+
+<script>
+/* ============================================================
+   CONFIG · EDITÁ SOLO ESTO
+   ============================================================ */
+const CONFIG = {
+  // --- Datos principales ---
+  nombre: "Luana",
+  edad: "15",
+
+  // Fecha y hora del evento (para portada y countdown)
+  // Formato: AÑO, MES(1-12), DÍA, HORA(0-23), MINUTOS
+  fecha: { anio: 2026, mes: 1, dia: 10, hora: 22, min: 0 },
+
+  // --- Marca / pie ---
+  marca: "JANA.VIBECODING",
+
+  // --- Links de los botones (poné tus URLs reales) ---
+  links: {
+    musica:   "https://www.youtube.com/watch?v=Wg92RrNhB8s",  // canción (suena DENTRO de la página al tocar play)
+    maps:     "https://maps.app.goo.gl/xxxxx",                // Cómo llegar
+    rsvp:     "https://wa.me/549XXXXXXXXXX?text=Confirmo%20mi%20asistencia%20a%20los%2015%20de%20Luana", // Confirmar
+    tarjeta:  "https://wa.me/549XXXXXXXXXX?text=Quiero%20reservar%20mi%20tarjeta",  // Reservar tarjeta
+    menu:     "https://forms.gle/xxxxx",                      // Menú especial (formulario)
+    regalo:   "https://wa.me/549XXXXXXXXXX?text=Quiero%20datos%20para%20el%20regalo", // Regalo
+    playlist: "https://open.spotify.com/playlist/xxxxx",      // Playlist colaborativa
+    carpeta:  "https://drive.google.com/drive/folders/xxxxx", // Carpeta fotos/videos
+    mensaje:  "https://wa.me/549XXXXXXXXXX?text=Mi%20mensaje%20para%20Luana", // Tu mensaje
+    instagram: "https://www.instagram.com/jana.vibecoding/" // pie (verificá que el usuario sea correcto)
+  },
+
+  // Fondos de las secciones (se rotan en orden, sin contar la portada).
+  // La portada usa assets/bg-hero.png (definido en el CSS .hero).
+  fondos: ["assets/bg-2.png", "assets/bg-3.png", "assets/bg-4.png"]
+};
+
+/* ============================================================
+   RENDER (no hace falta tocar nada de acá para abajo)
+   ============================================================ */
+(function(){
+  const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+  const dias  = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
+  const f = CONFIG.fecha;
+  const target = new Date(f.anio, f.mes - 1, f.dia, f.hora, f.min, 0);
+  const pad = n => String(n).padStart(2, "0");
+
+  // Nombre / edad
+  document.querySelectorAll("[data-name]").forEach(el => el.textContent = CONFIG.nombre);
+  document.querySelector("[data-age]").textContent = CONFIG.edad;
+
+  // Bloque fecha portada
+  document.querySelector("[data-weekday]").textContent = dias[target.getDay()];
+  document.querySelector("[data-day]").textContent = f.dia;
+  document.querySelector("[data-time]").textContent = pad(f.hora) + ":" + pad(f.min) + " hs";
+  document.querySelector("[data-monthyear]").textContent = meses[f.mes - 1] + " " + f.anio;
+
+  // Marca
+  document.querySelector("[data-brand]").textContent = CONFIG.marca;
+
+  // Fondos por sección (rota CONFIG.fondos; la portada queda con su propio fondo)
+  if (CONFIG.fondos && CONFIG.fondos.length){
+    document.querySelectorAll("main.card > section:not(.hero)").forEach((s, i) => {
+      s.style.backgroundImage = "url('" + CONFIG.fondos[i % CONFIG.fondos.length] + "')";
+    });
+  }
+
+  // Links
+  const setHref = (id, url) => { const e = document.getElementById(id); if (e && url) e.href = url; };
+  setHref("btn-maps",     CONFIG.links.maps);
+  setHref("btn-rsvp",     CONFIG.links.rsvp);
+  setHref("btn-tarjeta",  CONFIG.links.tarjeta);
+  setHref("btn-menu",     CONFIG.links.menu);
+  setHref("btn-regalo",   CONFIG.links.regalo);
+  setHref("btn-playlist", CONFIG.links.playlist);
+  setHref("btn-carpeta",  CONFIG.links.carpeta);
+  setHref("btn-mensaje",  CONFIG.links.mensaje);
+  setHref("btn-brand",    CONFIG.links.instagram);
+
+  // ---- Música que suena DENTRO de la página (YouTube IFrame API) ----
+  const music = document.getElementById("btn-music");
+  const ICON_PLAY  = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+  const ICON_PAUSE = '<svg viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
+
+  function ytId(url){
+    const m = String(url).match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : url;
+  }
+
+  let ytPlayer = null, ytReady = false, playing = false;
+
+  // carga la API de YouTube
+  (function loadYT(){
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  })();
+
+  window.onYouTubeIframeAPIReady = function(){
+    ytPlayer = new YT.Player("yt-player", {
+      videoId: ytId(CONFIG.links.musica),
+      playerVars: { playsinline: 1, controls: 0, rel: 0, modestbranding: 1 },
+      events: {
+        onReady: function(){ ytReady = true; },
+        onStateChange: function(e){
+          if (e.data === YT.PlayerState.ENDED){ playing = false; if (music) music.innerHTML = ICON_PLAY; }
+          if (e.data === YT.PlayerState.PLAYING){ playing = true; if (music) music.innerHTML = ICON_PAUSE; }
+          if (e.data === YT.PlayerState.PAUSED){ playing = false; if (music) music.innerHTML = ICON_PLAY; }
+        }
+      }
+    });
+  };
+
+  if (music) music.addEventListener("click", function(){
+    if (!ytReady || !ytPlayer) return;
+    if (playing){ ytPlayer.pauseVideo(); } else { ytPlayer.playVideo(); }
+  });
+
+  // Countdown
+  const $d = document.querySelector("[data-d]"),
+        $h = document.querySelector("[data-h]"),
+        $m = document.querySelector("[data-m]"),
+        $s = document.querySelector("[data-s]"),
+        grid = document.getElementById("countdown");
+
+  function tick(){
+    const diff = target - new Date();
+    if (diff <= 0){
+      grid.innerHTML = '<div class="n" style="font-size:24px">¡Hoy es el gran día! 🎉</div>';
+      clearInterval(timer);
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor(diff % 86400000 / 3600000);
+    const m = Math.floor(diff % 3600000 / 60000);
+    const s = Math.floor(diff % 60000 / 1000);
+    $d.textContent = pad(d); $h.textContent = pad(h);
+    $m.textContent = pad(m); $s.textContent = pad(s);
+  }
+  tick();
+  const timer = setInterval(tick, 1000);
+})();
+</script>
+</body>
+</html>
