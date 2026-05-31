@@ -9,14 +9,19 @@
 ==================================================================
   TARJETA DE 15 — LUANA   ·   Pink Disco Glam
 ==================================================================
+  Estructura:
+   - Background = video (assets/hero.mp4) fijo, compartido en TODAS
+     las secciones. Las secciones flotan encima.
+   - Barra de progreso tipo stories arriba (una segmento por sección).
+   - 14 secciones + footer (igual al original, copy idéntico).
+   - Espacios FOTO AQUÍ guardados para cargar fotos del book.
+
   COMO EDITAR:
-  - Todo lo que cambia (nombre, fecha, lugar, links, precios, textos)
-    esta en el objeto CONFIG, abajo de todo en el <script>.
-    Cambia ahi y listo, no toques el HTML.
-  - Para poner una FOTO real: en cada <div class="photo" ...>
-    agrega  style="background-image:url('mi-foto.jpg')"
-    (o reemplaza la ruta). Se recorta sola.
-  - Fuentes y colores: variables CSS en :root (arriba).
+  - Todo el contenido editable está en el objeto CONFIG al final del
+    archivo (nombre, fecha, links, etc.).
+  - Para poner una FOTO real en un placeholder, en cualquier
+    <div class="photo"> agregás:
+        style="background-image:url('mi-foto.jpg')"
 ==================================================================
 -->
 
@@ -26,19 +31,13 @@
 
 <style>
 :root{
-  /* ---- Paleta ---- */
   --pink:        #d0788d;
   --pink-deep:   #b15a72;
   --pink-soft:   #efb7c6;
-  --bg-1:        #fff6f9;
-  --bg-2:        #ffe7f0;
-  --bg-3:        #ffd9e7;
-  --btn-1:       #e58aa3;
-  --btn-2:       #c9657f;
+  --pink-glow:   #ff4c8b;
   --white:       #ffffff;
   --photo-bg:    #17110f;
 
-  /* ---- Tipografias ---- */
   --font-script: 'Parisienne', cursive;
   --font-serif:  'Cormorant Garamond', serif;
   --font-body:   'Poppins', sans-serif;
@@ -48,40 +47,33 @@
 }
 
 *{ margin:0; padding:0; box-sizing:border-box; }
-
-html{ scroll-behavior:smooth; }
-
+html{
+  scroll-behavior:smooth;
+  scroll-snap-type: y mandatory;   /* snap automático entre secciones */
+}
 body{
   font-family:var(--font-body);
   color:var(--pink);
-  background:
-    radial-gradient(120% 80% at 50% 0%, var(--bg-1) 0%, var(--bg-2) 55%, var(--bg-3) 100%);
+  background:#f3d8e1;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
 
-/* Lienzo centrado tipo "historia" */
+/* ============ VIDEO FONDO (compartido, fijo) ============ */
+.bg-video{
+  position:fixed; top:0; left:50%; transform:translateX(-50%);
+  width:100%; max-width:var(--maxw);
+  height:100vh; object-fit:cover;
+  z-index:0; pointer-events:none; background:#f3d8e1;
+}
+
+/* ============ LIENZO ============ */
 .card{
   max-width:var(--maxw);
   margin:0 auto;
   position:relative;
   overflow-x:clip;
-  box-shadow:0 0 60px rgba(177,90,114,.12);
-  background:
-    radial-gradient(140% 70% at 0% 0%,   rgba(255,255,255,.55), transparent 40%),
-    radial-gradient(140% 70% at 100% 30%, rgba(255,255,255,.45), transparent 40%),
-    linear-gradient(180deg, var(--bg-1), var(--bg-2) 40%, var(--bg-1) 70%, var(--bg-2));
-}
-
-/* glitter sutil global */
-.card::before{
-  content:""; position:absolute; inset:0; pointer-events:none; z-index:0;
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,.9) 0 1px, transparent 1.6px),
-    radial-gradient(circle, rgba(208,120,141,.5) 0 1px, transparent 1.6px);
-  background-size: 90px 120px, 140px 170px;
-  background-position: 10px 20px, 60px 90px;
-  opacity:.35;
+  background:transparent;
 }
 
 /* ============ SECCIONES ============ */
@@ -90,15 +82,98 @@ section{
   padding:64px 28px;
   text-align:center;
   z-index:1;
-  overflow:hidden;
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
+  min-height:100vh;
+  min-height:100dvh;                /* viewport real en mobile */
+  scroll-snap-align:start;          /* punto de snap */
+  scroll-snap-stop:always;          /* no se saltea ninguna */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
 }
-.deco{ display:none; }   /* decoración ahora viene en las imágenes de fondo */
 .inner{ position:relative; z-index:2; }
-/* legibilidad del texto sobre las fotos */
-.title,.poem,.lugar,.prices,.eyebrow{ text-shadow:0 1px 2px rgba(255,255,255,.6); }
+
+/* Panel translúcido GLAM: sheen glossy + rhinestones en esquinas +
+   highlight rosa radial + glow rosa neón. Las tarjetas se sienten de fiesta. */
+section.has-panel .inner{
+  position:relative;
+  background:
+    radial-gradient(120% 80% at 50% -10%, rgba(255,255,255,.55) 0%, transparent 55%),
+    radial-gradient(80% 60% at 50% 110%, rgba(255,200,222,.45) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(255,236,242,.72), rgba(255,220,232,.55));
+  border:1px solid rgba(255,255,255,.75);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-radius:26px;
+  padding:38px 24px 34px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.95),
+    inset 0 -14px 28px rgba(255,200,222,.45),
+    0 18px 40px rgba(232,120,160,.32),
+    0 0 50px rgba(255,76,139,.22);
+  max-width:340px;
+  margin:0 auto;
+  overflow:visible;
+}
+
+/* sheen glossy arriba (efecto chrome card) */
+section.has-panel .inner::before{
+  content:""; position:absolute;
+  top:1px; left:10%; right:10%; height:32%;
+  background:linear-gradient(180deg, rgba(255,255,255,.55), transparent 80%);
+  border-radius:26px 26px 50% 50% / 26px 26px 70% 70%;
+  pointer-events:none;
+  z-index:1;
+}
+
+/* sparkles/rhinestones titilantes en las 4 esquinas */
+section.has-panel .inner::after{
+  content:""; position:absolute;
+  inset:-14px; border-radius:30px;
+  pointer-events:none; z-index:3;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z' fill='white' opacity='.95'/%3E%3Cpath d='M12 4c.5 4 3 7 8 8-5 .5-7.5 4-8 8-.5-4-3-7-8-8 5-.5 7.5-4 8-8Z' fill='%23ffd2e2'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z' fill='white' opacity='.85'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z' fill='%23ffd2e2'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z' fill='white' opacity='.9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:
+    8px 6px,
+    calc(100% - 6px) 14px,
+    14px calc(100% - 8px),
+    calc(100% - 12px) calc(100% - 6px);
+  background-size: 22px 22px, 14px 14px, 16px 16px, 24px 24px;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,.7)) drop-shadow(0 0 10px rgba(255,76,139,.4));
+  animation: twinkle 2.6s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity:.78; transform:scale(1); }
+  50%      { opacity:1;   transform:scale(1.05); }
+}
+
+/* asegura que el contenido (badge, título, texto, botón) quede encima del sheen */
+section.has-panel .inner > *{ position:relative; z-index:2; }
+
+/* ============ BARRA DE PROGRESO (stories) ============ */
+.progress{
+  position:fixed; top:10px; left:50%; transform:translateX(-50%);
+  width:calc(100% - 24px); max-width:calc(var(--maxw) - 24px);
+  display:flex; gap:3px;
+  z-index:50;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.25));
+}
+.progress .seg{
+  flex:1; height:3px; border-radius:2px;
+  background:rgba(255,255,255,.4);
+  position:relative; overflow:hidden;
+}
+.progress .seg::before{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(90deg, #ffd2e2, #ff4c8b);
+  transform:scaleX(var(--p,0)); transform-origin:left;
+  transition:transform .14s ease;
+}
 
 /* ============ TIPOGRAFIA ============ */
 .eyebrow{
@@ -112,91 +187,97 @@ section{
 }
 .title{
   font-family:var(--font-script);
-  font-size:44px;
-  line-height:1;
-  color:var(--pink);
-  font-weight:400;
+  font-size:44px; line-height:1;
+  color:var(--pink); font-weight:400;
+  text-shadow:0 1px 2px rgba(255,255,255,.6);
 }
 .poem{
-  font-size:15px;
-  font-weight:300;
-  line-height:1.9;
-  color:var(--pink);
-  letter-spacing:.01em;
+  font-size:15px; font-weight:300; line-height:1.9;
+  color:var(--pink); letter-spacing:.01em;
+  text-shadow:0 1px 2px rgba(255,255,255,.5);
 }
 .poem strong{ font-weight:500; }
 
 /* ============ HERO ============ */
-.hero{
-  padding-top:74px; padding-bottom:48px; min-height:92vh;
-  display:flex; align-items:center;
-  background:#f3d8e1 url('assets/bg-hero.png') center/cover no-repeat;
+.hero{ padding-top:74px; padding-bottom:48px; min-height:100vh; display:flex; align-items:center; }
+.hero .mis{
+  font-family:var(--font-date); text-transform:uppercase;
+  letter-spacing:.55em; font-size:13px; opacity:.85;
+  text-shadow:0 1px 3px rgba(255,255,255,.65);
 }
-.hero .mis,
-.hero .name,
-.hero .datebar,
-.hero .datebar-month{ text-shadow:0 1px 3px rgba(255,255,255,.65); }
-.hero .mis{ font-family:var(--font-date); text-transform:uppercase; letter-spacing:.55em; font-size:13px; opacity:.8; }
 .hero .age{
-  font-family:var(--font-serif);
-  font-style:italic;
-  font-weight:600;
-  font-size:150px;
-  line-height:.9;
-  color:var(--pink);
-  margin:2px 0 -6px;
-  text-shadow:0 2px 0 rgba(255,255,255,.6), 0 10px 30px rgba(208,120,141,.25);
+  font-family:var(--font-serif); font-style:italic; font-weight:600;
+  font-size:150px; line-height:.9;
+  color:var(--pink); margin:2px 0 -6px;
+  text-shadow:
+    0 2px 0 rgba(255,255,255,.6),
+    0 14px 32px rgba(208,120,141,.3),
+    0 0 50px rgba(255,76,139,.18);
 }
 .hero .name{
   font-family:var(--font-script);
-  font-size:58px;
-  line-height:1;
+  font-size:58px; line-height:1;
   color:var(--pink-deep);
   margin-bottom:26px;
+  text-shadow:0 2px 4px rgba(255,255,255,.7);
 }
 
-/* bloque fecha */
 .datebar{
   display:flex; align-items:center; justify-content:center; gap:14px;
   font-family:var(--font-date); text-transform:uppercase; color:var(--pink);
+  text-shadow:0 1px 3px rgba(255,255,255,.65);
 }
 .datebar .col{ font-size:13px; letter-spacing:.18em; }
 .datebar .day{ display:flex; flex-direction:column; align-items:center; gap:6px; }
 .datebar .day .num{ font-size:34px; letter-spacing:.04em; line-height:1; font-weight:500; }
 .datebar .line{ width:34px; height:1px; background:var(--pink); opacity:.6; }
-.datebar-month{ font-family:var(--font-date); text-transform:uppercase; letter-spacing:.3em; font-size:12px; margin-top:10px; opacity:.85; }
-
-/* dale play */
-.play-wrap{ margin-top:34px; display:flex; flex-direction:column; align-items:center; gap:6px; }
-.play-btn{
-  width:54px; height:54px; border-radius:50%;
-  background:radial-gradient(circle at 35% 30%, #fff, var(--btn-1) 60%, var(--btn-2));
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 8px 20px rgba(201,101,127,.4), inset 0 2px 4px rgba(255,255,255,.6);
-  border:none; cursor:pointer; transition:transform .25s ease;
+.datebar-month{
+  font-family:var(--font-date); text-transform:uppercase;
+  letter-spacing:.3em; font-size:12px; margin-top:10px; opacity:.85;
+  text-shadow:0 1px 3px rgba(255,255,255,.65);
 }
-.play-btn:hover{ transform:scale(1.08); }
-.play-btn svg{ width:20px; height:20px; margin-left:3px; fill:#fff; }
-.play-arc{ width:120px; height:34px; }
-.play-arc text{ font-family:var(--font-date); font-size:11px; letter-spacing:.3em; fill:var(--pink); text-transform:uppercase; }
+
+/* dale play (texto arqueado encima del botón + botón con pulso) */
+.play-wrap{ margin-top:38px; display:flex; flex-direction:column; align-items:center; gap:2px; }
+.play-arc{ width:140px; height:40px; filter:drop-shadow(0 1px 2px rgba(255,255,255,.7)); }
+.play-arc text{
+  font-family:var(--font-date); font-size:13px; letter-spacing:.42em;
+  fill:var(--pink-deep); text-transform:uppercase; font-weight:600;
+}
+.play-btn{
+  width:58px; height:58px; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #fff, #e487a0 60%, #c9657f);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:
+    0 10px 24px rgba(201,101,127,.45),
+    inset 0 2px 4px rgba(255,255,255,.7);
+  border:none; cursor:pointer;
+  transition:transform .25s ease;
+  animation: playPulse 2.4s ease-out infinite;
+}
+.play-btn:hover{ transform:scale(1.08); animation-play-state:paused; }
+.play-btn svg{ width:22px; height:22px; margin-left:3px; fill:#fff; }
+
+@keyframes playPulse {
+  0%   { box-shadow: 0 10px 24px rgba(201,101,127,.45), inset 0 2px 4px rgba(255,255,255,.7), 0 0 0 0    rgba(255,76,139,.55); }
+  70%  { box-shadow: 0 10px 24px rgba(201,101,127,.45), inset 0 2px 4px rgba(255,255,255,.7), 0 0 0 18px rgba(255,76,139,0); }
+  100% { box-shadow: 0 10px 24px rgba(201,101,127,.45), inset 0 2px 4px rgba(255,255,255,.7), 0 0 0 0    rgba(255,76,139,0); }
+}
 
 /* ============ FOTO ============ */
 .photo{
-  width:74%;
-  max-width:260px;
-  aspect-ratio:3/4;
-  margin:0 auto;
-  border-radius:6px;
+  width:74%; max-width:260px; aspect-ratio:3/4;
+  margin:0 auto; border-radius:6px;
   background:linear-gradient(135deg,#241a18,#0e0a09);
   background-size:cover; background-position:center;
   display:flex; align-items:flex-end; justify-content:center;
   padding-bottom:22px;
-  box-shadow:0 18px 40px rgba(80,30,45,.28);
+  box-shadow:0 18px 40px rgba(80,30,45,.45);
   position:relative;
-  border:1px solid rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.18);
 }
 .photo::after{
-  content:""; position:absolute; inset:7px; border:1px solid rgba(255,255,255,.18); border-radius:3px; pointer-events:none;
+  content:""; position:absolute; inset:7px; border:1px solid rgba(255,255,255,.22); border-radius:3px; pointer-events:none;
 }
 .photo .foto-label{
   font-family:var(--font-body); font-weight:500; letter-spacing:.12em; font-size:13px;
@@ -205,15 +286,15 @@ section{
 }
 .photo-name{
   font-family:var(--font-script); font-size:40px; color:#fff;
-  margin-top:18px; text-shadow:0 2px 8px rgba(0,0,0,.4);
+  margin-top:18px; text-shadow:0 2px 8px rgba(0,0,0,.45), 0 0 20px rgba(255,76,139,.4);
 }
 
-/* ============ BADGE (circulo con icono) ============ */
+/* ============ BADGE (icono circular) ============ */
 .badge{
   width:74px; height:74px; border-radius:50%; margin:0 auto 14px;
   background:radial-gradient(circle at 35% 30%, #fff, #ffeef4 70%, #ffe0ea);
   display:flex; align-items:center; justify-content:center;
-  box-shadow:0 8px 22px rgba(208,120,141,.22), inset 0 2px 4px rgba(255,255,255,.8);
+  box-shadow:0 8px 22px rgba(208,120,141,.32), inset 0 2px 4px rgba(255,255,255,.8);
 }
 .badge svg{ width:34px; height:34px; stroke:var(--pink); fill:none; stroke-width:1.6; }
 .badge svg .fillp{ fill:var(--pink); stroke:none; }
@@ -224,28 +305,31 @@ section{
   padding:11px 34px; border-radius:999px;
   font-family:var(--font-body); font-weight:500; font-size:14px; letter-spacing:.02em;
   color:#fff; text-decoration:none;
-  background:linear-gradient(135deg, var(--btn-1), var(--btn-2));
-  box-shadow:0 8px 18px rgba(201,101,127,.35), inset 0 1px 2px rgba(255,255,255,.5);
+  background:linear-gradient(135deg, #e487a0, #c9657f);
+  box-shadow:0 8px 18px rgba(201,101,127,.4), inset 0 1px 2px rgba(255,255,255,.5);
   transition:transform .2s ease, box-shadow .2s ease;
 }
-.btn:hover{ transform:translateY(-2px); box-shadow:0 12px 24px rgba(201,101,127,.45); }
+.btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 24px rgba(201,101,127,.5), 0 0 24px rgba(255,76,139,.35);
+}
 
 .block + .block{ margin-top:54px; }
-.lugar{ font-size:14px; font-weight:300; line-height:1.8; }
+.lugar{ font-size:14px; font-weight:300; line-height:1.8; color:var(--pink); text-shadow:0 1px 2px rgba(255,255,255,.5); }
 .lugar strong{ font-weight:500; }
 
 /* precios */
-.prices{ font-size:14px; font-weight:300; line-height:1; }
+.prices{ font-size:14px; font-weight:300; line-height:1; color:var(--pink); text-shadow:0 1px 2px rgba(255,255,255,.5); }
 .prices .row{ margin:14px 0; }
 .prices .who{ display:block; }
-.prices .amount{ display:block; font-weight:600; font-size:18px; margin-top:2px; }
+.prices .amount{ display:block; font-weight:600; font-size:18px; margin-top:2px; color:var(--pink-deep); }
 
 /* ============ COUNTDOWN ============ */
 .countdown-card{
   margin:26px auto 0; max-width:300px;
   background:rgba(255,255,255,.78); backdrop-filter:blur(4px);
   border-radius:22px; padding:18px 16px 16px;
-  box-shadow:0 12px 30px rgba(208,120,141,.2), inset 0 1px 0 rgba(255,255,255,.9);
+  box-shadow:0 12px 30px rgba(208,120,141,.25), inset 0 1px 0 rgba(255,255,255,.9);
   border:1px solid rgba(255,255,255,.7);
 }
 .countdown-card .cd-q{ font-family:var(--font-body); font-weight:500; font-size:14px; color:#5a4750; margin-bottom:10px; }
@@ -255,49 +339,75 @@ section{
 .cd-grid .l{ font-family:var(--font-date); text-transform:uppercase; letter-spacing:.12em; font-size:9px; opacity:.75; margin-top:4px; }
 .cd-sep{ font-family:var(--font-serif); font-size:26px; color:var(--pink-soft); align-self:flex-start; }
 
-/* ============ FOOTER ============ */
+/* ============ FOOTER (mínimo, pegado al borde inferior) ============ */
 .footer{
-  background:#111; color:#fff; padding:26px 24px; text-align:center;
+  background:transparent;
+  padding:14px 24px 16px;
+  text-align:center;
+  position:relative; z-index:1;
 }
-.footer a{ color:#fff; text-decoration:underline; font-size:13px; letter-spacing:.02em; }
-.footer .brand{ font-family:var(--font-date); letter-spacing:.3em; font-size:14px; margin-bottom:8px; text-transform:uppercase; }
-
-/* ============ DECORACIONES ============ */
-/* bolita espejada */
-.disco{
-  position:absolute; border-radius:50%;
-  background-color:#cfd6e2;
-  background-image:
-    radial-gradient(circle at 32% 26%, rgba(255,255,255,.95), rgba(255,255,255,0) 34%),
-    conic-gradient(from 20deg, #eef2f8, #c3cdde, #f3d9e4, #bcc6d8, #eef2f8, #c8d1e0, #eef2f8);
-  box-shadow:inset -7px -9px 16px rgba(60,70,95,.4), 0 6px 16px rgba(120,90,110,.18);
-  overflow:hidden; opacity:.9;
+.footer .brand{
+  font-family:var(--font-body);
+  font-weight:500;
+  font-size:9px;
+  letter-spacing:.34em;
+  text-transform:uppercase;
+  color:var(--pink-deep);
+  margin-bottom:3px;
+  opacity:.55;
+  text-shadow:0 1px 2px rgba(255,255,255,.5);
 }
-.disco::before{
-  content:""; position:absolute; inset:0; border-radius:50%;
-  background-image:
-    linear-gradient(rgba(255,255,255,.22) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.22) 1px, transparent 1px),
-    linear-gradient(rgba(40,50,70,.16) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(40,50,70,.16) 1px, transparent 1px);
-  background-size: 22% 16%, 22% 16%, 22% 16%, 22% 16%;
-  background-position: 0 0, 0 0, 11% 8%, 11% 8%;
+.footer a{
+  display:inline-block;
+  color:var(--pink);
+  text-decoration:none;
+  font-size:9px;
+  font-weight:300;
+  letter-spacing:.06em;
+  opacity:.55;
+  text-shadow:0 1px 2px rgba(255,255,255,.5);
+  transition:opacity .2s ease;
+}
+.footer a:hover{ opacity:.95; text-decoration:underline; }
+
+/* ============ ANIMACIÓN HERO (intro al cargar) ============ */
+.hero .inner{ will-change:transform, opacity; }
+@keyframes heroIn { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+
+.hero .mis,
+.hero .age,
+.hero .datebar,
+.hero .datebar-month,
+.hero .play-wrap{
+  opacity:0; animation:heroIn .9s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero .mis{ animation-delay:.20s; }
+.hero .age{ animation-delay:.40s; }
+.hero .datebar{ animation-delay:1.55s; }
+.hero .datebar-month{ animation-delay:1.70s; }
+.hero .play-wrap{ animation-delay:1.95s; }
+.hero .name .ch{
+  display:inline-block; opacity:0;
+  animation:heroIn .8s cubic-bezier(.22,1,.36,1) forwards;
+  animation-delay: calc(.75s + (var(--i,0) * 70ms));
 }
 
-/* destello / sparkle */
-.spk{ position:absolute; color:#fff; filter:drop-shadow(0 0 4px rgba(255,255,255,.9)) drop-shadow(0 0 8px rgba(208,120,141,.5)); }
-.spk svg{ width:100%; height:100%; display:block; fill:currentColor; }
+/* ============ REVEAL ON SCROLL ============ */
+.reveal{
+  opacity:0; transform:translateY(28px);
+  transition:opacity .8s ease, transform .8s cubic-bezier(.22,1,.36,1);
+  transition-delay: calc(var(--i,0) * 90ms);
+}
+.reveal.is-visible{ opacity:1; transform:none; }
 
-/* corazon glossy */
-.heartdeco{ position:absolute; filter:drop-shadow(0 6px 10px rgba(180,80,110,.25)); opacity:.92; }
-.heartdeco svg{ width:100%; height:100%; display:block; }
-
-/* helpers de posicion */
-.tl{ top:18px; left:-22px; }
-.tr{ top:24px; right:-26px; }
-.bl{ bottom:20px; left:-20px; }
-.br{ bottom:26px; right:-24px; }
-.soft{ opacity:.5; filter:blur(.4px); }
+@media (prefers-reduced-motion: reduce){
+  .reveal,
+  .hero .mis, .hero .age, .hero .name .ch,
+  .hero .datebar, .hero .datebar-month, .hero .play-wrap{
+    opacity:1 !important; transform:none !important;
+    animation:none !important; transition:none !important;
+  }
+}
 
 @media (max-width:380px){
   .hero .age{ font-size:120px; }
@@ -308,9 +418,25 @@ section{
 </head>
 
 <body>
+
+<!-- Video de fondo (compartido en TODAS las secciones, fijo a la viewport) -->
+<video class="bg-video" autoplay muted loop playsinline preload="auto" poster="assets/bg-hero.png">
+  <source src="assets/hero.mp4" type="video/mp4">
+</video>
+
+<!-- Barra de progreso (stories) -->
+<nav class="progress" id="progress" aria-label="Progreso de la invitación">
+  <!-- 14 segmentos, uno por sección, generados manualmente -->
+  <span class="seg"></span><span class="seg"></span><span class="seg"></span>
+  <span class="seg"></span><span class="seg"></span><span class="seg"></span>
+  <span class="seg"></span><span class="seg"></span><span class="seg"></span>
+  <span class="seg"></span><span class="seg"></span><span class="seg"></span>
+  <span class="seg"></span><span class="seg"></span>
+</nav>
+
 <main class="card">
 
-  <!-- ===== SVG defs reutilizables (gradiente corazon) ===== -->
+  <!-- SVG defs (gradiente corazon, etc) -->
   <svg width="0" height="0" style="position:absolute">
     <defs>
       <linearGradient id="gHeart" x1="0" y1="0" x2="0" y2="1">
@@ -320,9 +446,10 @@ section{
     </defs>
   </svg>
 
-  <!-- ============ 1 · PORTADA ============ -->
+  <!-- =================================================
+       1 · PORTADA
+       ================================================= -->
   <section class="hero">
-    <!-- decoración: viene en la imagen de fondo (assets/bg-hero.png) -->
     <div class="inner" style="width:100%">
       <div class="mis">Mis</div>
       <div class="age" data-age>15</div>
@@ -340,37 +467,31 @@ section{
       <div class="datebar-month" data-monthyear>Enero 2026</div>
 
       <div class="play-wrap">
+        <svg class="play-arc" viewBox="0 0 140 40">
+          <path id="arc" d="M14,38 A100,100 0 0,1 126,38" fill="none"/>
+          <text><textPath href="#arc" startOffset="50%" text-anchor="middle">dale play</textPath></text>
+        </svg>
         <button class="play-btn" id="btn-music" type="button" aria-label="Reproducir música">
           <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </button>
-        <svg class="play-arc" viewBox="0 0 120 34">
-          <path id="arc" d="M10,30 A55,55 0 0,1 110,30" fill="none"/>
-          <text><textPath href="#arc" startOffset="50%" text-anchor="middle">dale play</textPath></text>
-        </svg>
       </div>
     </div>
   </section>
 
-  <!-- ============ 2 · FOTO ============ -->
+  <!-- =================================================
+       2 · FOTO
+       ================================================= -->
   <section>
-    <div class="deco">
-      <span class="disco" style="width:50px;height:50px;top:24px;right:18px"></span>
-      <span class="spk" style="width:18px;height:18px;bottom:40px;left:24px"><svg viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z"/></svg></span>
-    </div>
     <div class="inner">
-      <!-- Para foto real: agrega style="background-image:url('foto1.jpg')" -->
+      <!-- Para foto real: agregá  style="background-image:url('foto1.jpg')"  -->
       <div class="photo"><span class="foto-label">FOTO AQUÍ</span></div>
     </div>
   </section>
 
-  <!-- ============ 3 · INVITACIÓN ============ -->
-  <section>
-    <div class="deco">
-      <span class="disco soft" style="width:46px;height:46px;top:30px;left:18px"></span>
-      <span class="heartdeco soft" style="width:26px;height:26px;top:40px;right:30px"><svg viewBox="0 0 32 29"><path fill="url(#gHeart)" d="M16 29C-6 14 4 0 16 8 28 0 38 14 16 29Z"/></svg></span>
-      <span class="disco" style="width:40px;height:40px;bottom:120px;right:20px"></span>
-      <span class="disco soft" style="width:36px;height:36px;bottom:90px;left:22px"></span>
-    </div>
+  <!-- =================================================
+       3 · INVITACIÓN (poema + countdown + ¡Te espero!)
+       ================================================= -->
+  <section class="has-panel">
     <div class="inner">
       <p class="poem" data-poem>
         Los momentos más felices de la vida<br>
@@ -396,33 +517,27 @@ section{
     </div>
   </section>
 
-  <!-- ============ 4 · FIESTA ============ -->
-  <section>
-    <div class="deco">
-      <span class="disco" style="width:48px;height:48px;top:26px;right:20px"></span>
-      <span class="spk soft" style="width:16px;height:16px;bottom:30px;left:26px"><svg viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z"/></svg></span>
-    </div>
+  <!-- =================================================
+       4 · FIESTA
+       ================================================= -->
+  <section class="has-panel">
     <div class="inner">
       <div class="badge"><!-- pin -->
         <svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg>
       </div>
       <div class="title">Fiesta</div>
       <p class="lugar" data-lugar>
-        <strong>El Castillo Eventos</strong><br>
-        Av. Figueroa Alcorta 5575<br>
-        Santa Fe<br>
-        de 21:00 a 05:00 h
+        <strong>Jano's San Martín</strong><br>
+        21:00 hs
       </p>
       <a class="btn" id="btn-maps" target="_blank" rel="noopener">Cómo llegar</a>
     </div>
   </section>
 
-  <!-- ============ 5 · CONFIRMAR ============ -->
-  <section>
-    <div class="deco">
-      <span class="disco soft" style="width:44px;height:44px;top:28px;left:18px"></span>
-      <span class="heartdeco" style="width:24px;height:24px;bottom:34px;right:26px"><svg viewBox="0 0 32 29"><path fill="url(#gHeart)" d="M16 29C-6 14 4 0 16 8 28 0 38 14 16 29Z"/></svg></span>
-    </div>
+  <!-- =================================================
+       5 · CONFIRMAR
+       ================================================= -->
+  <section class="has-panel">
     <div class="inner">
       <div class="badge"><!-- check -->
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.6 2.6L16 9.5"/></svg>
@@ -430,18 +545,16 @@ section{
       <div class="title">Confirmar</div>
       <p class="lugar" data-confirmar>
         Por favor avísanos<br>si vendrás a la fiesta.<br>
-        Tenés tiempo hasta el <strong>20/12/2025</strong>
+        Tenés tiempo hasta el <strong data-deadline>20/12/2025</strong>
       </p>
       <a class="btn" id="btn-rsvp" target="_blank" rel="noopener">Confirmar aquí</a>
     </div>
   </section>
 
-  <!-- ============ 6 · TARJETA / PRECIOS ============ -->
-  <section>
-    <div class="deco">
-      <span class="disco" style="width:50px;height:50px;top:24px;right:18px"></span>
-      <span class="disco soft" style="width:38px;height:38px;bottom:60px;left:20px"></span>
-    </div>
+  <!-- =================================================
+       6 · TARJETA / PRECIOS
+       ================================================= -->
+  <section class="has-panel">
     <div class="inner">
       <div class="badge"><!-- ticket -->
         <svg viewBox="0 0 24 24"><path d="M3 9a2 2 0 0 0 0 6v2a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2a2 2 0 0 1 0-6V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1Z"/><path d="M15 6v12" stroke-dasharray="2 2"/></svg>
@@ -456,12 +569,10 @@ section{
     </div>
   </section>
 
-  <!-- ============ 7 · DRESS CODE ============ -->
-  <section>
-    <div class="deco">
-      <span class="heartdeco soft" style="width:30px;height:30px;top:30px;right:22px"><svg viewBox="0 0 32 29"><path fill="url(#gHeart)" d="M16 29C-6 14 4 0 16 8 28 0 38 14 16 29Z"/></svg></span>
-      <span class="spk" style="width:18px;height:18px;bottom:40px;left:24px"><svg viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z"/></svg></span>
-    </div>
+  <!-- =================================================
+       7 · DRESS CODE
+       ================================================= -->
+  <section class="has-panel">
     <div class="inner">
       <div class="badge"><!-- taco / heel -->
         <svg viewBox="0 0 24 24"><path d="M4 6c4 0 5 7 9 9 3 1.5 6 1.5 7 2v2H4Z"/><path d="M4 6v8"/></svg>
@@ -469,30 +580,26 @@ section{
       <div class="title">Dress Code</div>
       <p class="lugar" data-dresscode>
         <strong>“Elegante Sport”</strong><br>
-        Se reserva el color celeste<br>para la cumpleañera.
+        Se reserva el color rosa<br>para la cumpleañera.
       </p>
     </div>
   </section>
 
-  <!-- ============ 8 · FOTO ============ -->
+  <!-- =================================================
+       8 · FOTO
+       ================================================= -->
   <section>
-    <div class="deco">
-      <span class="disco" style="width:46px;height:46px;top:24px;left:18px"></span>
-      <span class="spk soft" style="width:14px;height:14px;bottom:36px;right:26px"><svg viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z"/></svg></span>
-    </div>
     <div class="inner">
       <div class="photo"><span class="foto-label">FOTO AQUÍ</span></div>
     </div>
   </section>
 
-  <!-- ============ 9 · MENÚ ESPECIAL ============ -->
-  <section>
-    <div class="deco">
-      <span class="disco soft" style="width:42px;height:42px;top:28px;right:18px"></span>
-      <span class="heartdeco" style="width:24px;height:24px;bottom:34px;left:24px"><svg viewBox="0 0 32 29"><path fill="url(#gHeart)" d="M16 29C-6 14 4 0 16 8 28 0 38 14 16 29Z"/></svg></span>
-    </div>
+  <!-- =================================================
+       9 · MENÚ ESPECIAL
+       ================================================= -->
+  <section class="has-panel">
     <div class="inner">
-      <div class="badge"><!-- fork/knife -->
+      <div class="badge"><!-- tenedor -->
         <svg viewBox="0 0 24 24"><path d="M8 3v8a2 2 0 0 1-4 0V3M6 11v10M16 3c-2 1-3 3-3 6h3v12"/></svg>
       </div>
       <div class="title">Menú Especial</div>
@@ -506,12 +613,10 @@ section{
     </div>
   </section>
 
-  <!-- ============ 10 · REGALO ============ -->
-  <section>
-    <div class="deco">
-      <span class="disco" style="width:48px;height:48px;top:24px;left:18px"></span>
-      <span class="disco soft" style="width:36px;height:36px;bottom:50px;right:22px"></span>
-    </div>
+  <!-- =================================================
+       10 · REGALO
+       ================================================= -->
+  <section class="has-panel">
     <div class="inner">
       <div class="badge"><!-- gift -->
         <svg viewBox="0 0 24 24"><path d="M4 11h16v9H4z"/><path d="M3 7h18v4H3zM12 7v13M12 7c-1.5-3-5-3-5-1s3 1 5 1Zm0 0c1.5-3 5-3 5-1s-3 1-5 1Z"/></svg>
@@ -525,12 +630,10 @@ section{
     </div>
   </section>
 
-  <!-- ============ 11 · PLAYLIST ============ -->
-  <section>
-    <div class="deco">
-      <span class="spk" style="width:20px;height:20px;top:34px;right:24px"><svg viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z"/></svg></span>
-      <span class="disco soft" style="width:40px;height:40px;bottom:50px;left:20px"></span>
-    </div>
+  <!-- =================================================
+       11 · PLAYLIST
+       ================================================= -->
+  <section class="has-panel">
     <div class="inner">
       <div class="badge"><!-- music note -->
         <svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6" cy="18" r="3" class="fillp"/><circle cx="16" cy="16" r="3" class="fillp"/></svg>
@@ -545,12 +648,10 @@ section{
     </div>
   </section>
 
-  <!-- ============ 12 · CARPETA ============ -->
-  <section>
-    <div class="deco">
-      <span class="disco" style="width:46px;height:46px;top:26px;right:20px"></span>
-      <span class="heartdeco soft" style="width:22px;height:22px;bottom:34px;left:24px"><svg viewBox="0 0 32 29"><path fill="url(#gHeart)" d="M16 29C-6 14 4 0 16 8 28 0 38 14 16 29Z"/></svg></span>
-    </div>
+  <!-- =================================================
+       12 · CARPETA
+       ================================================= -->
+  <section class="has-panel">
     <div class="inner">
       <div class="badge"><!-- camera -->
         <svg viewBox="0 0 24 24"><path d="M3 8h4l1.5-2h7L17 8h4v11H3z"/><circle cx="12" cy="13" r="3.4"/></svg>
@@ -565,12 +666,10 @@ section{
     </div>
   </section>
 
-  <!-- ============ 13 · TU MENSAJE ============ -->
-  <section>
-    <div class="deco">
-      <span class="disco soft" style="width:42px;height:42px;top:28px;left:18px"></span>
-      <span class="spk" style="width:16px;height:16px;bottom:38px;right:26px"><svg viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z"/></svg></span>
-    </div>
+  <!-- =================================================
+       13 · TU MENSAJE
+       ================================================= -->
+  <section class="has-panel">
     <div class="inner">
       <div class="badge"><!-- chat -->
         <svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-4 3v-3H4z"/></svg>
@@ -586,13 +685,10 @@ section{
     </div>
   </section>
 
-  <!-- ============ 14 · FOTO DE CIERRE ============ -->
+  <!-- =================================================
+       14 · FOTO DE CIERRE + NOMBRE
+       ================================================= -->
   <section style="padding-bottom:72px">
-    <div class="deco">
-      <span class="disco" style="width:54px;height:54px;top:30px;right:18px"></span>
-      <span class="disco soft" style="width:40px;height:40px;bottom:70px;left:22px"></span>
-      <span class="heartdeco" style="width:28px;height:28px;top:50%;left:24px"><svg viewBox="0 0 32 29"><path fill="url(#gHeart)" d="M16 29C-6 14 4 0 16 8 28 0 38 14 16 29Z"/></svg></span>
-    </div>
     <div class="inner">
       <div class="photo"><span class="foto-label">FOTO AQUÍ</span></div>
       <div class="photo-name" data-name>Luana</div>
@@ -601,13 +697,9 @@ section{
 
   <!-- ============ FOOTER ============ -->
   <footer class="footer">
-    <div class="brand" data-brand>STUDIOMAX</div>
+    <div class="brand" data-brand>JANA.VIBECODING</div>
     <a id="btn-brand" target="_blank" rel="noopener">Consultá por nuestras invitaciones aquí</a>
   </footer>
-
-  <!-- Reproductor de música oculto: la canción suena DENTRO de la página -->
-  <div id="yt-player" aria-hidden="true"
-       style="position:fixed;left:-9999px;top:0;width:320px;height:180px;opacity:0;pointer-events:none"></div>
 
 </main>
 
@@ -616,38 +708,33 @@ section{
    CONFIG · EDITÁ SOLO ESTO
    ============================================================ */
 const CONFIG = {
-  // --- Datos principales ---
   nombre: "Luana",
   edad: "15",
+  fecha: { anio: 2026, mes: 7, dia: 25, hora: 21, min: 0 },
 
-  // Fecha y hora del evento (para portada y countdown)
-  // Formato: AÑO, MES(1-12), DÍA, HORA(0-23), MINUTOS
-  fecha: { anio: 2026, mes: 1, dia: 10, hora: 22, min: 0 },
-
-  // --- Marca / pie ---
+  // Marca / pie
   marca: "JANA.VIBECODING",
 
-  // --- Links de los botones (poné tus URLs reales) ---
-  links: {
-    musica:   "https://www.youtube.com/watch?v=Wg92RrNhB8s",  // canción (suena DENTRO de la página al tocar play)
-    maps:     "https://maps.app.goo.gl/xxxxx",                // Cómo llegar
-    rsvp:     "https://wa.me/549XXXXXXXXXX?text=Confirmo%20mi%20asistencia%20a%20los%2015%20de%20Luana", // Confirmar
-    tarjeta:  "https://wa.me/549XXXXXXXXXX?text=Quiero%20reservar%20mi%20tarjeta",  // Reservar tarjeta
-    menu:     "https://forms.gle/xxxxx",                      // Menú especial (formulario)
-    regalo:   "https://wa.me/549XXXXXXXXXX?text=Quiero%20datos%20para%20el%20regalo", // Regalo
-    playlist: "https://open.spotify.com/playlist/xxxxx",      // Playlist colaborativa
-    carpeta:  "https://drive.google.com/drive/folders/xxxxx", // Carpeta fotos/videos
-    mensaje:  "https://wa.me/549XXXXXXXXXX?text=Mi%20mensaje%20para%20Luana", // Tu mensaje
-    instagram: "https://www.instagram.com/jana.vibecoding/" // pie (verificá que el usuario sea correcto)
-  },
+  // Fecha límite RSVP (texto que se muestra)
+  rsvpHasta: "20/12/2025",
 
-  // Fondos de las secciones (se rotan en orden, sin contar la portada).
-  // La portada usa assets/bg-hero.png (definido en el CSS .hero).
-  fondos: ["assets/bg-2.png", "assets/bg-3.png", "assets/bg-4.png"]
+  // Links de los botones
+  links: {
+    musica:    "https://www.youtube.com/watch?v=Wg92RrNhB8s",   // canción del hero
+    maps:      "https://share.google/TZK1lFJfFfyJANoFI",        // Cómo llegar (Fiesta — Jano's San Martín)
+    rsvp:      "https://wa.me/549XXXXXXXXXX?text=Confirmo%20mi%20asistencia%20a%20los%2015%20de%20Luana",
+    tarjeta:   "https://wa.me/549XXXXXXXXXX?text=Quiero%20reservar%20mi%20tarjeta",
+    menu:      "https://forms.gle/xxxxx",                       // Menú especial
+    regalo:    "https://wa.me/549XXXXXXXXXX?text=Quiero%20datos%20para%20el%20regalo",
+    playlist:  "https://open.spotify.com/playlist/xxxxx",
+    carpeta:   "https://drive.google.com/drive/folders/xxxxx",
+    mensaje:   "https://wa.me/549XXXXXXXXXX?text=Mi%20mensaje%20para%20Luana",
+    instagram: "https://www.instagram.com/jana.vibecoding/"
+  }
 };
 
 /* ============================================================
-   RENDER (no hace falta tocar nada de acá para abajo)
+   RENDER
    ============================================================ */
 (function(){
   const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
@@ -656,25 +743,36 @@ const CONFIG = {
   const target = new Date(f.anio, f.mes - 1, f.dia, f.hora, f.min, 0);
   const pad = n => String(n).padStart(2, "0");
 
-  // Nombre / edad
-  document.querySelectorAll("[data-name]").forEach(el => el.textContent = CONFIG.nombre);
+  // Edad
   document.querySelector("[data-age]").textContent = CONFIG.edad;
 
+  // Nombre: en el hero una letra por span; en la foto de cierre, plano
+  const heroNameEl  = document.querySelector(".hero .name[data-name]");
+  const photoNameEl = document.querySelector(".photo-name[data-name]");
+  if (photoNameEl) photoNameEl.textContent = CONFIG.nombre;
+  if (heroNameEl){
+    heroNameEl.textContent = "";
+    Array.from(CONFIG.nombre).forEach((c, i) => {
+      const s = document.createElement("span");
+      s.className = "ch";
+      s.style.setProperty("--i", i);
+      s.textContent = (c === " ") ? " " : c;
+      heroNameEl.appendChild(s);
+    });
+  }
+
   // Bloque fecha portada
-  document.querySelector("[data-weekday]").textContent = dias[target.getDay()];
-  document.querySelector("[data-day]").textContent = f.dia;
-  document.querySelector("[data-time]").textContent = pad(f.hora) + ":" + pad(f.min) + " hs";
+  document.querySelector("[data-weekday]").textContent  = dias[target.getDay()];
+  document.querySelector("[data-day]").textContent      = f.dia;
+  document.querySelector("[data-time]").textContent     = pad(f.hora) + ":" + pad(f.min) + " hs";
   document.querySelector("[data-monthyear]").textContent = meses[f.mes - 1] + " " + f.anio;
+
+  // RSVP deadline
+  const dl = document.querySelector("[data-deadline]");
+  if (dl) dl.textContent = CONFIG.rsvpHasta;
 
   // Marca
   document.querySelector("[data-brand]").textContent = CONFIG.marca;
-
-  // Fondos por sección (rota CONFIG.fondos; la portada queda con su propio fondo)
-  if (CONFIG.fondos && CONFIG.fondos.length){
-    document.querySelectorAll("main.card > section:not(.hero)").forEach((s, i) => {
-      s.style.backgroundImage = "url('" + CONFIG.fondos[i % CONFIG.fondos.length] + "')";
-    });
-  }
 
   // Links
   const setHref = (id, url) => { const e = document.getElementById(id); if (e && url) e.href = url; };
@@ -688,7 +786,7 @@ const CONFIG = {
   setHref("btn-mensaje",  CONFIG.links.mensaje);
   setHref("btn-brand",    CONFIG.links.instagram);
 
-  // ---- Música que suena DENTRO de la página (YouTube IFrame API) ----
+  // ---- Música DENTRO de la página (YouTube IFrame API) ----
   const music = document.getElementById("btn-music");
   const ICON_PLAY  = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
   const ICON_PAUSE = '<svg viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
@@ -700,7 +798,12 @@ const CONFIG = {
 
   let ytPlayer = null, ytReady = false, playing = false;
 
-  // carga la API de YouTube
+  const ytHost = document.createElement("div");
+  ytHost.id = "yt-player";
+  ytHost.setAttribute("aria-hidden","true");
+  ytHost.style.cssText = "position:fixed;left:-9999px;top:0;width:320px;height:180px;opacity:0;pointer-events:none;";
+  document.body.appendChild(ytHost);
+
   (function loadYT(){
     const tag = document.createElement("script");
     tag.src = "https://www.youtube.com/iframe_api";
@@ -710,13 +813,13 @@ const CONFIG = {
   window.onYouTubeIframeAPIReady = function(){
     ytPlayer = new YT.Player("yt-player", {
       videoId: ytId(CONFIG.links.musica),
-      playerVars: { playsinline: 1, controls: 0, rel: 0, modestbranding: 1 },
+      playerVars: { playsinline:1, controls:0, rel:0, modestbranding:1 },
       events: {
         onReady: function(){ ytReady = true; },
         onStateChange: function(e){
-          if (e.data === YT.PlayerState.ENDED){ playing = false; if (music) music.innerHTML = ICON_PLAY; }
-          if (e.data === YT.PlayerState.PLAYING){ playing = true; if (music) music.innerHTML = ICON_PAUSE; }
-          if (e.data === YT.PlayerState.PAUSED){ playing = false; if (music) music.innerHTML = ICON_PLAY; }
+          if (e.data === YT.PlayerState.ENDED){   playing = false; if (music) music.innerHTML = ICON_PLAY;  }
+          if (e.data === YT.PlayerState.PLAYING){ playing = true;  if (music) music.innerHTML = ICON_PAUSE; }
+          if (e.data === YT.PlayerState.PAUSED){  playing = false; if (music) music.innerHTML = ICON_PLAY;  }
         }
       }
     });
@@ -727,7 +830,7 @@ const CONFIG = {
     if (playing){ ytPlayer.pauseVideo(); } else { ytPlayer.playVideo(); }
   });
 
-  // Countdown
+  // ---- Countdown live ----
   const $d = document.querySelector("[data-d]"),
         $h = document.querySelector("[data-h]"),
         $m = document.querySelector("[data-m]"),
@@ -750,6 +853,126 @@ const CONFIG = {
   }
   tick();
   const timer = setInterval(tick, 1000);
+
+  // ---- Parallax sutil del texto del hero ----
+  const heroInner = document.querySelector(".hero .inner");
+  if (heroInner){
+    let lastY = 0, ticking = false;
+    window.addEventListener("scroll", () => {
+      lastY = window.scrollY;
+      if (!ticking){
+        requestAnimationFrame(() => {
+          const limit = window.innerHeight;
+          const y = Math.min(lastY, limit);
+          heroInner.style.transform = "translateY(" + (y * -0.18) + "px)";
+          heroInner.style.opacity = String(Math.max(0, 1 - y / (limit * 0.85)));
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  // ---- Reveal on scroll ----
+  const revealSel = ".badge, .title, .poem, .lugar, .prices, .countdown-card, .btn, .photo, .photo-name";
+  document.querySelectorAll("main.card > section:not(.hero)").forEach(sec => {
+    let i = 0;
+    sec.querySelectorAll(revealSel).forEach(el => {
+      el.classList.add("reveal");
+      el.style.setProperty("--i", i++);
+    });
+  });
+  if ("IntersectionObserver" in window){
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting){
+          e.target.classList.add("is-visible");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll(".reveal").forEach(el => el.classList.add("is-visible"));
+  }
+
+  // ---- Barra de progreso tipo stories ----
+  const segments = document.querySelectorAll(".progress .seg");
+  const sections = document.querySelectorAll("main.card > section");
+  function updateProgress(){
+    const vh = window.innerHeight;
+    let currentIdx = -1;
+    sections.forEach((sec, i) => {
+      const r = sec.getBoundingClientRect();
+      if (r.top <= vh * 0.4 && r.bottom > vh * 0.4) currentIdx = i;
+    });
+    sections.forEach((sec, i) => {
+      const seg = segments[i];
+      if (!seg) return;
+      if (i < currentIdx)      seg.style.setProperty("--p", 1);
+      else if (i > currentIdx) seg.style.setProperty("--p", 0);
+      else {
+        const r = sec.getBoundingClientRect();
+        const total = r.height;
+        const passed = (vh * 0.4) - r.top;
+        const p = Math.max(0, Math.min(1, passed / total));
+        seg.style.setProperty("--p", p);
+      }
+    });
+  }
+  let progTicking = false;
+  function onScrollProg(){
+    if (!progTicking){
+      requestAnimationFrame(() => { updateProgress(); progTicking = false; });
+      progTicking = true;
+    }
+  }
+  window.addEventListener("scroll", onScrollProg, { passive:true });
+  window.addEventListener("resize", onScrollProg, { passive:true });
+  updateProgress();
+
+  // ---- Snap más lento entre secciones (desktop: intercepta el wheel) ----
+  // En mobile/touch sigue funcionando el scroll-snap nativo del CSS.
+  const SCROLL_DURATION = 600; // ms — subí/bajá para tunear velocidad
+  const snapTargets = [
+    ...document.querySelectorAll("main.card > section"),
+    document.querySelector("main.card > footer")
+  ].filter(Boolean);
+  let isSmoothing = false;
+  function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+  function smoothScrollTo(y, dur){
+    const start = window.scrollY;
+    const dist = y - start;
+    if (Math.abs(dist) < 1) return;
+    const t0 = performance.now();
+    isSmoothing = true;
+    function step(now){
+      const t = Math.min(1, (now - t0) / dur);
+      window.scrollTo(0, start + dist * easeOutCubic(t));
+      if (t < 1) requestAnimationFrame(step);
+      else setTimeout(() => { isSmoothing = false; }, 60);
+    }
+    requestAnimationFrame(step);
+  }
+  function nearestIdx(){
+    let idx = 0, min = Infinity;
+    snapTargets.forEach((t, i) => {
+      const r = t.getBoundingClientRect();
+      const d = Math.abs(r.top);
+      if (d < min) { min = d; idx = i; }
+    });
+    return idx;
+  }
+  window.addEventListener("wheel", (e) => {
+    if (isSmoothing) { e.preventDefault(); return; }
+    if (Math.abs(e.deltaY) < 4) return;
+    e.preventDefault();
+    const dir = e.deltaY > 0 ? 1 : -1;
+    const cur = nearestIdx();
+    const next = Math.max(0, Math.min(snapTargets.length - 1, cur + dir));
+    if (next === cur) return;
+    smoothScrollTo(snapTargets[next].offsetTop, SCROLL_DURATION);
+  }, { passive: false });
 })();
 </script>
 </body>
