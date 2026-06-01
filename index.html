@@ -58,7 +58,8 @@ html{
 body{
   font-family:var(--font-body);
   color:var(--pink);
-  background:#f3d8e1;
+  /* base rosa suave detrás del video (fallback si el autoplay se bloquea) */
+  background:radial-gradient(120% 85% at 50% 22%, #ffe1ec 0%, #f3d8e1 55%, #eec7d5 100%);
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
@@ -68,8 +69,11 @@ body{
   position:fixed; top:0; left:50%; transform:translateX(-50%);
   width:100%; max-width:var(--maxw);
   height:100vh; object-fit:cover;
-  z-index:0; pointer-events:none; background:#f3d8e1;
+  z-index:0; pointer-events:none;
+  /* aparece con fade recién cuando el video tiene su primer frame */
+  opacity:0; transition:opacity .8s ease;
 }
+.bg-video.ready{ opacity:1; }
 
 /* ============ LIENZO ============ */
 .card{
@@ -602,7 +606,7 @@ section.has-panel .poem strong{ color:#9c4a64; }
 <body>
 
 <!-- Video de fondo (compartido en TODAS las secciones, fijo a la viewport) -->
-<video class="bg-video" autoplay muted loop playsinline preload="auto" poster="assets/bg-hero.png">
+<video class="bg-video" autoplay muted loop playsinline preload="auto">
   <source src="assets/hero.mp4" type="video/mp4">
 </video>
 
@@ -977,6 +981,11 @@ const CONFIG = {
     setSpeed();
     bgVid.addEventListener("loadedmetadata", setSpeed);
     bgVid.addEventListener("play", setSpeed);   // se mantiene en cada loop
+    // fade-in del video recién cuando ya tiene su primer frame (sin foto vieja)
+    const showVid = () => bgVid.classList.add("ready");
+    bgVid.addEventListener("loadeddata", showVid);
+    bgVid.addEventListener("playing", showVid);
+    if (bgVid.readyState >= 2) showVid();   // por si ya estaba listo (cache)
   }
 
   // ---- Música DENTRO de la página (YouTube IFrame API) ----
