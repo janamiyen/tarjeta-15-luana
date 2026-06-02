@@ -612,12 +612,12 @@ section.has-panel .poem strong{ color:#9c4a64; }
 
 <!-- Barra de progreso (stories) -->
 <nav class="progress" id="progress" aria-label="Progreso de la invitación">
-  <!-- 14 segmentos, uno por sección, generados manualmente -->
+  <!-- 13 segmentos, uno por sección, generados manualmente -->
   <span class="seg"></span><span class="seg"></span><span class="seg"></span>
   <span class="seg"></span><span class="seg"></span><span class="seg"></span>
   <span class="seg"></span><span class="seg"></span><span class="seg"></span>
   <span class="seg"></span><span class="seg"></span><span class="seg"></span>
-  <span class="seg"></span><span class="seg"></span>
+  <span class="seg"></span>
 </nav>
 
 <main class="card">
@@ -738,25 +738,7 @@ section.has-panel .poem strong{ color:#9c4a64; }
   </section>
 
   <!-- =================================================
-       6 · TARJETA / PRECIOS
-       ================================================= -->
-  <section class="has-panel">
-    <div class="inner">
-      <div class="badge"><!-- ticket -->
-        <svg viewBox="0 0 24 24"><path d="M3 9a2 2 0 0 0 0 6v2a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2a2 2 0 0 1 0-6V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1Z"/><path d="M15 6v12" stroke-dasharray="2 2"/></svg>
-      </div>
-      <div class="title">Tarjeta</div>
-      <div class="prices" data-prices>
-        <div class="row"><span class="who">Menores de 12 años</span><span class="amount">$10.000</span></div>
-        <div class="row"><span class="who">De 13 a 17 años</span><span class="amount">$20.000</span></div>
-        <div class="row"><span class="who">De 18 años en adelante</span><span class="amount">$25.000</span></div>
-      </div>
-      <a class="btn" id="btn-tarjeta" target="_blank" rel="noopener">Reservar aquí</a>
-    </div>
-  </section>
-
-  <!-- =================================================
-       7 · DRESS CODE
+       6 · DRESS CODE
        ================================================= -->
   <section class="has-panel">
     <div class="inner">
@@ -765,8 +747,7 @@ section.has-panel .poem strong{ color:#9c4a64; }
       </div>
       <div class="title">Dress Code</div>
       <p class="lugar" data-dresscode>
-        <strong>“Elegante Sport”</strong><br>
-        Se reserva el color rosa<br>para la cumpleañera.
+        <strong>“Elegante Sport”</strong>
       </p>
     </div>
   </section>
@@ -909,7 +890,6 @@ const CONFIG = {
     musica:    "https://www.youtube.com/watch?v=THH7xxUK184",   // cami bear - mary xmas (verificado: permite embeber)
     maps:      "https://share.google/TZK1lFJfFfyJANoFI",        // Cómo llegar (Fiesta — Jano's San Martín)
     rsvp:      "https://wa.me/549XXXXXXXXXX?text=Confirmo%20mi%20asistencia%20a%20los%2015%20de%20Luana",
-    tarjeta:   "https://wa.me/549XXXXXXXXXX?text=Quiero%20reservar%20mi%20tarjeta",
     menu:      "https://forms.gle/xxxxx",                       // Menú especial
     regalo:    "https://wa.me/549XXXXXXXXXX?text=Quiero%20datos%20para%20el%20regalo",
     playlist:  "https://open.spotify.com/playlist/xxxxx",
@@ -964,7 +944,6 @@ const CONFIG = {
   const setHref = (id, url) => { const e = document.getElementById(id); if (e && url) e.href = url; };
   setHref("btn-maps",     CONFIG.links.maps);
   setHref("btn-rsvp",     CONFIG.links.rsvp);
-  setHref("btn-tarjeta",  CONFIG.links.tarjeta);
   setHref("btn-menu",     CONFIG.links.menu);
   setHref("btn-regalo",   CONFIG.links.regalo);
   setHref("btn-playlist", CONFIG.links.playlist);
