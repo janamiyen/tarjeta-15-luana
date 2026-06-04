@@ -212,9 +212,9 @@ section.has-panel .poem strong{ color:#9c4a64; }
 /* --- Título en 2 capas: "15" (quince.png) + "Luana" (luana.png) --- */
 .hero-title-wrap{
   position:relative;
-  width:168px; max-width:48%;
+  width:190px; max-width:66%;    /* + grande, sobre todo en mobile (66% del ancho) */
   aspect-ratio: 1 / 0.66;        /* + alto = más aire entre 15 y Luana */
-  margin:0 auto 34px;
+  margin:4px auto 40px;
 }
 .hero-title-wrap .t-15{
   position:absolute; top:0; right:11%;
@@ -543,36 +543,55 @@ section.has-panel .poem strong{ color:#9c4a64; }
   width:100%; height:200px; border:0; display:block;
 }
 
-/* ============ FOOTER (mínimo, pegado al borde inferior) ============ */
+/* ============ FOOTER (branding JANA.VIBECODING, con presencia) ============ */
 .footer{
   background:transparent;
-  padding:14px 24px 16px;
+  padding:30px 24px 38px;
   text-align:center;
   position:relative; z-index:1;
 }
 .footer .brand{
   font-family:var(--font-body);
-  font-weight:500;
-  font-size:9px;
-  letter-spacing:.34em;
+  font-weight:600;
+  font-size:14px;
+  letter-spacing:.28em;
   text-transform:uppercase;
   color:var(--pink-deep);
-  margin-bottom:3px;
-  opacity:.55;
-  text-shadow:0 1px 2px rgba(255,255,255,.5);
+  margin-bottom:7px;
+  opacity:.95;
+  text-shadow:0 1px 3px rgba(255,255,255,.6);
 }
-.footer a{
+.footer a#btn-brand{
   display:inline-block;
-  color:var(--pink);
+  color:var(--pink-deep);
   text-decoration:none;
-  font-size:9px;
-  font-weight:300;
-  letter-spacing:.06em;
-  opacity:.55;
+  font-size:12px;
+  font-weight:400;
+  letter-spacing:.04em;
+  opacity:.82;
   text-shadow:0 1px 2px rgba(255,255,255,.5);
+  border-bottom:1px solid rgba(208,120,141,.45);
+  padding-bottom:1px;
   transition:opacity .2s ease;
 }
-.footer a:hover{ opacity:.95; text-decoration:underline; }
+.footer a#btn-brand:hover{ opacity:1; }
+.footer-social{
+  margin-top:16px;
+  display:flex; justify-content:center; gap:14px;
+}
+.footer-social a{
+  width:38px; height:38px; border-radius:50%;
+  color:var(--pink-deep);
+  display:flex; align-items:center; justify-content:center;
+  background:radial-gradient(circle at 35% 30%, #fff, #ffd3e4 55%, #f3aac6);
+  box-shadow:0 5px 14px rgba(208,120,141,.32), inset 0 1px 2px rgba(255,255,255,.85);
+  transition:transform .2s ease;
+}
+.footer-social a:hover{ transform:scale(1.09); }
+.footer-social svg{ width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:2; }
+/* el footer vive dentro de la pantalla de cierre (foto > Luana > footer, sin scroll extra) */
+section.closing{ gap:26px; }
+section.closing .footer{ padding:0; }
 
 /* ============ ANIMACIÓN HERO (intro al cargar) ============ */
 .hero .inner{ will-change:transform, opacity; }
@@ -873,20 +892,29 @@ section.has-panel .poem strong{ color:#9c4a64; }
   </section>
 
   <!-- =================================================
-       14 · FOTO DE CIERRE + NOMBRE
+       14 · CIERRE: FOTO + NOMBRE + FOOTER
+       (todo en una pantalla, sin scroll extra para ver el branding)
        ================================================= -->
-  <section style="padding-bottom:72px">
+  <section class="closing">
     <div class="inner">
       <div class="photo"><span class="foto-label">FOTO AQUÍ</span></div>
       <div class="photo-name" data-name>Luana</div>
     </div>
-  </section>
 
-  <!-- ============ FOOTER ============ -->
-  <footer class="footer">
-    <div class="brand" data-brand>JANA.VIBECODING</div>
-    <a id="btn-brand" target="_blank" rel="noopener">Consultá por nuestras invitaciones aquí</a>
-  </footer>
+    <footer class="footer">
+      <div class="brand" data-brand>JANA.VIBECODING</div>
+      <a id="btn-brand" target="_blank" rel="noopener">Consultá por nuestras invitaciones aquí</a>
+      <div class="footer-social">
+        <a id="btn-ig" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+      </div>
+    </footer>
+  </section>
 
 </main>
 
@@ -907,7 +935,7 @@ const CONFIG = {
 
   // Links de los botones
   links: {
-    musica:    "https://www.youtube.com/watch?v=THH7xxUK184",   // cami bear - mary xmas (verificado: permite embeber)
+    musica:    "assets/musica.mp3",   // archivo local (canción que mandaron por WhatsApp)
     maps:      "https://share.google/TZK1lFJfFfyJANoFI",        // Cómo llegar (Fiesta — Jano's San Martín)
     rsvp:      "https://wa.me/5491157733494?text=Confirmo%20asistencia%20%E2%9C%85",
     menu:      "https://wa.me/5491157733494?text=Hola!%20Quiero%20informar%20mis%20restricciones%20o%20alergias%20alimentarias%20para%20los%2015%20de%20Luana",   // Menú especial → WhatsApp madre
@@ -971,6 +999,7 @@ const CONFIG = {
   setHref("btn-carpeta",  CONFIG.links.carpeta);
   setHref("btn-mensaje",  CONFIG.links.mensaje);
   setHref("btn-brand",    CONFIG.links.instagram);
+  setHref("btn-ig",       CONFIG.links.instagram);
 
   // ---- Velocidad del video de fondo (más lento = más elegante) ----
   // 1 = normal · 0.5 = mitad · 0.35 = bien lento
@@ -988,67 +1017,23 @@ const CONFIG = {
     if (bgVid.readyState >= 2) showVid();   // por si ya estaba listo (cache)
   }
 
-  // ---- Música DENTRO de la página (YouTube IFrame API) ----
+  // ---- Música DENTRO de la página (archivo local en assets) ----
   const music = document.getElementById("btn-music");
   const ICON_PLAY  = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
   const ICON_PAUSE = '<svg viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
 
-  function ytId(url){
-    const m = String(url).match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{11})/);
-    return m ? m[1] : url;
-  }
-
-  let ytPlayer = null, ytReady = false, playing = false;
-
-  const ytHost = document.createElement("div");
-  ytHost.id = "yt-player";
-  ytHost.setAttribute("aria-hidden","true");
-  ytHost.style.cssText = "position:fixed;left:-9999px;top:0;width:320px;height:180px;opacity:0;pointer-events:none;";
-  document.body.appendChild(ytHost);
-
-  (function loadYT(){
-    const tag = document.createElement("script");
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.head.appendChild(tag);
-  })();
-
-  window.onYouTubeIframeAPIReady = function(){
-    ytPlayer = new YT.Player("yt-player", {
-      videoId: ytId(CONFIG.links.musica),
-      playerVars: { playsinline:1, controls:0, rel:0, modestbranding:1 },
-      events: {
-        onReady: function(e){
-          ytReady = true;
-          // arranca con sonido real (los navegadores suelen forzar mute al crear el player por JS)
-          try { e.target.unMute(); e.target.setVolume(100); } catch(_){}
-        },
-        onStateChange: function(e){
-          if (e.data === YT.PlayerState.ENDED){   playing = false; if (music) music.innerHTML = ICON_PLAY;  }
-          if (e.data === YT.PlayerState.PLAYING){ playing = true;  if (music) music.innerHTML = ICON_PAUSE; }
-          if (e.data === YT.PlayerState.PAUSED){  playing = false; if (music) music.innerHTML = ICON_PLAY;  }
-        },
-        onError: function(e){
-          // 101/150 = el dueño NO permite embeber el video → no sonará.
-          // En ese caso, fallback: abrir la canción en YouTube en otra pestaña.
-          console.warn("YouTube no pudo reproducir (código " + e.data + "). Probablemente el video no permite embeber.");
-          if (e.data === 101 || e.data === 150 || e.data === 100 || e.data === 2){
-            window.open(CONFIG.links.musica, "_blank", "noopener");
-          }
-        }
-      }
-    });
-  };
+  const audio = new Audio(CONFIG.links.musica);
+  audio.loop = true;          // suena en bucle mientras recorren la tarjeta
+  audio.preload = "auto";
+  let playing = false;
 
   if (music) music.addEventListener("click", function(){
-    // si el iframe de YouTube fue bloqueado (adblock/Brave) abrimos la canción aparte
-    if (!ytReady || !ytPlayer){ window.open(CONFIG.links.musica, "_blank", "noopener"); return; }
-    if (playing){
-      ytPlayer.pauseVideo();
-    } else {
-      try { ytPlayer.unMute(); ytPlayer.setVolume(100); } catch(_){}
-      ytPlayer.playVideo();
-    }
+    if (playing){ audio.pause(); }
+    else { audio.play().catch(()=>{}); }
   });
+  audio.addEventListener("play",  function(){ playing = true;  if (music) music.innerHTML = ICON_PAUSE; });
+  audio.addEventListener("pause", function(){ playing = false; if (music) music.innerHTML = ICON_PLAY;  });
+  audio.addEventListener("ended", function(){ playing = false; if (music) music.innerHTML = ICON_PLAY;  });
 
   // ---- Countdown live ----
   const $d = document.querySelector("[data-d]"),
