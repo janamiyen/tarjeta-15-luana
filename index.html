@@ -217,7 +217,7 @@ section.has-panel .poem strong{ color:#9c4a64; }
   margin:0 auto 34px;
 }
 .hero-title-wrap .t-15{
-  position:absolute; top:0; right:6%;
+  position:absolute; top:0; right:11%;
   width:36%; height:auto;        /* ↑ % = 15 más grande / ↓ = Luana más protagonista */
   filter:drop-shadow(0 6px 14px rgba(208,120,141,.36))
          drop-shadow(0 2px 5px rgba(157,42,79,.28));
@@ -229,7 +229,7 @@ section.has-panel .poem strong{ color:#9c4a64; }
          drop-shadow(0 2px 4px rgba(157,42,79,.44));
 }
 .hero-title-wrap .mis{
-  position:absolute; top:19%; left:24%;
+  position:absolute; top:19%; left:17%;
   width:auto; text-align:left;
   margin:0; line-height:1;
 }
@@ -529,6 +529,20 @@ section.has-panel .poem strong{ color:#9c4a64; }
             filter:drop-shadow(0 0 7px rgba(255,110,170,.95)); }
 }
 
+/* ============ MAPA EMBEBIDO ============ */
+.map-embed{
+  width:100%;
+  margin:16px 0 18px;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid rgba(208,120,141,.35);
+  box-shadow:0 8px 22px rgba(208,120,141,.22);
+  line-height:0;
+}
+.map-embed iframe{
+  width:100%; height:200px; border:0; display:block;
+}
+
 /* ============ FOOTER (mínimo, pegado al borde inferior) ============ */
 .footer{
   background:transparent;
@@ -716,6 +730,12 @@ section.has-panel .poem strong{ color:#9c4a64; }
         <strong>Jano's San Martín</strong><br>
         21:00 hs
       </p>
+      <div class="map-embed">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3285.426524705101!2d-58.590981299999996!3d-34.568072699999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb99e01d5f5c5%3A0xddcbd15bbef270a7!2sJanos%20San%20Mart%C3%ADn!5e0!3m2!1ses!2sar!4v1780608960906!5m2!1ses!2sar"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          title="Ubicación: Jano's San Martín"></iframe>
+      </div>
       <a class="btn" id="btn-maps" target="_blank" rel="noopener">Cómo llegar</a>
     </div>
   </section>
@@ -883,14 +903,14 @@ const CONFIG = {
   marca: "JANA.VIBECODING",
 
   // Fecha límite RSVP (texto que se muestra)
-  rsvpHasta: "20/12/2025",
+  rsvpHasta: "11/07/2026",
 
   // Links de los botones
   links: {
     musica:    "https://www.youtube.com/watch?v=THH7xxUK184",   // cami bear - mary xmas (verificado: permite embeber)
     maps:      "https://share.google/TZK1lFJfFfyJANoFI",        // Cómo llegar (Fiesta — Jano's San Martín)
-    rsvp:      "https://wa.me/5491157733494?text=Confirmo%20mi%20asistencia%20a%20los%2015%20de%20Luana",
-    menu:      "https://forms.gle/xxxxx",                       // Menú especial
+    rsvp:      "https://wa.me/5491157733494?text=Confirmo%20asistencia%20%E2%9C%85",
+    menu:      "https://wa.me/5491157733494?text=Hola!%20Quiero%20informar%20mis%20restricciones%20o%20alergias%20alimentarias%20para%20los%2015%20de%20Luana",   // Menú especial → WhatsApp madre
     regalo:    "https://wa.me/5491157733494?text=Quiero%20datos%20para%20el%20regalo",
     playlist:  "https://open.spotify.com/playlist/5kYz9cr8kXztIUk4cqSciB",
     carpeta:   "https://drive.google.com/drive/folders/1mio3GI1oBzOJctFzQFkhaoEUvENKjkaD?usp=sharing",
