@@ -553,42 +553,28 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .footer .brand{
   font-family:var(--font-body);
   font-weight:600;
-  font-size:14px;
-  letter-spacing:.28em;
+  font-size:10px;
+  letter-spacing:.26em;
   text-transform:uppercase;
   color:var(--pink-deep);
-  margin-bottom:7px;
-  opacity:.95;
-  text-shadow:0 1px 3px rgba(255,255,255,.6);
+  margin-bottom:4px;
+  opacity:.78;
+  text-shadow:0 1px 2px rgba(255,255,255,.5);
 }
 .footer a#btn-brand{
   display:inline-block;
   color:var(--pink-deep);
   text-decoration:none;
-  font-size:12px;
+  font-size:9px;
   font-weight:400;
   letter-spacing:.04em;
-  opacity:.82;
+  opacity:.68;
   text-shadow:0 1px 2px rgba(255,255,255,.5);
-  border-bottom:1px solid rgba(208,120,141,.45);
+  border-bottom:1px solid rgba(208,120,141,.4);
   padding-bottom:1px;
   transition:opacity .2s ease;
 }
 .footer a#btn-brand:hover{ opacity:1; }
-.footer-social{
-  margin-top:16px;
-  display:flex; justify-content:center; gap:14px;
-}
-.footer-social a{
-  width:38px; height:38px; border-radius:50%;
-  color:var(--pink-deep);
-  display:flex; align-items:center; justify-content:center;
-  background:radial-gradient(circle at 35% 30%, #fff, #ffd3e4 55%, #f3aac6);
-  box-shadow:0 5px 14px rgba(208,120,141,.32), inset 0 1px 2px rgba(255,255,255,.85);
-  transition:transform .2s ease;
-}
-.footer-social a:hover{ transform:scale(1.09); }
-.footer-social svg{ width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:2; }
 /* pantalla de cierre: Luana es el FOCO (centrada) y el footer queda
    pegado al fondo, minimal, sin scroll extra para verlo */
 section.closing{ justify-content:center; padding-bottom:88px; }
@@ -908,15 +894,6 @@ section.closing .footer{
     <footer class="footer">
       <div class="brand" data-brand>JANA.VIBECODING</div>
       <a id="btn-brand" target="_blank" rel="noopener">Consultá por nuestras invitaciones aquí</a>
-      <div class="footer-social">
-        <a id="btn-ig" target="_blank" rel="noopener" aria-label="Instagram">
-          <svg viewBox="0 0 24 24">
-            <rect x="3" y="3" width="18" height="18" rx="5"/>
-            <circle cx="12" cy="12" r="4"/>
-            <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/>
-          </svg>
-        </a>
-      </div>
     </footer>
   </section>
 
@@ -1003,7 +980,6 @@ const CONFIG = {
   setHref("btn-carpeta",  CONFIG.links.carpeta);
   setHref("btn-mensaje",  CONFIG.links.mensaje);
   setHref("btn-brand",    CONFIG.links.instagram);
-  setHref("btn-ig",       CONFIG.links.instagram);
 
   // ---- Velocidad del video de fondo (más lento = más elegante) ----
   // 1 = normal · 0.5 = mitad · 0.35 = bien lento
