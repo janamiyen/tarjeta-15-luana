@@ -589,9 +589,13 @@ section.has-panel .poem strong{ color:#9c4a64; }
 }
 .footer-social a:hover{ transform:scale(1.09); }
 .footer-social svg{ width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:2; }
-/* el footer vive dentro de la pantalla de cierre (foto > Luana > footer, sin scroll extra) */
-section.closing{ gap:26px; }
-section.closing .footer{ padding:0; }
+/* pantalla de cierre: Luana es el FOCO (centrada) y el footer queda
+   pegado al fondo, minimal, sin scroll extra para verlo */
+section.closing{ justify-content:center; padding-bottom:88px; }
+section.closing .footer{
+  position:absolute; left:0; right:0; bottom:0;
+  padding:0 24px 22px;
+}
 
 /* ============ ANIMACIÓN HERO (intro al cargar) ============ */
 .hero .inner{ will-change:transform, opacity; }
