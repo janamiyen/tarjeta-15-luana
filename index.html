@@ -209,21 +209,29 @@ section.has-panel .poem strong{ color:#9c4a64; }
   letter-spacing:.55em; font-size:13px; opacity:.85;
   text-shadow:0 1px 3px rgba(255,255,255,.65);
 }
-.hero .age{
-  font-family:var(--font-script); font-style:normal; font-weight:400;
-  font-size:150px; line-height:.9;
-  color:var(--pink); margin:2px 0 -6px;
-  text-shadow:
-    0 2px 0 rgba(255,255,255,.6),
-    0 14px 32px rgba(208,120,141,.3),
-    0 0 50px rgba(255,76,139,.18);
+/* --- Título en 2 capas: "15" (quince.png) + "Luana" (luana.png) --- */
+.hero-title-wrap{
+  position:relative;
+  width:168px; max-width:48%;
+  aspect-ratio: 1 / 0.66;        /* + alto = más aire entre 15 y Luana */
+  margin:0 auto 34px;
 }
-.hero .name{
-  font-family:var(--font-script);
-  font-size:58px; line-height:1;
-  color:var(--pink-deep);
-  margin-bottom:26px;
-  text-shadow:0 2px 4px rgba(255,255,255,.7);
+.hero-title-wrap .t-15{
+  position:absolute; top:0; right:6%;
+  width:36%; height:auto;        /* ↑ % = 15 más grande / ↓ = Luana más protagonista */
+  filter:drop-shadow(0 6px 14px rgba(208,120,141,.36))
+         drop-shadow(0 2px 5px rgba(157,42,79,.28));
+}
+.hero-title-wrap .t-luana{
+  position:absolute; left:0; bottom:0;
+  width:100%; height:auto;       /* Luana ocupa todo el ancho = protagonista */
+  filter:drop-shadow(0 8px 16px rgba(208,120,141,.42))
+         drop-shadow(0 2px 4px rgba(157,42,79,.44));
+}
+.hero-title-wrap .mis{
+  position:absolute; top:19%; left:24%;
+  width:auto; text-align:left;
+  margin:0; line-height:1;
 }
 
 .datebar{
@@ -231,18 +239,18 @@ section.has-panel .poem strong{ color:#9c4a64; }
   font-family:var(--font-date); text-transform:uppercase; color:var(--pink);
   text-shadow:0 1px 3px rgba(255,255,255,.65);
 }
-.datebar .col{ font-size:13px; letter-spacing:.18em; }
-.datebar .day{ display:flex; flex-direction:column; align-items:center; gap:6px; }
-.datebar .day .num{ font-size:34px; letter-spacing:.04em; line-height:1; font-weight:500; }
-.datebar .line{ width:34px; height:1px; background:var(--pink); opacity:.6; }
+.datebar .col{ font-size:14px; letter-spacing:.18em; }
+.datebar .day{ display:flex; flex-direction:column; align-items:center; gap:4px; }
+.datebar .day .num{ font-size:38px; letter-spacing:.04em; line-height:1; font-weight:500; }
+.datebar .line{ width:30px; height:1px; background:var(--pink); opacity:.6; }
 .datebar-month{
   font-family:var(--font-date); text-transform:uppercase;
-  letter-spacing:.3em; font-size:12px; margin-top:10px; opacity:.85;
+  letter-spacing:.3em; font-size:13px; margin-top:6px; opacity:.85;
   text-shadow:0 1px 3px rgba(255,255,255,.65);
 }
 
 /* dale play (texto arqueado encima del botón + botón con pulso) */
-.play-wrap{ margin-top:30px; display:flex; flex-direction:column; align-items:center; gap:1px; }
+.play-wrap{ margin-top:26px; display:flex; flex-direction:column; align-items:center; gap:1px; }
 .play-arc{ width:108px; height:30px; filter:drop-shadow(0 1px 2px rgba(255,255,255,.7)); }
 .play-arc text{
   font-family:var(--font-date); font-size:13px; letter-spacing:.42em;
@@ -479,17 +487,14 @@ section.has-panel .poem strong{ color:#9c4a64; }
   font-family:var(--font-date); text-transform:uppercase; letter-spacing:.1em;
   font-size:8.5px; color:var(--pink-deep); opacity:.68; margin-top:7px;
 }
-/* separador GEM real: los ":" se transforman en diamantitos glossy que titilan
-   (antes no se veían: el selector .u+.u no matcheaba por los .cd-sep en medio) */
+/* separador SPARKLE: los ":" se transforman en destellos de 4 puntas que titilan */
 .cd-sep{
   flex:0 0 auto; align-self:center;
-  width:7px; height:7px;
+  width:12px; height:12px;
   font-size:0; line-height:0; color:transparent;
-  transform:rotate(45deg);
-  border-radius:1.5px;
-  background:linear-gradient(135deg, #ffffff 0%, #ff9ec6 55%, #d65f93 100%);
-  box-shadow:inset 0 0 2px rgba(255,255,255,.95), 0 0 8px rgba(255,90,150,.65);
-  animation:gemTwinkle 2.6s ease-in-out infinite;
+  background:radial-gradient(circle at 50% 45%, #ffffff 0%, #ffd9ec 28%, #ff95c2 66%, #d65f93 100%);
+  clip-path:polygon(50% 0%, 57% 43%, 100% 50%, 57% 57%, 50% 100%, 43% 57%, 0% 50%, 43% 43%);
+  animation:sparkleTwinkle 2.6s ease-in-out infinite;
 }
 .cd-sep:nth-of-type(2){ animation-delay:.5s; }
 .cd-sep:nth-of-type(3){ animation-delay:1s; }
@@ -516,10 +521,12 @@ section.has-panel .poem strong{ color:#9c4a64; }
   55%  { background-position:-50% 0; }
   100% { background-position:-50% 0; }
 }
-/* gems que titilan (sólo opacidad/glow — el rotate(45deg) se mantiene) */
-@keyframes gemTwinkle{
-  0%,100% { opacity:.72; box-shadow:inset 0 0 2px rgba(255,255,255,.9),  0 0 6px  rgba(255,90,150,.5); }
-  50%     { opacity:1;   box-shadow:inset 0 0 2px rgba(255,255,255,1),   0 0 13px rgba(255,90,150,.9); }
+/* sparkles que titilan: pulso de brillo + giro sutil (clip-path no toma box-shadow → drop-shadow) */
+@keyframes sparkleTwinkle{
+  0%,100% { opacity:.6;  transform:scale(.82) rotate(0deg);
+            filter:drop-shadow(0 0 3px rgba(255,120,175,.55)); }
+  50%     { opacity:1;   transform:scale(1.1) rotate(90deg);
+            filter:drop-shadow(0 0 7px rgba(255,110,170,.95)); }
 }
 
 /* ============ FOOTER (mínimo, pegado al borde inferior) ============ */
@@ -557,23 +564,16 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .hero .inner{ will-change:transform, opacity; }
 @keyframes heroIn { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
 
-.hero .mis,
-.hero .age,
+.hero-title-wrap,
 .hero .datebar,
 .hero .datebar-month,
 .hero .play-wrap{
   opacity:0; animation:heroIn .9s cubic-bezier(.22,1,.36,1) forwards;
 }
-.hero .mis{ animation-delay:.20s; }
-.hero .age{ animation-delay:.40s; }
+.hero-title-wrap{ animation-delay:.30s; }
 .hero .datebar{ animation-delay:1.55s; }
 .hero .datebar-month{ animation-delay:1.70s; }
 .hero .play-wrap{ animation-delay:1.95s; }
-.hero .name .ch{
-  display:inline-block; opacity:0;
-  animation:heroIn .8s cubic-bezier(.22,1,.36,1) forwards;
-  animation-delay: calc(.75s + (var(--i,0) * 70ms));
-}
 
 /* ============ REVEAL ON SCROLL ============ */
 .reveal{
@@ -585,7 +585,7 @@ section.has-panel .poem strong{ color:#9c4a64; }
 
 @media (prefers-reduced-motion: reduce){
   .reveal,
-  .hero .mis, .hero .age, .hero .name .ch,
+  .hero-title-wrap,
   .hero .datebar, .hero .datebar-month, .hero .play-wrap{
     opacity:1 !important; transform:none !important;
     animation:none !important; transition:none !important;
@@ -596,8 +596,6 @@ section.has-panel .poem strong{ color:#9c4a64; }
 }
 
 @media (max-width:380px){
-  .hero .age{ font-size:120px; }
-  .hero .name{ font-size:48px; }
   section{ padding:54px 22px; }
 }
 </style>
@@ -637,9 +635,11 @@ section.has-panel .poem strong{ color:#9c4a64; }
        ================================================= -->
   <section class="hero">
     <div class="inner" style="width:100%">
-      <div class="mis">Mis</div>
-      <div class="age" data-age>15</div>
-      <div class="name" data-name>Luana</div>
+      <div class="hero-title-wrap">
+        <span class="mis">Mis</span>
+        <img class="t-15" src="assets/quince.png" alt="15" />
+        <img class="t-luana" src="assets/luana.png" alt="Luana" />
+      </div>
 
       <div class="datebar">
         <div class="col" data-weekday>Sábado</div>
@@ -889,12 +889,12 @@ const CONFIG = {
   links: {
     musica:    "https://www.youtube.com/watch?v=THH7xxUK184",   // cami bear - mary xmas (verificado: permite embeber)
     maps:      "https://share.google/TZK1lFJfFfyJANoFI",        // Cómo llegar (Fiesta — Jano's San Martín)
-    rsvp:      "https://wa.me/549XXXXXXXXXX?text=Confirmo%20mi%20asistencia%20a%20los%2015%20de%20Luana",
+    rsvp:      "https://wa.me/5491157733494?text=Confirmo%20mi%20asistencia%20a%20los%2015%20de%20Luana",
     menu:      "https://forms.gle/xxxxx",                       // Menú especial
-    regalo:    "https://wa.me/549XXXXXXXXXX?text=Quiero%20datos%20para%20el%20regalo",
-    playlist:  "https://open.spotify.com/playlist/xxxxx",
-    carpeta:   "https://drive.google.com/drive/folders/xxxxx",
-    mensaje:   "https://wa.me/549XXXXXXXXXX?text=Mi%20mensaje%20para%20Luana",
+    regalo:    "https://wa.me/5491157733494?text=Quiero%20datos%20para%20el%20regalo",
+    playlist:  "https://open.spotify.com/playlist/5kYz9cr8kXztIUk4cqSciB",
+    carpeta:   "https://drive.google.com/drive/folders/1mio3GI1oBzOJctFzQFkhaoEUvENKjkaD?usp=sharing",
+    mensaje:   "https://wa.me/5491157733494?text=Mi%20mensaje%20para%20Luana",
     instagram: "https://www.instagram.com/jana.vibecoding/"
   }
 };
@@ -909,8 +909,9 @@ const CONFIG = {
   const target = new Date(f.anio, f.mes - 1, f.dia, f.hora, f.min, 0);
   const pad = n => String(n).padStart(2, "0");
 
-  // Edad
-  document.querySelector("[data-age]").textContent = CONFIG.edad;
+  // Edad (el "15" del hero ahora es imagen; este selector solo aplica si existe)
+  const ageEl = document.querySelector("[data-age]");
+  if (ageEl) ageEl.textContent = CONFIG.edad;
 
   // Nombre: en el hero una letra por span; en la foto de cierre, plano
   const heroNameEl  = document.querySelector(".hero .name[data-name]");
