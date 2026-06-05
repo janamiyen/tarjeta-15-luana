@@ -1003,6 +1003,39 @@ const CONFIG = {
     bgVid.addEventListener("loadeddata", showVid);
     bgVid.addEventListener("playing", showVid);
     if (bgVid.readyState >= 2) showVid();   // por si ya estaba listo (cache)
+
+    // ---- Loop SUAVE (crossfade): el loop nativo hace un corte seco al
+    // rebobinar (y en celu se "tilda" un instante). Usamos DOS videos
+    // alternados: cuando el activo está por terminar, el otro arranca
+    // desde 0 y se funden por opacidad → transición invisible. ----
+    const bgVid2 = bgVid.cloneNode(true);
+    bgVid2.removeAttribute("autoplay");
+    bgVid2.classList.add("ready");
+    bgVid2.style.opacity = "0";
+    bgVid.after(bgVid2);
+    bgVid.loop = false; bgVid2.loop = false;   // el loop lo manejamos nosotros
+    bgVid2.pause();
+    let activeVid = bgVid, standbyVid = bgVid2, vidFading = false;
+    function videoCrossfade(){
+      if (vidFading) return;
+      vidFading = true;
+      standbyVid.currentTime = 0;
+      standbyVid.playbackRate = BG_SPEED;
+      const p = standbyVid.play();
+      if (p && p.catch) p.catch(() => {});
+      standbyVid.style.opacity = "1";   // la transición CSS (.8s) hace el fundido
+      activeVid.style.opacity = "0";
+      const old = activeVid;
+      activeVid = standbyVid; standbyVid = old;
+      setTimeout(() => { old.pause(); vidFading = false; }, 900);
+    }
+    [bgVid, bgVid2].forEach(v => {
+      v.addEventListener("timeupdate", () => {
+        if (v !== activeVid || !v.duration) return;
+        if (v.duration - v.currentTime <= 0.5) videoCrossfade();
+      });
+      v.addEventListener("ended", () => { if (v === activeVid) videoCrossfade(); }); // red de seguridad
+    });
   }
 
   // ---- Música DENTRO de la página (archivo local en assets) ----
@@ -1201,13 +1234,14 @@ const CONFIG = {
   }
 
   // ---- Loop en mobile: swipe hacia arriba estando ya en la pantalla de cierre → vuelve al hero ----
-  // OJO: no usamos scrollHeight/innerHeight porque en celu la barra de dirección
-  // del navegador desfasa esas medidas (problema clásico del 100vh) y el "estoy
-  // al final" no daba nunca. En cambio preguntamos si la ÚLTIMA pantalla ya está
-  // snapeada a la vista, que no depende de la barra.
+  // OJO: en celu la barra de dirección del navegador desfasa las medidas de
+  // altura (problema clásico del 100vh), así que NO miramos el top de la
+  // sección (quedaba justo en el límite y fallaba). El criterio infalible:
+  // si el FONDO de la última pantalla ya tocó el fondo de la ventana, no se
+  // puede scrollear más → estamos al final.
   function onClosingScreen(){
     const last = snapTargets[snapTargets.length - 1];
-    return Math.abs(last.getBoundingClientRect().top) < 80;
+    return last.getBoundingClientRect().bottom <= window.innerHeight + 8;
   }
   let touchY0 = null, wasAtEnd = false;
   window.addEventListener("touchstart", (e) => {
