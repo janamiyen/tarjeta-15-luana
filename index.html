@@ -431,6 +431,80 @@ section.has-panel .poem strong{ color:#9c4a64; }
   50%     { filter:drop-shadow(0 0 13px rgba(255,90,160,.55)); }
 }
 
+/* ============ MODAL REGALO (tarjetita flotante glam) ============
+   No es una pantalla nueva: el fondo de la invitación queda detrás,
+   con un velo rosa + blur sutil, y flota una card perlada glossy. */
+.modal-overlay{
+  position:fixed; inset:0; z-index:10000;
+  display:flex; align-items:center; justify-content:center;
+  padding:26px;
+  background:rgba(244,206,223,.5);
+  -webkit-backdrop-filter:blur(9px) saturate(1.1);
+          backdrop-filter:blur(9px) saturate(1.1);
+  opacity:0; pointer-events:none;
+  transition:opacity .32s ease;
+}
+.modal-overlay.open{ opacity:1; pointer-events:auto; }
+.modal-card{
+  position:relative; isolation:isolate; overflow:hidden;
+  width:100%; max-width:330px;
+  padding:36px 26px 30px;
+  text-align:center;
+  border-radius:30px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.4) 38%, rgba(255,255,255,.18) 100%),
+    linear-gradient(165deg, #ffe3ef 0%, #f9c6dc 100%);
+  border:1.5px solid rgba(255,255,255,.92);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,1),
+    0 24px 60px rgba(150,60,90,.38),
+    0 0 36px rgba(255,120,170,.4);
+  transform:translateY(16px) scale(.95);
+  transition:transform .38s cubic-bezier(.22,1,.36,1);
+}
+.modal-overlay.open .modal-card{ transform:none; }
+/* zebra MUY sutil, como marca de agua */
+.modal-card::before{
+  content:""; position:absolute; inset:-30%;
+  z-index:-1; pointer-events:none;
+  background-image:var(--zebra);
+  background-size:90px 90px;
+  opacity:.05;
+  transform:rotate(-14deg);
+}
+.modal-close{
+  position:absolute; top:14px; right:14px;
+  width:34px; height:34px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,222,237,.72));
+  border:1.5px solid rgba(255,255,255,.95);
+  box-shadow:0 3px 10px rgba(177,90,114,.25);
+  cursor:pointer; padding:0;
+}
+.modal-close svg{ width:13px; height:13px; stroke:#9c4a64; stroke-width:2.4; stroke-linecap:round; fill:none; }
+.modal-title{
+  font-family:var(--font-script);
+  font-size:44px; line-height:1;
+  color:var(--pink-deep);
+  text-shadow:0 1px 2px rgba(255,255,255,.8);
+}
+.modal-sub{
+  margin-top:8px;
+  font-size:12.5px; font-weight:300; line-height:1.5; color:var(--pink);
+}
+.modal-data{ margin:18px 0 0; }
+.modal-data .mrow{ display:flex; flex-direction:column; gap:2px; padding:11px 0; }
+.modal-data .mrow + .mrow{ border-top:1px solid rgba(255,255,255,.75); }
+.modal-data .mlabel{
+  font-size:9.5px; font-weight:600; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--pink);
+}
+.modal-data .mvalue{
+  font-size:16px; font-weight:600; color:#7e3450;
+  text-shadow:0 1px 1px rgba(255,255,255,.7);
+  word-break:break-all;
+}
+
 .block + .block{ margin-top:54px; }
 .lugar{ font-size:14px; font-weight:300; line-height:1.55; color:var(--pink); text-shadow:0 1px 2px rgba(255,255,255,.5); margin-top:14px; }
 .lugar strong{ font-weight:500; }
@@ -920,6 +994,27 @@ section.closing .footer{
 
 </main>
 
+<!-- =================================================
+     MODAL · ENVIAR REGALO (tarjetita flotante)
+     ================================================= -->
+<div class="modal-overlay" id="regalo-modal" role="dialog" aria-modal="true" aria-labelledby="regalo-title">
+  <div class="modal-card">
+    <button class="modal-close" id="regalo-close" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="modal-title" id="regalo-title">Enviar regalo</div>
+    <p class="modal-sub">Un mimo para Luana ✨</p>
+    <div class="modal-data">
+      <div class="mrow"><span class="mlabel">Titular</span><span class="mvalue" data-regalo-titular></span></div>
+      <div class="mrow"><span class="mlabel">Alias</span><span class="mvalue" data-regalo-alias></span></div>
+      <div class="mrow" id="regalo-cvu-row"><span class="mlabel">CVU</span><span class="mvalue" data-regalo-cvu></span></div>
+    </div>
+    <button class="btn btn-primary" id="btn-copiar-alias">
+      <svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg>Copiar alias
+    </button>
+  </div>
+</div>
+
 <script>
 /* ============================================================
    SIEMPRE ARRANCAR DESDE EL HERO
@@ -971,11 +1066,18 @@ const CONFIG = {
     maps:      "https://share.google/TZK1lFJfFfyJANoFI",        // Cómo llegar (Fiesta — Jano's San Martín)
     rsvp:      "https://wa.me/5491157733494?text=Confirmo%20asistencia%20%E2%9C%85",
     menu:      "https://wa.me/5491157733494?text=Hola!%20Quiero%20informar%20mis%20restricciones%20o%20alergias%20alimentarias%20para%20los%2015%20de%20Luana",   // Menú especial → WhatsApp madre
-    regalo:    "https://wa.me/5491157733494?text=Quiero%20datos%20para%20el%20regalo",
     playlist:  "https://open.spotify.com/playlist/5kYz9cr8kXztIUk4cqSciB",
     carpeta:   "https://drive.google.com/drive/folders/1mio3GI1oBzOJctFzQFkhaoEUvENKjkaD?usp=sharing",
     mensaje:   "https://wa.me/5491157733494?text=Mi%20mensaje%20para%20Luana",
     instagram: "https://www.instagram.com/jana.vibecoding/"
+  },
+
+  // Datos del regalo (se muestran en el modal "Enviar regalo")
+  // ⚠️ COMPLETAR con los datos reales que pase la madre
+  regalo: {
+    titular: "Nombre y Apellido",
+    alias:   "alias.a.confirmar",
+    cvu:     ""                     // opcional: si queda vacío, la fila no se muestra
   }
 };
 
@@ -1026,11 +1128,49 @@ const CONFIG = {
   setHref("btn-maps",     CONFIG.links.maps);
   setHref("btn-rsvp",     CONFIG.links.rsvp);
   setHref("btn-menu",     CONFIG.links.menu);
-  setHref("btn-regalo",   CONFIG.links.regalo);
   setHref("btn-playlist", CONFIG.links.playlist);
   setHref("btn-carpeta",  CONFIG.links.carpeta);
   setHref("btn-mensaje",  CONFIG.links.mensaje);
   setHref("btn-brand",    CONFIG.links.instagram);
+
+  // ---- Modal "Enviar regalo": datos de transferencia + copiar alias ----
+  const regaloModal = document.getElementById("regalo-modal");
+  const regaloBtn   = document.getElementById("btn-regalo");
+  if (regaloModal && regaloBtn){
+    const R = CONFIG.regalo || {};
+    document.querySelector("[data-regalo-titular]").textContent = R.titular || "";
+    document.querySelector("[data-regalo-alias]").textContent   = R.alias || "";
+    if (R.cvu) document.querySelector("[data-regalo-cvu]").textContent = R.cvu;
+    else document.getElementById("regalo-cvu-row").style.display = "none";
+
+    const openModal  = () => { regaloModal.classList.add("open"); document.body.style.overflow = "hidden"; };
+    const closeModal = () => { regaloModal.classList.remove("open"); document.body.style.overflow = ""; };
+    regaloBtn.addEventListener("click", (e) => { e.preventDefault(); openModal(); });
+    document.getElementById("regalo-close").addEventListener("click", closeModal);
+    regaloModal.addEventListener("click", (e) => { if (e.target === regaloModal) closeModal(); }); // tocar el velo cierra
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+
+    // Copiar alias (con fallback para navegadores internos tipo WhatsApp)
+    const copyBtn = document.getElementById("btn-copiar-alias");
+    const copyLabel = copyBtn.innerHTML;
+    function fallbackCopy(text, done){
+      const ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); done(); } catch(_){}
+      ta.remove();
+    }
+    copyBtn.addEventListener("click", () => {
+      const done = () => {
+        copyBtn.innerHTML = "¡Alias copiado! ✨";
+        setTimeout(() => { copyBtn.innerHTML = copyLabel; }, 1800);
+      };
+      const alias = R.alias || "";
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(alias).then(done).catch(() => fallbackCopy(alias, done));
+      } else fallbackCopy(alias, done);
+    });
+  }
 
   // ---- Velocidad del video de fondo (más lento = más elegante) ----
   // 1 = normal · 0.5 = mitad · 0.35 = bien lento
@@ -1294,6 +1434,7 @@ const CONFIG = {
   }, { passive: true });
   window.addEventListener("touchend", (e) => {
     if (touchY0 === null) return;
+    if (document.querySelector(".modal-overlay.open")) { touchY0 = null; return; } // con modal abierto, nada de loop
     const swipeUp = touchY0 - e.changedTouches[0].clientY; // >0 = el dedo subió = quiere seguir bajando
     if (wasAtEnd && swipeUp > 60 && onClosingScreen()) loopToHero();
     touchY0 = null;
