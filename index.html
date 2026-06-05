@@ -334,31 +334,60 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .badge svg{ position:relative; z-index:2; width:22px; height:22px; stroke:var(--pink-deep); fill:none; stroke-width:1.7; }
 .badge svg .fillp{ fill:var(--pink-deep); stroke:none; }
 
-/* ============ BOTON ============ */
+/* ============ BOTON ============
+   Sistema de 2 niveles, siempre pink glam:
+   - .btn (secundario): perlado con cuerpo — menos lavado que antes,
+     texto más oscuro, borde y sombra firmes → se LEE como clickeable
+   - .btn-primary (primario): caramelo rosa más profundo con texto
+     blanco glossy → la acción principal de la tarjeta salta a la vista */
 .btn{
   position:relative;
   isolation:isolate;
   overflow:hidden;
-  display:inline-block; margin-top:22px;
-  padding:13px 36px; border-radius:999px;
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  margin-top:22px;
+  padding:14px 32px; border-radius:999px;
   font-family:var(--font-body); font-weight:600; font-size:13px; letter-spacing:.07em;
-  color:#9c4a64; text-decoration:none;
-  text-shadow:0 1px 1px rgba(255,255,255,.8);
-  /* MISMO sistema que el panel: GLOSSY GLASS perlado + gloss arriba */
+  color:#7e3450; text-decoration:none; cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  text-shadow:0 1px 1px rgba(255,255,255,.75);
+  /* perlado con más cuerpo (ya no translúcido lavado) + gloss superior fuerte */
   background:
-    linear-gradient(180deg, rgba(255,255,255,.6) 0%, rgba(255,255,255,.08) 48%),
-    linear-gradient(165deg, rgba(255,216,232,.52) 0%, rgba(255,192,218,.4) 100%);
-  -webkit-backdrop-filter:blur(8px) saturate(1.15);
-          backdrop-filter:blur(8px) saturate(1.15);
-  border:1.5px solid rgba(255,255,255,.85);
+    linear-gradient(180deg, rgba(255,255,255,.85) 0%, rgba(255,255,255,.14) 46%),
+    linear-gradient(165deg, #ffd9e8 0%, #f7b8d2 55%, #f0a6c5 100%);
+  border:2px solid rgba(255,255,255,.95);
   box-shadow:
-    inset 0 1px 1px rgba(255,255,255,.95),
-    inset 0 -7px 13px rgba(255,150,190,.28),
-    0 8px 22px rgba(255,120,165,.3),
-    0 0 16px rgba(255,130,175,.36);
+    inset 0 2px 2px rgba(255,255,255,1),
+    inset 0 -8px 14px rgba(232,120,165,.35),
+    0 10px 24px rgba(214,98,140,.4),
+    0 2px 6px rgba(177,90,114,.3),
+    0 0 18px rgba(255,130,175,.3);
   transition:transform .22s cubic-bezier(.22,1,.36,1), box-shadow .25s ease;
   /* glow rosado que respira (vida también en mobile, sin hover) */
   animation:btnBreathe 3.6s ease-in-out infinite;
+}
+/* ícono chiquito dentro del botón */
+.btn svg{
+  width:15px; height:15px; flex:none;
+  stroke:currentColor; fill:none; stroke-width:2;
+  stroke-linecap:round; stroke-linejoin:round;
+  transition:transform .25s cubic-bezier(.22,1,.36,1);
+}
+.btn:hover svg, .btn:focus-visible svg{ transform:scale(1.15) rotate(-6deg); }
+/* primario: la acción estrella (confirmar asistencia, copiar alias) */
+.btn-primary{
+  color:#fff;
+  text-shadow:0 1px 2px rgba(158,52,90,.6);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.7) 0%, rgba(255,255,255,.05) 44%),
+    linear-gradient(165deg, #ff9cc6 0%, #f06ba2 58%, #e85d98 100%);
+  border-color:#fff;
+  box-shadow:
+    inset 0 2px 2px rgba(255,255,255,.95),
+    inset 0 -8px 16px rgba(190,55,110,.45),
+    0 12px 28px rgba(214,80,135,.5),
+    0 2px 6px rgba(158,52,90,.35),
+    0 0 24px rgba(255,105,170,.45);
 }
 /* zebra VISIBLE en los botones (acá sí se nota, da la onda animal print) */
 .btn::before{
@@ -736,7 +765,7 @@ section.closing .footer{
         <strong>Jano's San Martín</strong><br>
         21:00 hs
       </p>
-      <a class="btn" id="btn-maps" target="_blank" rel="noopener">Cómo llegar</a>
+      <a class="btn" id="btn-maps" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.8 7-11a7 7 0 1 0-14 0c0 5.2 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>Cómo llegar</a>
     </div>
   </section>
 
@@ -753,7 +782,7 @@ section.closing .footer{
         Por favor avísanos<br>si vendrás a la fiesta.<br>
         Tenés tiempo hasta el <strong data-deadline>20/12/2025</strong>
       </p>
-      <a class="btn" id="btn-rsvp" target="_blank" rel="noopener">Confirmar aquí</a>
+      <a class="btn btn-primary" id="btn-rsvp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Confirmar aquí</a>
     </div>
   </section>
 
@@ -797,7 +826,7 @@ section.closing .footer{
         relacionadas a los alimentos.<br>
         Para poder prepararte<br>una comida especial.
       </p>
-      <a class="btn" id="btn-menu" target="_blank" rel="noopener">Completar aquí</a>
+      <a class="btn" id="btn-menu" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M5.5 3v5a2.5 2.5 0 0 0 5 0V3M8 10.5V21M17.5 3c-2 1.4-3 3.8-3 6.5V12h3v9"/></svg>Completar aquí</a>
     </div>
   </section>
 
@@ -814,7 +843,7 @@ section.closing .footer{
         Tu presencia es el mejor regalo,<br>
         pero si querés brindar algo más...
       </p>
-      <a class="btn" id="btn-regalo" target="_blank" rel="noopener">Ver aquí</a>
+      <a class="btn" id="btn-regalo"><svg viewBox="0 0 24 24"><path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13"/><path d="M12 7c-1.5-3-5-3-5-1s3 1 5 1Zm0 0c1.5-3 5-3 5-1s-3 1-5 1Z"/></svg>Enviar regalo</a>
     </div>
   </section>
 
@@ -832,7 +861,7 @@ section.closing .footer{
         no deje de sonar en esta gran noche!<br>
         Ayudá a armar la playlist de la fiesta.
       </p>
-      <a class="btn" id="btn-playlist" target="_blank" rel="noopener">Sumar canción</a>
+      <a class="btn" id="btn-playlist" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M9 18V5l10-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg>Sumar canción</a>
     </div>
   </section>
 
@@ -850,7 +879,7 @@ section.closing .footer{
         suban las fotos y videos<br>
         que saquen de la fiesta.
       </p>
-      <a class="btn" id="btn-carpeta" target="_blank" rel="noopener">Subir aquí</a>
+      <a class="btn" id="btn-carpeta" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M3 8h4l1.5-2h7L17 8h4v11H3z"/><circle cx="12" cy="13" r="3"/></svg>Subir aquí</a>
     </div>
   </section>
 
@@ -869,7 +898,7 @@ section.closing .footer{
         para guardar en el corazón.<br>
         Dejá tu mensaje especial.
       </p>
-      <a class="btn" id="btn-mensaje" target="_blank" rel="noopener">Dejar mensaje</a>
+      <a class="btn" id="btn-mensaje" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 20s-7.2-4.7-9.2-9.2C1.5 7.8 3.8 4 7.5 4 10 4 12 6.4 12 6.4S14 4 16.5 4c3.7 0 6 3.8 4.7 6.8C19.2 15.3 12 20 12 20Z"/></svg>Dejar mensaje</a>
     </div>
   </section>
 
