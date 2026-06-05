@@ -896,8 +896,17 @@ section.closing .footer{
    siempre empiece desde la primera pantalla.
    ============================================================ */
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-window.scrollTo(0, 0);
-window.addEventListener("pageshow", () => window.scrollTo(0, 0)); // también al volver con "atrás" (bfcache)
+const goTop = () => window.scrollTo(0, 0);
+goTop();
+// El navegador (sobre todo en celu) puede restaurar el scroll DESPUÉS de que
+// corre este script (cuando terminan de cargar fuentes/imágenes), así que
+// repetimos el "ir arriba" en cada momento clave de la carga:
+document.addEventListener("DOMContentLoaded", goTop);
+window.addEventListener("load", () => { goTop(); requestAnimationFrame(goTop); setTimeout(goTop, 80); });
+window.addEventListener("pageshow", () => { goTop(); setTimeout(goTop, 80); }); // volver con "atrás" (bfcache)
+// Y de yapa: antes de recargar/salir, subimos al tope — así aunque el
+// navegador "recuerde" la posición, lo que recuerda ya es el inicio.
+window.addEventListener("beforeunload", goTop);
 
 /* ============================================================
    CONFIG · EDITÁ SOLO ESTO
