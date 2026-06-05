@@ -1173,10 +1173,31 @@ const CONFIG = {
     e.preventDefault();
     const dir = e.deltaY > 0 ? 1 : -1;
     const cur = nearestIdx();
+    // Loop: en la última pantalla, seguir bajando vuelve al hero
+    if (dir > 0 && cur === snapTargets.length - 1) {
+      smoothScrollTo(0, SCROLL_DURATION + 300);
+      return;
+    }
     const next = Math.max(0, Math.min(snapTargets.length - 1, cur + dir));
     if (next === cur) return;
     smoothScrollTo(snapTargets[next].offsetTop, SCROLL_DURATION);
   }, { passive: false });
+
+  // ---- Loop en mobile: swipe hacia arriba estando ya al final → vuelve al hero ----
+  let touchY0 = null, wasAtBottom = false;
+  function atBottom(){
+    return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 10;
+  }
+  window.addEventListener("touchstart", (e) => {
+    touchY0 = e.touches[0].clientY;
+    wasAtBottom = atBottom(); // importante: medir ANTES del swipe, así el gesto que llega al final no dispara el loop
+  }, { passive: true });
+  window.addEventListener("touchend", (e) => {
+    if (touchY0 === null) return;
+    const swipeUp = touchY0 - e.changedTouches[0].clientY; // >0 = el dedo subió = quiere seguir bajando
+    if (wasAtBottom && swipeUp > 60 && atBottom()) smoothScrollTo(0, 900);
+    touchY0 = null;
+  }, { passive: true });
 })();
 </script>
 </body>
