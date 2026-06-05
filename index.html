@@ -1245,14 +1245,15 @@ const CONFIG = {
   }
 
   // ---- Loop en mobile: swipe hacia arriba estando ya en la pantalla de cierre → vuelve al hero ----
-  // OJO: en celu la barra de dirección del navegador desfasa las medidas de
-  // altura (problema clásico del 100vh), así que NO miramos el top de la
-  // sección (quedaba justo en el límite y fallaba). El criterio infalible:
-  // si el FONDO de la última pantalla ya tocó el fondo de la ventana, no se
-  // puede scrollear más → estamos al final.
+  // OJO (celu): la pantalla de cierre mide 100vh pero la ventana visible es
+  // más chica por la barra del navegador, y el snap te clava en el TECHO de
+  // la sección → nunca llegás al fondo real del documento. Así que el
+  // criterio no puede ser "toqué el fondo": preguntamos si la pantalla de
+  // cierre DOMINA la vista (su techo está en el cuarto superior). Cuando
+  // estás una sección antes, su techo está a una pantalla de distancia → no.
   function onClosingScreen(){
-    const last = snapTargets[snapTargets.length - 1];
-    return last.getBoundingClientRect().bottom <= window.innerHeight + 8;
+    const r = snapTargets[snapTargets.length - 1].getBoundingClientRect();
+    return r.top < window.innerHeight * 0.25;
   }
   let touchY0 = null, wasAtEnd = false;
   window.addEventListener("touchstart", (e) => {
