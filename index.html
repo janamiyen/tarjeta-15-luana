@@ -901,6 +901,16 @@ section.closing .footer{
 
 <script>
 /* ============================================================
+   SIEMPRE ARRANCAR DESDE EL HERO
+   El navegador recuerda la posición de scroll al recargar o
+   volver a la página; acá lo desactivamos para que la invitación
+   siempre empiece desde la primera pantalla.
+   ============================================================ */
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+window.scrollTo(0, 0);
+window.addEventListener("pageshow", () => window.scrollTo(0, 0)); // también al volver con "atrás" (bfcache)
+
+/* ============================================================
    CONFIG · EDITÁ SOLO ESTO
    ============================================================ */
 const CONFIG = {
