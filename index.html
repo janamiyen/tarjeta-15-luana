@@ -1200,19 +1200,24 @@ const CONFIG = {
     }, 320);
   }
 
-  // ---- Loop en mobile: swipe hacia arriba estando ya al final → vuelve al hero ----
-  let touchY0 = null, wasAtBottom = false;
-  function atBottom(){
-    return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 10;
+  // ---- Loop en mobile: swipe hacia arriba estando ya en la pantalla de cierre → vuelve al hero ----
+  // OJO: no usamos scrollHeight/innerHeight porque en celu la barra de dirección
+  // del navegador desfasa esas medidas (problema clásico del 100vh) y el "estoy
+  // al final" no daba nunca. En cambio preguntamos si la ÚLTIMA pantalla ya está
+  // snapeada a la vista, que no depende de la barra.
+  function onClosingScreen(){
+    const last = snapTargets[snapTargets.length - 1];
+    return Math.abs(last.getBoundingClientRect().top) < 80;
   }
+  let touchY0 = null, wasAtEnd = false;
   window.addEventListener("touchstart", (e) => {
     touchY0 = e.touches[0].clientY;
-    wasAtBottom = atBottom(); // importante: medir ANTES del swipe, así el gesto que llega al final no dispara el loop
+    wasAtEnd = onClosingScreen(); // medir ANTES del swipe, así el gesto que LLEGA al cierre no dispara el loop
   }, { passive: true });
   window.addEventListener("touchend", (e) => {
     if (touchY0 === null) return;
     const swipeUp = touchY0 - e.changedTouches[0].clientY; // >0 = el dedo subió = quiere seguir bajando
-    if (wasAtBottom && swipeUp > 60 && atBottom()) loopToHero();
+    if (wasAtEnd && swipeUp > 60 && onClosingScreen()) loopToHero();
     touchY0 = null;
   }, { passive: true });
 })();
