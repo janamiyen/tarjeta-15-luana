@@ -517,89 +517,87 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .prices .who{ display:block; }
 .prices .amount{ display:block; font-weight:600; font-size:18px; margin-top:2px; color:var(--pink-deep); }
 
-/* ============ COUNTDOWN · panel glossy rosa perlado (Y2K glam) ============
-   Recrea el "lenguaje visual": panel rosa perlado, glow rosado, borde
-   blanco brillante, highlight glossy arriba, zebra tono-sobre-tono muy
-   sutil y sombra rosa suave. Mismo sistema que los botones. */
+/* ============ COUNTDOWN · cartela ornamental (vintage femenino) ============
+   Ya no es un panel UI redondeado: es una PLACA de invitación clásica —
+   doble filete fino con puntitos perlados en las esquinas, filigranas
+   delicadas arriba y abajo, centro limpio y números en serif elegante.
+   Reinterpretado en rosa glam: el velo perlado sigue ahí, pero calmo. */
 .countdown-card{
   position:relative;
-  isolation:isolate;
-  overflow:hidden;
   margin:28px auto 0; max-width:330px;
-  padding:16px 12px 14px;
-  border-radius:30px;
-  /* GLOSSY GLASS: vidrio perlado translúcido + highlight glossy arriba */
+  padding:12px 18px 14px;
+  /* filete exterior fino color rosa profundo — marco, no caja */
+  border:1px solid rgba(177,90,114,.42);
+  border-radius:12px;
+  /* velo perlado suave para legibilidad sobre el video (sin gloss pesado) */
   background:
-    linear-gradient(180deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,.06) 44%),
-    linear-gradient(165deg, rgba(255,214,230,.46) 0%, rgba(255,190,216,.34) 100%);
-  -webkit-backdrop-filter:blur(11px) saturate(1.2);
-          backdrop-filter:blur(11px) saturate(1.2);
-  border:1.5px solid rgba(255,255,255,.85);
+    linear-gradient(180deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,.2) 100%),
+    linear-gradient(165deg, rgba(255,224,238,.38) 0%, rgba(255,205,226,.3) 100%);
+  -webkit-backdrop-filter:blur(9px) saturate(1.15);
+          backdrop-filter:blur(9px) saturate(1.15);
   box-shadow:
-    inset 0 1px 1px rgba(255,255,255,.95),
-    inset 0 -12px 22px rgba(255,150,190,.28),
-    0 12px 30px rgba(255,120,165,.34),
-    0 0 30px rgba(255,130,175,.42);
-  /* glow rosado que respira */
-  animation:cdBreathe 4s ease-in-out infinite;
+    inset 0 1px 1px rgba(255,255,255,.8),
+    0 10px 26px rgba(214,98,140,.22),
+    0 0 20px rgba(255,130,175,.16);
 }
-/* sombra de cebra apenas perceptible (~4%) — la textura real vive en el fondo */
+/* filete interior: la doble línea clásica de las cartelas antiguas */
 .countdown-card::before{
-  content:""; position:absolute; inset:-30%;
-  z-index:-1; pointer-events:none;
-  background-image:var(--zebra);
-  background-size:96px 96px;
-  opacity:.04;
-  transform:rotate(-16deg);
+  content:""; position:absolute; inset:5px;
+  border:1px solid rgba(255,255,255,.85);
+  border-radius:8px;
+  pointer-events:none;
 }
-/* barrido HOLOGRÁFICO iridiscente que cruza el vidrio (siempre, sutil) */
+/* puntito perlado en cada esquina, como tachuela de placa */
 .countdown-card::after{
-  content:""; position:absolute; inset:0;
-  z-index:-1; pointer-events:none;
-  background:linear-gradient(115deg,
-    transparent 28%,
-    rgba(188,224,255,.18) 42%,
-    rgba(255,255,255,.4) 50%,
-    rgba(255,198,235,.2) 58%,
-    transparent 72%);
-  background-size:250% 100%;
-  animation:holoSweep 6.5s ease-in-out infinite;
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(circle at 12px 12px,                rgba(177,90,114,.5) 2px, transparent 2.6px),
+    radial-gradient(circle at calc(100% - 12px) 12px,   rgba(177,90,114,.5) 2px, transparent 2.6px),
+    radial-gradient(circle at 12px calc(100% - 12px),   rgba(177,90,114,.5) 2px, transparent 2.6px),
+    radial-gradient(circle at calc(100% - 12px) calc(100% - 12px), rgba(177,90,114,.5) 2px, transparent 2.6px);
 }
+/* filigranas (ramas con hojitas + destello central) arriba y abajo */
+.cd-flourish{
+  display:block; width:72%; height:auto;
+  margin:4px auto 2px;
+  color:var(--pink-deep); opacity:.7;
+}
+.cd-flourish-bottom{ margin:6px auto 0; transform:scaleY(-1); }
 .countdown-card .cd-q{
   position:relative;
   font-family:var(--font-date); text-transform:uppercase;
-  letter-spacing:.24em; font-weight:500; font-size:11px;
-  color:var(--pink-deep); opacity:.92; margin-bottom:14px;
+  letter-spacing:.3em; font-weight:500; font-size:10.5px;
+  color:var(--pink-deep); opacity:.92; margin:6px 0 10px;
   text-shadow:0 1px 2px rgba(255,255,255,.7);
 }
 .cd-grid{ display:flex; justify-content:center; align-items:center; gap:0; }
 
-/* cada valor es un módulo dentro del panel (sin caja propia) */
+/* cada valor es un módulo dentro de la cartela (sin caja propia) */
 .cd-grid .u{
   position:relative;
   flex:1;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   padding:4px 2px 2px;
-  background:none; border:none; box-shadow:none; border-radius:0;
-  -webkit-backdrop-filter:none; backdrop-filter:none;
 }
+/* números en serif clásica: elegantes, vintage y LEGIBLES */
 .cd-grid .n{
-  font-family:var(--font-script); font-weight:400; font-size:40px; line-height:1;
+  font-family:var(--font-serif); font-weight:600; font-size:34px; line-height:1;
   color:var(--pink-deep);
-  text-shadow:0 1px 4px rgba(255,255,255,.7), 0 0 14px rgba(255,90,150,.3);
+  text-shadow:0 1px 3px rgba(255,255,255,.75), 0 0 12px rgba(255,90,150,.22);
+  font-variant-numeric:lining-nums tabular-nums;
 }
 .cd-grid .l{
-  font-family:var(--font-date); text-transform:uppercase; letter-spacing:.1em;
-  font-size:8.5px; color:var(--pink-deep); opacity:.68; margin-top:7px;
+  font-family:var(--font-date); text-transform:uppercase; letter-spacing:.14em;
+  font-size:8.5px; color:var(--pink-deep); opacity:.68; margin-top:6px;
 }
-/* separador SPARKLE: los ":" se transforman en destellos de 4 puntas que titilan */
+/* separador: destello de 4 puntas, más chico y calmo (acento glam) */
 .cd-sep{
   flex:0 0 auto; align-self:center;
-  width:12px; height:12px;
+  width:9px; height:9px;
   font-size:0; line-height:0; color:transparent;
   background:radial-gradient(circle at 50% 45%, #ffffff 0%, #ffd9ec 28%, #ff95c2 66%, #d65f93 100%);
   clip-path:polygon(50% 0%, 57% 43%, 100% 50%, 57% 57%, 50% 100%, 43% 57%, 0% 50%, 43% 43%);
-  animation:sparkleTwinkle 2.6s ease-in-out infinite;
+  animation:sparkleTwinkle 3.4s ease-in-out infinite;
 }
 .cd-sep:nth-of-type(2){ animation-delay:.5s; }
 .cd-sep:nth-of-type(3){ animation-delay:1s; }
@@ -611,21 +609,6 @@ section.has-panel .poem strong{ color:#9c4a64; }
 }
 .cd-grid .n.cd-bump{ animation:cdBump .42s cubic-bezier(.22,1,.36,1); }
 
-/* glow que respira (timer) */
-@keyframes cdBreathe{
-  0%,100% { box-shadow:
-    inset 0 1px 1px rgba(255,255,255,.95), inset 0 -12px 22px rgba(255,150,190,.28),
-    0 12px 30px rgba(255,120,165,.34), 0 0 26px rgba(255,130,175,.4); }
-  50%     { box-shadow:
-    inset 0 1px 1px rgba(255,255,255,1), inset 0 -12px 22px rgba(255,150,190,.32),
-    0 14px 34px rgba(255,110,165,.42), 0 0 40px rgba(255,90,160,.7); }
-}
-/* barrido holográfico iridiscente */
-@keyframes holoSweep{
-  0%   { background-position:150% 0; }
-  55%  { background-position:-50% 0; }
-  100% { background-position:-50% 0; }
-}
 /* sparkles que titilan: pulso de brillo + giro sutil (clip-path no toma box-shadow → drop-shadow) */
 @keyframes sparkleTwinkle{
   0%,100% { opacity:.6;  transform:scale(.82) rotate(0deg);
@@ -812,6 +795,22 @@ section.closing .footer{
       <div class="title" style="margin-top:18px">¡Te espero!</div>
 
       <div class="countdown-card">
+        <!-- filigrana superior: ramas con voluta y hojita + destello central -->
+        <svg class="cd-flourish" viewBox="0 0 220 24" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+            <path d="M98 13 C84 13 79 5.5 67 7.5 C56 9.4 53 16.5 41 14.5 C31 12.8 27 7.5 19 9.5"/>
+            <path d="M67 7.5 C63.5 3.8 57.5 3.6 55.5 7"/>
+            <path d="M41 14.5 C38 18.4 32.5 19 30 16"/>
+            <circle cx="14.5" cy="10" r="1.5" fill="currentColor" stroke="none"/>
+            <g transform="translate(220,0) scale(-1,1)">
+              <path d="M98 13 C84 13 79 5.5 67 7.5 C56 9.4 53 16.5 41 14.5 C31 12.8 27 7.5 19 9.5"/>
+              <path d="M67 7.5 C63.5 3.8 57.5 3.6 55.5 7"/>
+              <path d="M41 14.5 C38 18.4 32.5 19 30 16"/>
+              <circle cx="14.5" cy="10" r="1.5" fill="currentColor" stroke="none"/>
+            </g>
+          </g>
+          <path fill="currentColor" d="M110 5 l1.7 5.3 5.3 1.7 -5.3 1.7 -1.7 5.3 -1.7 -5.3 -5.3 -1.7 5.3 -1.7 Z"/>
+        </svg>
         <div class="cd-q">¿Cuánto falta?</div>
         <div class="cd-grid" id="countdown">
           <div class="u"><span class="n" data-d>00</span><span class="l">días</span></div>
@@ -822,6 +821,22 @@ section.closing .footer{
           <span class="cd-sep">:</span>
           <div class="u"><span class="n" data-s>00</span><span class="l">seg</span></div>
         </div>
+        <!-- filigrana inferior (espejada) -->
+        <svg class="cd-flourish cd-flourish-bottom" viewBox="0 0 220 24" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+            <path d="M98 13 C84 13 79 5.5 67 7.5 C56 9.4 53 16.5 41 14.5 C31 12.8 27 7.5 19 9.5"/>
+            <path d="M67 7.5 C63.5 3.8 57.5 3.6 55.5 7"/>
+            <path d="M41 14.5 C38 18.4 32.5 19 30 16"/>
+            <circle cx="14.5" cy="10" r="1.5" fill="currentColor" stroke="none"/>
+            <g transform="translate(220,0) scale(-1,1)">
+              <path d="M98 13 C84 13 79 5.5 67 7.5 C56 9.4 53 16.5 41 14.5 C31 12.8 27 7.5 19 9.5"/>
+              <path d="M67 7.5 C63.5 3.8 57.5 3.6 55.5 7"/>
+              <path d="M41 14.5 C38 18.4 32.5 19 30 16"/>
+              <circle cx="14.5" cy="10" r="1.5" fill="currentColor" stroke="none"/>
+            </g>
+          </g>
+          <path fill="currentColor" d="M110 5 l1.7 5.3 5.3 1.7 -5.3 1.7 -1.7 5.3 -1.7 -5.3 -5.3 -1.7 5.3 -1.7 Z"/>
+        </svg>
       </div>
     </div>
   </section>
