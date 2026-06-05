@@ -529,6 +529,15 @@ section.has-panel .poem strong{ color:#9c4a64; }
             filter:drop-shadow(0 0 7px rgba(255,110,170,.95)); }
 }
 
+/* ============ FUNDIDO DEL LOOP (volver al hero sin pasear por la página) ============ */
+.loop-fade{
+  position:fixed; inset:0; z-index:9999;
+  background:radial-gradient(120% 85% at 50% 22%, #ffe1ec 0%, #f3d8e1 55%, #eec7d5 100%);
+  opacity:0; pointer-events:none;
+  transition:opacity .3s ease;
+}
+.loop-fade.on{ opacity:1; }
+
 /* ============ FOOTER (branding JANA.VIBECODING, con presencia) ============ */
 .footer{
   background:transparent;
@@ -1155,13 +1164,32 @@ const CONFIG = {
     const cur = nearestIdx();
     // Loop: en la última pantalla, seguir bajando vuelve al hero
     if (dir > 0 && cur === snapTargets.length - 1) {
-      smoothScrollTo(0, SCROLL_DURATION + 300);
+      loopToHero();
       return;
     }
     const next = Math.max(0, Math.min(snapTargets.length - 1, cur + dir));
     if (next === cur) return;
     smoothScrollTo(snapTargets[next].offsetTop, SCROLL_DURATION);
   }, { passive: false });
+
+  // ---- Volver al hero DIRECTO (efecto "rollo de ticket"): fundido rosa,
+  //      salto instantáneo arriba y reaparece — sin pasear por toda la página ----
+  const loopFade = document.createElement("div");
+  loopFade.className = "loop-fade";
+  document.body.appendChild(loopFade);
+  function loopToHero(){
+    if (isSmoothing) return;
+    isSmoothing = true;
+    loopFade.classList.add("on");
+    setTimeout(() => {
+      window.scrollTo(0, 0);           // salto directo, tapado por el fundido
+      updateProgress();
+      setTimeout(() => {
+        loopFade.classList.remove("on");
+        setTimeout(() => { isSmoothing = false; }, 300);
+      }, 120);
+    }, 320);
+  }
 
   // ---- Loop en mobile: swipe hacia arriba estando ya al final → vuelve al hero ----
   let touchY0 = null, wasAtBottom = false;
@@ -1175,7 +1203,7 @@ const CONFIG = {
   window.addEventListener("touchend", (e) => {
     if (touchY0 === null) return;
     const swipeUp = touchY0 - e.changedTouches[0].clientY; // >0 = el dedo subió = quiere seguir bajando
-    if (wasAtBottom && swipeUp > 60 && atBottom()) smoothScrollTo(0, 900);
+    if (wasAtBottom && swipeUp > 60 && atBottom()) loopToHero();
     touchY0 = null;
   }, { passive: true });
 })();
