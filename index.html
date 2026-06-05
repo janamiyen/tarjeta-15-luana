@@ -907,6 +907,17 @@ window.addEventListener("pageshow", () => { goTop(); setTimeout(goTop, 80); }); 
 // Y de yapa: antes de recargar/salir, subimos al tope — así aunque el
 // navegador "recuerde" la posición, lo que recuerda ya es el inicio.
 window.addEventListener("beforeunload", goTop);
+// GUARDIÁN: algunos navegadores (el de WhatsApp, Chrome restaurando pestañas)
+// restauran el scroll DESPUÉS de todo lo anterior e ignoran el "manual".
+// Durante los primeros 3s, si la página se mueve sola del inicio sin que el
+// usuario haya tocado nada, la devolvemos al hero. Al primer toque real
+// (dedo, rueda o teclado) el guardián se apaga y el scroll queda libre.
+let userMoved = false;
+["touchstart","wheel","keydown","pointerdown"].forEach(ev =>
+  window.addEventListener(ev, () => { userMoved = true; }, { passive:true, once:true })
+);
+const topGuard = setInterval(() => { if (!userMoved && window.scrollY > 2) goTop(); }, 100);
+setTimeout(() => clearInterval(topGuard), 3000);
 
 /* ============================================================
    CONFIG · EDITÁ SOLO ESTO
