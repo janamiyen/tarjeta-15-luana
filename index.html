@@ -528,10 +528,11 @@ section.has-panel .poem strong{ color:#9c4a64; }
   padding:18px 14px 16px;
   /* sticker Y2K: esquinas grandes y chicas alternadas (no rectángulo común) */
   border-radius:36px 16px 36px 16px;
-  /* GLOSSY GLASS: vidrio perlado translúcido + highlight glossy arriba */
+  /* GLOSSY GLASS con overlay más sólido: sigue translúcido y rosado,
+     pero con más cuerpo blanco/rosa para que los números se lean bien */
   background:
-    linear-gradient(180deg, rgba(255,255,255,.6) 0%, rgba(255,255,255,.08) 46%),
-    linear-gradient(165deg, rgba(255,214,230,.5) 0%, rgba(255,190,216,.38) 100%);
+    linear-gradient(180deg, rgba(255,255,255,.72) 0%, rgba(255,255,255,.3) 46%),
+    linear-gradient(165deg, rgba(255,222,236,.72) 0%, rgba(255,202,224,.6) 100%);
   -webkit-backdrop-filter:blur(11px) saturate(1.2);
           backdrop-filter:blur(11px) saturate(1.2);
   border:1.5px solid rgba(255,255,255,.9);
@@ -594,7 +595,7 @@ section.has-panel .poem strong{ color:#9c4a64; }
   position:relative;
   font-family:var(--font-date); text-transform:uppercase;
   letter-spacing:.26em; font-weight:500; font-size:11px;
-  color:var(--pink-deep); opacity:.92; margin:2px 0 12px;
+  color:#A94F6B; opacity:.9; margin:2px 0 12px;
   text-shadow:0 1px 2px rgba(255,255,255,.7);
 }
 .cd-grid{ display:flex; justify-content:center; align-items:center; gap:0; }
@@ -606,18 +607,16 @@ section.has-panel .poem strong{ color:#9c4a64; }
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   padding:4px 2px 2px;
 }
-/* números CHROME ROSA: degradé metálico clipeado al texto — joyita, y legibles */
+/* números: color pleno y legible (la joya la ponen el charm y las gemas) */
 .cd-grid .n{
   font-family:var(--font-serif); font-weight:600; font-size:36px; line-height:1;
-  background:linear-gradient(180deg, #ffffff 6%, #ffc9e0 38%, #e786ad 62%, #b15a72 96%);
-  -webkit-background-clip:text; background-clip:text;
-  -webkit-text-fill-color:transparent; color:#b15a72;
-  filter:drop-shadow(0 1px 1px rgba(255,255,255,.8)) drop-shadow(0 0 8px rgba(255,90,150,.3));
+  color:#A94F6B; opacity:1;
+  text-shadow:0 1px 2px rgba(255,255,255,.75), 0 0 10px rgba(255,90,150,.18);
   font-variant-numeric:lining-nums tabular-nums;
 }
 .cd-grid .l{
   font-family:var(--font-date); text-transform:uppercase; letter-spacing:.12em;
-  font-size:8.5px; color:var(--pink-deep); opacity:.68; margin-top:6px;
+  font-size:8.5px; color:#B85D78; opacity:.8; margin-top:6px;
 }
 /* separador SPARKLE: destellos de 4 puntas que titilan (no perlas, no arabescos) */
 .cd-sep{
