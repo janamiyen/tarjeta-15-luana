@@ -48,6 +48,11 @@
   /* Zebra / animal print tono-sobre-tono (vectorial, recreado en CSS).
      Trazos rosa ondulados; se usa a opacidad muy baja en panel y botones. */
   --zebra:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='92' height='92' viewBox='0 0 92 92'%3E%3Cg fill='none' stroke='%23df6f9c' stroke-width='11' stroke-linecap='round'%3E%3Cpath d='M15 -12 C 37 18 -7 50 15 94'/%3E%3Cpath d='M46 -12 C 68 18 24 50 46 94'/%3E%3Cpath d='M77 -12 C 99 18 55 50 77 94'/%3E%3C/g%3E%3C/svg%3E");
+  /* Zebra ORGÁNICA (countdown): trazos horizontales fluidos de anchos y
+     curvas DISTINTOS, con ramas y espaciado irregular — como piel real,
+     no rayado de cortina. El mosaico es tan grande (340px) que dentro
+     de la cartela nunca llega a repetirse. */
+  --zebra-organic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23df6f9c' stroke-linecap='round'%3E%3Cpath stroke-width='7' d='M30 8 C 70 0 110 14 150 6'/%3E%3Cpath stroke-width='10' d='M-10 30 C 40 16 90 42 210 24'/%3E%3Cpath stroke-width='14' d='M-10 60 C 50 46 80 78 150 62 C 180 55 195 62 212 56'/%3E%3Cpath stroke-width='8' d='M70 66 C 95 80 120 90 150 88'/%3E%3Cpath stroke-width='12' d='M-10 98 C 30 86 70 112 130 100 C 170 92 190 104 212 96'/%3E%3Cpath stroke-width='9' d='M-12 134 C 50 122 90 150 210 130'/%3E%3Cpath stroke-width='13' d='M20 162 C 60 152 90 170 130 162'/%3E%3Cpath stroke-width='8' d='M120 174 C 160 166 185 180 214 172'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 *{ margin:0; padding:0; box-sizing:border-box; }
@@ -543,14 +548,16 @@ section.has-panel .poem strong{ color:#9c4a64; }
     0 0 26px rgba(255,130,175,.4);
   animation:cdBreathe 4s ease-in-out infinite;
 }
-/* zebra visible pero tono-sobre-tono, recortada por la forma del sticker */
+/* zebra ORGÁNICA casi invisible: textura, no protagonista. Escala grande
+   (340px) → dentro de la cartela no se repite, se siente piel, no patrón */
 .countdown-card::before{
   content:""; position:absolute; inset:0;
   border-radius:inherit;
   pointer-events:none;
-  background-image:var(--zebra);
-  background-size:96px 96px;
-  opacity:.1;
+  background-image:var(--zebra-organic);
+  background-size:340px 340px;
+  background-position:center 30%;
+  opacity:.04;
 }
 /* barrido CHROME iridiscente que cruza el vidrio (sutil, siempre) */
 .countdown-card::after{
