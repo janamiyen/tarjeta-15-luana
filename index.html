@@ -543,14 +543,14 @@ section.has-panel .poem strong{ color:#9c4a64; }
     0 0 26px rgba(255,130,175,.4);
   animation:cdBreathe 4s ease-in-out infinite;
 }
-/* zebra casi imperceptible, recortada por la forma del sticker */
+/* zebra visible pero tono-sobre-tono, recortada por la forma del sticker */
 .countdown-card::before{
   content:""; position:absolute; inset:0;
   border-radius:inherit;
   pointer-events:none;
   background-image:var(--zebra);
   background-size:96px 96px;
-  opacity:.045;
+  opacity:.1;
 }
 /* barrido CHROME iridiscente que cruza el vidrio (sutil, siempre) */
 .countdown-card::after{
