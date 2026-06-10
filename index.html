@@ -62,7 +62,7 @@
 *{ margin:0; padding:0; box-sizing:border-box; }
 html{
   scroll-behavior:smooth;
-  scroll-snap-type: y mandatory;   /* snap automático entre secciones */
+  scroll-snap-type: y proximity;   /* se acomoda a cada sección pero deja scrollear fluido */
 }
 body{
   font-family:var(--font-body);
@@ -101,8 +101,7 @@ section{
   z-index:1;
   min-height:100vh;
   min-height:100dvh;                /* viewport real en mobile */
-  scroll-snap-align:start;          /* punto de snap */
-  scroll-snap-stop:always;          /* no se saltea ninguna */
+  scroll-snap-align:start;          /* punto de snap (proximity: no obliga a frenar) */
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -357,13 +356,13 @@ section.has-panel .poem strong{ color:#9c4a64; }
      fondo rosa, no es B&N de juguete. Brillo de cristal arriba. */
   background:
     linear-gradient(150deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,0) 38%, rgba(255,255,255,.3) 60%, rgba(255,255,255,0) 100%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 320' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='240' height='320' fill='%23f3cbdb'/%3E%3Cg fill='none' stroke='%23170f14' stroke-linecap='round'%3E%3Cpath stroke-width='15' d='M5 -10C25 50 -10 110 12 170 30 220 0 280 14 340'/%3E%3Cpath stroke-width='11' d='M45 -10C65 50 30 110 52 170 70 220 40 280 54 340'/%3E%3Cpath stroke-width='18' d='M88 -10C108 50 73 110 95 170 113 220 83 280 97 340'/%3E%3Cpath stroke-width='11' d='M132 -10C152 50 117 110 139 170 157 220 127 280 141 340'/%3E%3Cpath stroke-width='16' d='M176 -10C196 50 161 110 183 170 201 220 171 280 185 340'/%3E%3Cpath stroke-width='11' d='M220 -10C240 50 205 110 227 170 245 220 215 280 229 340'/%3E%3C/g%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 320' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='240' height='320' fill='%23f1eef0'/%3E%3Cg fill='none' stroke='%23170f14' stroke-linecap='round'%3E%3Cpath stroke-width='15' d='M5 -10C25 50 -10 110 12 170 30 220 0 280 14 340'/%3E%3Cpath stroke-width='11' d='M45 -10C65 50 30 110 52 170 70 220 40 280 54 340'/%3E%3Cpath stroke-width='18' d='M88 -10C108 50 73 110 95 170 113 220 83 280 97 340'/%3E%3Cpath stroke-width='11' d='M132 -10C152 50 117 110 139 170 157 220 127 280 141 340'/%3E%3Cpath stroke-width='16' d='M176 -10C196 50 161 110 183 170 201 220 171 280 185 340'/%3E%3Cpath stroke-width='11' d='M220 -10C240 50 205 110 227 170 245 220 215 280 229 340'/%3E%3C/g%3E%3C/svg%3E");
   background-size:cover; background-position:center;
   box-shadow:
     inset 0 1px 2px rgba(255,255,255,.85),
     inset 0 0 0 1px rgba(0,0,0,.4),
-    0 16px 36px rgba(40,18,30,.45),
-    0 0 18px rgba(255,150,190,.25);
+    0 16px 36px rgba(30,18,26,.5),
+    0 0 16px rgba(255,255,255,.22);
 }
 .glam .ph{
   width:226px; aspect-ratio:4/5; display:block;
@@ -1191,9 +1190,6 @@ body.sobre-locked{ overflow:hidden; }
           <span class="front" style="transform:translate(-50%,-50%) translate(-116px,90px) rotate(-8deg) scale(.78)"><svg class="bloom glassy"><use href="#symBloom"/></svg></span>
           <span class="front" style="transform:translate(-50%,-50%) translate(108px,-118px) rotate(14deg) scale(.5)"><svg class="bloom glassy"><use href="#symBloom"/></svg></span>
 
-          <!-- MARIPOSAS (flotan suave) -->
-          <span class="front" style="transform:translate(-50%,-50%) translate(122px,-128px) rotate(-12deg)"><svg class="bfly flit"><use href="#symBfly"/></svg></span>
-          <span class="front" style="transform:translate(-50%,-50%) translate(-120px,28px) rotate(10deg) scale(.7)"><svg class="bfly flit" style="animation-delay:1.4s"><use href="#symBfly"/></svg></span>
 
           <!-- CRISTALES facetados (centellean en los bordes) -->
           <span class="front" style="transform:translate(-50%,-50%) translate(-8px,-156px) scale(.95)"><svg class="gem2 glint"><use href="#symGem"/></svg></span>
