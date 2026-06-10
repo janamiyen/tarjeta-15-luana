@@ -931,15 +931,17 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .footer a#btn-brand:hover{ opacity:1; }
 /* pantalla de cierre: foto enmarcada + nombre debajo, footer pegado al fondo
    minimal, todo en una pantalla sin scroll extra */
-section.closing{ justify-content:center; gap:20px; padding-top:5vh; padding-bottom:5vh; }
-section.closing .glam .ph{ width:232px; }   /* tercera foto MÁS grande */
+section.closing{ justify-content:center; gap:12px; padding-top:3vh; padding-bottom:4vh; }
+section.closing .glam .ph{ width:226px; aspect-ratio:5 / 7; }   /* tercera foto un poco MÁS larga */
 /* "Luana" pegada a la foto y a un costado (abajo-izquierda, inclinada) → distinta al hero */
 section.closing .photo-name-img{
-  width:172px; margin:-14px 0 0; align-self:flex-start; margin-left:7%;
+  width:170px; margin:-16px 0 0; align-self:flex-start; margin-left:7%;
   transform:rotate(-3deg);
 }
-/* Footer en FLUJO (no pegado al borde) → nombre + instagram quedan dentro del video */
+/* Footer en FLUJO (no pegado al borde) → nombre + instagram quedan dentro del video.
+   Compacto para que entre completo aun en celus con barra de navegador alta. */
 section.closing .footer{ position:static; padding:0; z-index:6; }
+section.closing .end-controls{ margin-bottom:10px; }
 
 /* ============ ANIMACIÓN HERO (intro al cargar) ============ */
 .hero .inner{ will-change:transform, opacity; }
