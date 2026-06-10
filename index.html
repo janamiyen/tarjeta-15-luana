@@ -1926,11 +1926,11 @@ const CONFIG = {
   if (btnUp) btnUp.addEventListener("click", () => {
     loopFade.classList.add("on");          // fundido rosa
     setTimeout(() => {
-      window.scrollTo(0, 0);
-      let n = 0;                            // clavamos arriba ~250ms (le gana al snap/restauración del celu)
-      const pin = setInterval(() => { window.scrollTo(0, 0); if (++n > 10) clearInterval(pin); }, 25);
-      setTimeout(() => loopFade.classList.remove("on"), 220);
-    }, 300);
+      goTop();                              // goTop resetea window + html + body (anda en celu)
+      let n = 0;
+      const pin = setInterval(() => { goTop(); if (++n > 12) clearInterval(pin); }, 25);
+      setTimeout(() => loopFade.classList.remove("on"), 240);
+    }, 280);
   });
 
   // ---- Loop en mobile: swipe hacia arriba estando ya en la pantalla de cierre → vuelve al hero ----
