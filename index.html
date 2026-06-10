@@ -1936,11 +1936,10 @@ const CONFIG = {
   // Botón "volver arriba" del footer → mismo fundido del loop (forma confiable de subir)
   const btnUp = document.getElementById("btn-up");
   if (btnUp) btnUp.addEventListener("click", () => {
-    loopFade.classList.add("on");          // fundido rosa que tapa la recarga
-    setTimeout(() => {
-      try { sessionStorage.setItem("lu_skipSobre", "1"); } catch (e) {}
-      location.reload();                   // recarga → cae directo en el hero (saltea el sobre)
-    }, 220);
+    // Recarga INMEDIATA dentro del gesto (en iOS, diferirla con setTimeout la bloquea
+    // y deja la pantalla congelada). Cae directo en el hero (saltea el sobre).
+    try { sessionStorage.setItem("lu_skipSobre", "1"); } catch (e) {}
+    location.reload();
   });
 
   // ---- Loop en mobile: swipe hacia arriba estando ya en la pantalla de cierre → vuelve al hero ----
@@ -1966,7 +1965,11 @@ const CONFIG = {
     if (touchY0 === null) return;
     if (document.querySelector(".modal-overlay.open")) { touchY0 = null; return; } // con modal abierto, nada de loop
     const swipeUp = touchY0 - e.changedTouches[0].clientY; // >0 = el dedo subió = quiere seguir bajando
-    if (wasAtEnd && swipeUp > 45 && (onClosingScreen() || atBottom())) loopToHero();
+    if (wasAtEnd && swipeUp > 45 && (onClosingScreen() || atBottom())) {
+      // Volver al hero por recarga (en iOS el scroll programático no responde acá)
+      try { sessionStorage.setItem("lu_skipSobre", "1"); } catch (er) {}
+      location.reload();
+    }
     touchY0 = null;
   }, { passive: true });
 })();
