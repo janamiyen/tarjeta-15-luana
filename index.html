@@ -1501,8 +1501,10 @@ goTop();
    Se actualiza cuando esa barra aparece/desaparece al scrollear. */
 const setAppH = () => document.documentElement.style.setProperty("--app-h", window.innerHeight + "px");
 setAppH();
-window.addEventListener("resize", setAppH);
-window.addEventListener("orientationchange", setAppH);
+/* OJO: NO escuchamos 'resize' a propósito. En mobile, al scrollear hacia ARRIBA
+   reaparece la barra del navegador → dispararía resize → las secciones se
+   reajustaban en pleno scroll y se "tildaba". Fijamos el alto una vez (y al rotar). */
+window.addEventListener("orientationchange", () => setTimeout(setAppH, 250));
 // El navegador (sobre todo en celu) puede restaurar el scroll DESPUÉS de que
 // corre este script (cuando terminan de cargar fuentes/imágenes), así que
 // repetimos el "ir arriba" en cada momento clave de la carga:
@@ -1725,7 +1727,11 @@ const CONFIG = {
     sobreAbierto = true;
     sobreIntro.classList.add("is-open");
     document.body.classList.remove("sobre-locked");
+    // Forzar ARRIBA con insistencia: algunos celus / el navegador de WhatsApp
+    // restauran el scroll al footer al recargar, y el sobre lo destapaba ahí.
     goTop();
+    let pinN = 0;
+    const pinTop = setInterval(() => { goTop(); if (++pinN > 12) clearInterval(pinTop); }, 25);
     audio.play().catch(()=>{});            // gesto del usuario → la música puede sonar
     setTimeout(() => { sobreIntro.style.display = "none"; }, 1050);
   }
@@ -1901,18 +1907,21 @@ const CONFIG = {
   // estás una sección antes, su techo está a una pantalla de distancia → no.
   function onClosingScreen(){
     const r = snapTargets[snapTargets.length - 1].getBoundingClientRect();
-    return r.top < window.innerHeight * 0.25;
+    return r.top < window.innerHeight * 0.4;
+  }
+  function atBottom(){
+    return window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 6;
   }
   let touchY0 = null, wasAtEnd = false;
   window.addEventListener("touchstart", (e) => {
     touchY0 = e.touches[0].clientY;
-    wasAtEnd = onClosingScreen(); // medir ANTES del swipe, así el gesto que LLEGA al cierre no dispara el loop
+    wasAtEnd = onClosingScreen() || atBottom(); // medir ANTES del swipe, así el gesto que LLEGA al cierre no dispara el loop
   }, { passive: true });
   window.addEventListener("touchend", (e) => {
     if (touchY0 === null) return;
     if (document.querySelector(".modal-overlay.open")) { touchY0 = null; return; } // con modal abierto, nada de loop
     const swipeUp = touchY0 - e.changedTouches[0].clientY; // >0 = el dedo subió = quiere seguir bajando
-    if (wasAtEnd && swipeUp > 60 && onClosingScreen()) loopToHero();
+    if (wasAtEnd && swipeUp > 45 && (onClosingScreen() || atBottom())) loopToHero();
     touchY0 = null;
   }, { passive: true });
 })();
