@@ -61,8 +61,11 @@
 
 *{ margin:0; padding:0; box-sizing:border-box; }
 html{
-  scroll-behavior:smooth;
-  scroll-snap-type: y proximity;   /* se acomoda a cada sección pero deja scrollear fluido */
+  /* sin scroll-behavior:smooth a propósito: el JS maneja el scroll suave y el salto
+     del loop; el smooth de CSS peleaba con eso y trababa la pantalla al final. */
+  scroll-snap-type: y mandatory;   /* te lleva directo a cada sección... */
+  /* ...pero SIN scroll-snap-stop:always (lo sacamos de section): así, cuando vas
+     rápido, podés pasar fluido sin frenar obligado en cada pantalla. */
 }
 body{
   font-family:var(--font-body);
