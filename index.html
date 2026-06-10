@@ -1509,7 +1509,7 @@ body.sobre-locked{ overflow:hidden; }
    siempre empiece desde la primera pantalla.
    ============================================================ */
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-const goTop = () => window.scrollTo(0, 0);
+const goTop = () => { window.scrollTo(0, 0); const d = document.documentElement, b = document.body; if (d) d.scrollTop = 0; if (b) b.scrollTop = 0; };
 goTop();
 
 /* Altura REAL del viewport (px) → evita los "huecos" entre secciones en mobile y
@@ -1742,14 +1742,21 @@ const CONFIG = {
     if (sobreAbierto || !sobreIntro) return;
     sobreAbierto = true;
     sobreIntro.classList.add("is-open");
-    document.body.classList.remove("sobre-locked");
-    // Forzar ARRIBA con insistencia: algunos celus / el navegador de WhatsApp
-    // restauran el scroll al footer al recargar, y el sobre lo destapaba ahí.
+    // Forzar ARRIBA mientras el body sigue BLOQUEADO: así la restauración de scroll
+    // del celu/WhatsApp no puede moverlo. Recién soltamos el scroll cuando ya está
+    // en la portada → al abrir SIEMPRE arranca desde el principio, no donde quedó.
     goTop();
     let pinN = 0;
-    const pinTop = setInterval(() => { goTop(); if (++pinN > 12) clearInterval(pinTop); }, 25);
+    const pinTop = setInterval(() => {
+      goTop();
+      if (++pinN >= 20) {                  // ~500ms clavado arriba
+        clearInterval(pinTop);
+        document.body.classList.remove("sobre-locked");
+        goTop();
+      }
+    }, 25);
     audio.play().catch(()=>{});            // gesto del usuario → la música puede sonar
-    setTimeout(() => { sobreIntro.style.display = "none"; }, 1050);
+    setTimeout(() => { sobreIntro.style.display = "none"; }, 1100);
   }
   if (sobreOpen) sobreOpen.addEventListener("click", abrirSobre);
 
