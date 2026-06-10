@@ -1509,7 +1509,7 @@ body.sobre-locked{ overflow:hidden; }
    siempre empiece desde la primera pantalla.
    ============================================================ */
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-const goTop = () => { window.scrollTo(0, 0); const d = document.documentElement, b = document.body; if (d) d.scrollTop = 0; if (b) b.scrollTop = 0; };
+const goTop = () => { try { window.scrollTo(0, 0); } catch(e){} const se = document.scrollingElement, d = document.documentElement, b = document.body; if (se) se.scrollTop = 0; if (d) d.scrollTop = 0; if (b) b.scrollTop = 0; };
 goTop();
 
 /* Altura REAL del viewport (px) → evita los "huecos" entre secciones en mobile y
@@ -1521,6 +1521,18 @@ setAppH();
    reaparece la barra del navegador → dispararía resize → las secciones se
    reajustaban en pleno scroll y se "tildaba". Fijamos el alto una vez (y al rotar). */
 window.addEventListener("orientationchange", () => setTimeout(setAppH, 250));
+
+/* "Volver arriba" recarga la página (forma 100% confiable en iPhone/Android/etc.).
+   Si venimos de esa recarga, salteamos el sobre y caemos directo en el hero. */
+try {
+  if (sessionStorage.getItem("lu_skipSobre")) {
+    sessionStorage.removeItem("lu_skipSobre");
+    const si = document.getElementById("sobre-intro");
+    if (si) si.style.display = "none";
+    if (document.body) document.body.classList.remove("sobre-locked");
+    goTop();
+  }
+} catch (e) {}
 // El navegador (sobre todo en celu) puede restaurar el scroll DESPUÉS de que
 // corre este script (cuando terminan de cargar fuentes/imágenes), así que
 // repetimos el "ir arriba" en cada momento clave de la carga:
@@ -1924,13 +1936,11 @@ const CONFIG = {
   // Botón "volver arriba" del footer → mismo fundido del loop (forma confiable de subir)
   const btnUp = document.getElementById("btn-up");
   if (btnUp) btnUp.addEventListener("click", () => {
-    loopFade.classList.add("on");          // fundido rosa
+    loopFade.classList.add("on");          // fundido rosa que tapa la recarga
     setTimeout(() => {
-      goTop();                              // goTop resetea window + html + body (anda en celu)
-      let n = 0;
-      const pin = setInterval(() => { goTop(); if (++n > 12) clearInterval(pin); }, 25);
-      setTimeout(() => loopFade.classList.remove("on"), 240);
-    }, 280);
+      try { sessionStorage.setItem("lu_skipSobre", "1"); } catch (e) {}
+      location.reload();                   // recarga → cae directo en el hero (saltea el sobre)
+    }, 220);
   });
 
   // ---- Loop en mobile: swipe hacia arriba estando ya en la pantalla de cierre → vuelve al hero ----
