@@ -1509,7 +1509,18 @@ body.sobre-locked{ overflow:hidden; }
    siempre empiece desde la primera pantalla.
    ============================================================ */
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-const goTop = () => { try { window.scrollTo(0, 0); } catch(e){} const se = document.scrollingElement, d = document.documentElement, b = document.body; if (se) se.scrollTop = 0; if (d) d.scrollTop = 0; if (b) b.scrollTop = 0; };
+let _snapTimer = null;
+const goTop = () => {
+  const d = document.documentElement, b = document.body;
+  if (d) d.style.scrollSnapType = "none";   // iOS Safari: el snap 'mandatory' BLOQUEA el scroll por código
+  try { window.scrollTo(0, 0); } catch (e) {}
+  const se = document.scrollingElement;
+  if (se) se.scrollTop = 0;
+  if (d) d.scrollTop = 0;
+  if (b) b.scrollTop = 0;
+  clearTimeout(_snapTimer);                  // reactivar el snap recién después (debounce)
+  _snapTimer = setTimeout(() => { if (d) d.style.scrollSnapType = ""; }, 140);
+};
 goTop();
 
 /* Altura REAL del viewport (px) → evita los "huecos" entre secciones en mobile y
