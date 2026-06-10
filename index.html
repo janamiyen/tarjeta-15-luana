@@ -931,14 +931,15 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .footer a#btn-brand:hover{ opacity:1; }
 /* pantalla de cierre: foto enmarcada + nombre debajo, footer pegado al fondo
    minimal, todo en una pantalla sin scroll extra */
-section.closing{ justify-content:center; padding-top:9vh; padding-bottom:92px; }
-section.closing .glam .ph{ width:200px; }   /* glam un toque menor para que entren nombre + footer */
-section.closing .photo-name-img{ width:190px; margin-top:20px; }   /* "Luana" más grande y pegada a la foto */
-section.closing .footer{
-  position:absolute; left:0; right:0; bottom:0;
-  padding:0 24px 22px;
-  z-index:6;   /* por encima de .inner (z-index:2) para que los botones reciban el tap */
+section.closing{ justify-content:center; gap:20px; padding-top:5vh; padding-bottom:5vh; }
+section.closing .glam .ph{ width:232px; }   /* tercera foto MÁS grande */
+/* "Luana" pegada a la foto y a un costado (abajo-izquierda, inclinada) → distinta al hero */
+section.closing .photo-name-img{
+  width:172px; margin:-14px 0 0; align-self:flex-start; margin-left:7%;
+  transform:rotate(-3deg);
 }
+/* Footer en FLUJO (no pegado al borde) → nombre + instagram quedan dentro del video */
+section.closing .footer{ position:static; padding:0; z-index:6; }
 
 /* ============ ANIMACIÓN HERO (intro al cargar) ============ */
 .hero .inner{ will-change:transform, opacity; }
