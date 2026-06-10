@@ -355,21 +355,24 @@ section.has-panel .poem strong{ color:#9c4a64; }
 
 /* ============ TEEN · MARCO GLAM (espejo deluxe, cromo rosa-plata) ============ */
 .glam{
-  position:relative; padding:8px; border-radius:104px 104px 14px 14px;
-  /* Glam: cebra ONDULADA (rosa + negro + blanco) sobre base blush → dialoga con el
-     fondo rosa, no es B&N de juguete. Brillo de cristal arriba. */
+  position:relative; padding:6px; border-radius:104px 104px 14px 14px;
+  /* Cebra GLITTER rosa + negro (ref Pinterest): base rosa con rayas negras onduladas,
+     capa de destellos (glitter) en 'screen' y brillo de cristal arriba. */
   background:
-    linear-gradient(150deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,0) 38%, rgba(255,255,255,.3) 60%, rgba(255,255,255,0) 100%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 320' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='240' height='320' fill='%23f1eef0'/%3E%3Cg fill='none' stroke='%23170f14' stroke-linecap='round'%3E%3Cpath stroke-width='15' d='M5 -10C25 50 -10 110 12 170 30 220 0 280 14 340'/%3E%3Cpath stroke-width='11' d='M45 -10C65 50 30 110 52 170 70 220 40 280 54 340'/%3E%3Cpath stroke-width='18' d='M88 -10C108 50 73 110 95 170 113 220 83 280 97 340'/%3E%3Cpath stroke-width='11' d='M132 -10C152 50 117 110 139 170 157 220 127 280 141 340'/%3E%3Cpath stroke-width='16' d='M176 -10C196 50 161 110 183 170 201 220 171 280 185 340'/%3E%3Cpath stroke-width='11' d='M220 -10C240 50 205 110 227 170 245 220 215 280 229 340'/%3E%3C/g%3E%3C/svg%3E");
-  background-size:cover; background-position:center;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 0.85 0 0 0 0 0.92 0 0 0 8 -3.5'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23s)'/%3E%3C/svg%3E"),
+    linear-gradient(150deg, rgba(255,255,255,.32) 0%, rgba(255,255,255,0) 42%, rgba(255,255,255,.16) 64%, rgba(255,255,255,0) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 320' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='240' height='320' fill='%23d44e8a'/%3E%3Cg fill='none' stroke='%230c090b' stroke-linecap='round'%3E%3Cpath stroke-width='17' d='M5 -10C25 50 -10 110 12 170 30 220 0 280 14 340'/%3E%3Cpath stroke-width='13' d='M45 -10C65 50 30 110 52 170 70 220 40 280 54 340'/%3E%3Cpath stroke-width='20' d='M88 -10C108 50 73 110 95 170 113 220 83 280 97 340'/%3E%3Cpath stroke-width='13' d='M132 -10C152 50 117 110 139 170 157 220 127 280 141 340'/%3E%3Cpath stroke-width='18' d='M176 -10C196 50 161 110 183 170 201 220 171 280 185 340'/%3E%3Cpath stroke-width='13' d='M220 -10C240 50 205 110 227 170 245 220 215 280 229 340'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 78px 78px, cover, cover;
+  background-position: center;
+  background-blend-mode: screen, normal, normal;
   box-shadow:
-    inset 0 1px 2px rgba(255,255,255,.85),
-    inset 0 0 0 1px rgba(0,0,0,.4),
-    0 16px 36px rgba(30,18,26,.5),
-    0 0 16px rgba(255,255,255,.22);
+    inset 0 1px 2px rgba(255,255,255,.8),
+    inset 0 0 0 1px rgba(0,0,0,.5),
+    0 16px 36px rgba(25,8,18,.55),
+    0 0 18px rgba(255,120,180,.3);
 }
 .glam .ph{
-  width:226px; aspect-ratio:4/5; display:block;
+  width:248px; aspect-ratio:4/5; display:block;
   background-size:cover; background-position:center 16%;
   border-radius:96px 96px 7px 7px; box-shadow:inset 0 0 0 1px rgba(0,0,0,.25);
 }
@@ -929,7 +932,7 @@ section.has-panel .poem strong{ color:#9c4a64; }
 /* pantalla de cierre: foto enmarcada + nombre debajo, footer pegado al fondo
    minimal, todo en una pantalla sin scroll extra */
 section.closing{ justify-content:center; padding-top:9vh; padding-bottom:92px; }
-section.closing .glam .ph{ width:178px; }   /* glam un toque menor para que entren nombre + footer */
+section.closing .glam .ph{ width:200px; }   /* glam un toque menor para que entren nombre + footer */
 section.closing .photo-name-img{ width:170px; margin-top:42px; }   /* "Luana" bien bajo respecto a la foto */
 section.closing .footer{
   position:absolute; left:0; right:0; bottom:0;
@@ -1026,6 +1029,10 @@ body.sobre-locked{ overflow:hidden; }
 }
 .music-btn:hover{ transform:scale(1.07); }
 .music-btn svg{ width:17px; height:17px; fill:currentColor; margin-left:1px; }
+
+/* Controles del footer: volver arriba + pausa */
+.end-controls{ display:flex; gap:14px; justify-content:center; margin-bottom:18px; }
+#btn-up svg{ fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; margin-left:0; }
 
 .swipe-cue{ margin-top:40px; display:flex; flex-direction:column; align-items:center; gap:7px;
   color:var(--pink); }
@@ -1457,6 +1464,14 @@ body.sobre-locked{ overflow:hidden; }
     </div>
 
     <footer class="footer">
+      <div class="end-controls">
+        <button class="music-btn" id="btn-up" type="button" aria-label="Volver al inicio">
+          <svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+        </button>
+        <button class="music-btn" id="btn-music-foot" type="button" aria-label="Pausar / reproducir música">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
       <div class="brand" data-brand>JANA.VIBECODING</div>
       <a id="btn-brand" target="_blank" rel="noopener">Consultá por nuestras invitaciones aquí</a>
     </footer>
@@ -1701,7 +1716,7 @@ const CONFIG = {
   }
 
   // ---- Música DENTRO de la página (archivo local en assets) ----
-  const music = document.getElementById("btn-music");
+  const musicBtns = ["btn-music", "btn-music-foot"].map(id => document.getElementById(id)).filter(Boolean);
   const ICON_PLAY  = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
   const ICON_PAUSE = '<svg viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
 
@@ -1710,13 +1725,13 @@ const CONFIG = {
   audio.preload = "auto";
   let playing = false;
 
-  if (music) music.addEventListener("click", function(){
-    if (playing){ audio.pause(); }
-    else { audio.play().catch(()=>{}); }
-  });
-  audio.addEventListener("play",  function(){ playing = true;  if (music) music.innerHTML = ICON_PAUSE; });
-  audio.addEventListener("pause", function(){ playing = false; if (music) music.innerHTML = ICON_PLAY;  });
-  audio.addEventListener("ended", function(){ playing = false; if (music) music.innerHTML = ICON_PLAY;  });
+  const setMusicIcon = html => musicBtns.forEach(b => { b.innerHTML = html; });
+  musicBtns.forEach(b => b.addEventListener("click", function(){
+    if (playing){ audio.pause(); } else { audio.play().catch(()=>{}); }
+  }));
+  audio.addEventListener("play",  function(){ playing = true;  setMusicIcon(ICON_PAUSE); });
+  audio.addEventListener("pause", function(){ playing = false; setMusicIcon(ICON_PLAY);  });
+  audio.addEventListener("ended", function(){ playing = false; setMusicIcon(ICON_PLAY);  });
 
   // ---- Sobre de apertura: franja invisible; al abrir, arranca la música ----
   const sobreIntro = document.getElementById("sobre-intro");
@@ -1897,6 +1912,10 @@ const CONFIG = {
       }, 120);
     }, 320);
   }
+
+  // Botón "volver arriba" del footer → mismo fundido del loop (forma confiable de subir)
+  const btnUp = document.getElementById("btn-up");
+  if (btnUp) btnUp.addEventListener("click", loopToHero);
 
   // ---- Loop en mobile: swipe hacia arriba estando ya en la pantalla de cierre → vuelve al hero ----
   // OJO (celu): la pantalla de cierre mide 100vh pero la ventana visible es
