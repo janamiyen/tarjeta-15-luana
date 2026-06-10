@@ -1927,7 +1927,14 @@ const CONFIG = {
 
   // Botón "volver arriba" del footer → mismo fundido del loop (forma confiable de subir)
   const btnUp = document.getElementById("btn-up");
-  if (btnUp) btnUp.addEventListener("click", () => { goTop(); });   // scroll directo al hero (sin overlay ni reload)
+  if (btnUp) {
+    // En iOS el scroll por código anda DENTRO del gesto (touchend), no desde el
+    // 'click' diferido. Por eso el loop (touchend) sube y el botón (click) no.
+    // Escuchamos touchend; preventDefault evita el doble disparo con el click.
+    const subir = (e) => { if (e && e.cancelable) e.preventDefault(); goTop(); };
+    btnUp.addEventListener("touchend", subir, { passive: false });
+    btnUp.addEventListener("click", subir);   // fallback desktop
+  }
 
   // ---- Loop en mobile: swipe hacia arriba estando ya en la pantalla de cierre → vuelve al hero ----
   // OJO (celu): la pantalla de cierre mide 100vh pero la ventana visible es
