@@ -987,7 +987,7 @@ body.sobre-locked{ overflow:hidden; }
 #sobre-intro{
   position:fixed; inset:0; z-index:9999;
   display:flex; align-items:center; justify-content:center;
-  background:radial-gradient(120% 90% at 50% 38%, #f3cfdd 0%, #e9c0d0 55%, #ddb0c3 100%);
+  background:radial-gradient(120% 90% at 50% 40%, #6e1438 0%, #45102a 65%, #2c091b 100%);
   transition:opacity .9s ease;
 }
 #sobre-intro.is-open{ opacity:0; pointer-events:none; }
@@ -995,7 +995,7 @@ body.sobre-locked{ overflow:hidden; }
 /* Franja invisible: ocupa TODO el ancho y ~34% del alto, centrada en el sello.
    Transparente total (no existe a la vista), pero tocable en toda la banda. */
 .sobre-open{
-  position:absolute; left:0; right:0; top:46%; height:34%; width:100%;
+  position:absolute; left:0; right:0; top:55%; height:34%; width:100%;
   margin:0; padding:0; border:0; background:transparent; cursor:pointer;
   -webkit-tap-highlight-color:transparent; z-index:2;
 }
@@ -1051,9 +1051,8 @@ body.sobre-locked{ overflow:hidden; }
 <!-- ============ SOBRE DE APERTURA (franja invisible para abrir) ============ -->
 <div id="sobre-intro">
   <div class="sobre-stage">
-    <img class="sobre-img" src="assets/sobre-rosa.png" alt="">
+    <img class="sobre-img" src="assets/carta-rosa.png" alt="">
     <button class="sobre-open" id="sobre-open" type="button" aria-label="Abrir la invitación de Luana"></button>
-    <span class="sobre-abrir">abrir</span>
   </div>
 </div>
 
