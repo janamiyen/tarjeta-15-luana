@@ -104,6 +104,7 @@ section{
   z-index:1;
   min-height:100vh;
   min-height:100dvh;                /* viewport real en mobile */
+  min-height:var(--app-h, 100dvh);  /* alto REAL medido por JS (evita huecos en webview WhatsApp) */
   scroll-snap-align:start;          /* punto de snap (proximity: no obliga a frenar) */
   display:flex;
   flex-direction:column;
@@ -1494,6 +1495,14 @@ body.sobre-locked{ overflow:hidden; }
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 const goTop = () => window.scrollTo(0, 0);
 goTop();
+
+/* Altura REAL del viewport (px) → evita los "huecos" entre secciones en mobile y
+   en el navegador interno de WhatsApp, donde 100vh/dvh no miden bien por la barra.
+   Se actualiza cuando esa barra aparece/desaparece al scrollear. */
+const setAppH = () => document.documentElement.style.setProperty("--app-h", window.innerHeight + "px");
+setAppH();
+window.addEventListener("resize", setAppH);
+window.addEventListener("orientationchange", setAppH);
 // El navegador (sobre todo en celu) puede restaurar el scroll DESPUÉS de que
 // corre este script (cuando terminan de cargar fuentes/imágenes), así que
 // repetimos el "ir arriba" en cada momento clave de la carga:
