@@ -361,7 +361,7 @@ section.has-panel .poem strong{ color:#9c4a64; }
   background:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 0.85 0 0 0 0 0.92 0 0 0 8 -3.5'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23s)'/%3E%3C/svg%3E"),
     linear-gradient(150deg, rgba(255,255,255,.32) 0%, rgba(255,255,255,0) 42%, rgba(255,255,255,.16) 64%, rgba(255,255,255,0) 100%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 320' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='240' height='320' fill='%23d44e8a'/%3E%3Cg fill='none' stroke='%230c090b' stroke-linecap='round'%3E%3Cpath stroke-width='17' d='M5 -10C25 50 -10 110 12 170 30 220 0 280 14 340'/%3E%3Cpath stroke-width='13' d='M45 -10C65 50 30 110 52 170 70 220 40 280 54 340'/%3E%3Cpath stroke-width='20' d='M88 -10C108 50 73 110 95 170 113 220 83 280 97 340'/%3E%3Cpath stroke-width='13' d='M132 -10C152 50 117 110 139 170 157 220 127 280 141 340'/%3E%3Cpath stroke-width='18' d='M176 -10C196 50 161 110 183 170 201 220 171 280 185 340'/%3E%3Cpath stroke-width='13' d='M220 -10C240 50 205 110 227 170 245 220 215 280 229 340'/%3E%3C/g%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 320' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='240' height='320' fill='%23d44e8a'/%3E%3Cg fill='none' stroke='%230c090b' stroke-linecap='round'%3E%3Cpath stroke-width='28' d='M4 -10C30 55 -12 120 14 190 38 250 0 305 18 360'/%3E%3Cpath stroke-width='20' d='M64 -10C90 55 48 120 74 190 98 250 60 305 78 360'/%3E%3Cpath stroke-width='34' d='M126 -10C152 55 110 120 136 190 160 250 122 305 140 360'/%3E%3Cpath stroke-width='20' d='M186 -10C212 55 170 120 196 190 220 250 182 305 200 360'/%3E%3Cpath stroke-width='30' d='M246 -10C272 55 230 120 256 190 280 250 242 305 260 360'/%3E%3C/g%3E%3C/svg%3E");
   background-size: 78px 78px, cover, cover;
   background-position: center;
   background-blend-mode: screen, normal, normal;
@@ -933,10 +933,11 @@ section.has-panel .poem strong{ color:#9c4a64; }
    minimal, todo en una pantalla sin scroll extra */
 section.closing{ justify-content:center; padding-top:9vh; padding-bottom:92px; }
 section.closing .glam .ph{ width:200px; }   /* glam un toque menor para que entren nombre + footer */
-section.closing .photo-name-img{ width:170px; margin-top:42px; }   /* "Luana" bien bajo respecto a la foto */
+section.closing .photo-name-img{ width:190px; margin-top:20px; }   /* "Luana" más grande y pegada a la foto */
 section.closing .footer{
   position:absolute; left:0; right:0; bottom:0;
   padding:0 24px 22px;
+  z-index:6;   /* por encima de .inner (z-index:2) para que los botones reciban el tap */
 }
 
 /* ============ ANIMACIÓN HERO (intro al cargar) ============ */
@@ -1914,7 +1915,15 @@ const CONFIG = {
 
   // Botón "volver arriba" del footer → mismo fundido del loop (forma confiable de subir)
   const btnUp = document.getElementById("btn-up");
-  if (btnUp) btnUp.addEventListener("click", loopToHero);
+  if (btnUp) btnUp.addEventListener("click", () => {
+    loopFade.classList.add("on");          // fundido rosa
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      let n = 0;                            // clavamos arriba ~250ms (le gana al snap/restauración del celu)
+      const pin = setInterval(() => { window.scrollTo(0, 0); if (++n > 10) clearInterval(pin); }, 25);
+      setTimeout(() => loopFade.classList.remove("on"), 220);
+    }, 300);
+  });
 
   // ---- Loop en mobile: swipe hacia arriba estando ya en la pantalla de cierre → vuelve al hero ----
   // OJO (celu): la pantalla de cierre mide 100vh pero la ventana visible es
