@@ -63,7 +63,7 @@
 html{
   /* sin scroll-behavior:smooth a propósito: el JS maneja el scroll suave y el salto
      del loop; el smooth de CSS peleaba con eso y trababa la pantalla al final. */
-  scroll-snap-type: y mandatory;   /* te lleva directo a cada sección... */
+  scroll-snap-type: y mandatory;   /* te lleva directo a cada sección (firme). El cierre ahora entra exacto → no debería tildar al final */
   /* ...pero SIN scroll-snap-stop:always (lo sacamos de section): así, cuando vas
      rápido, podés pasar fluido sin frenar obligado en cada pantalla. */
 }
@@ -133,12 +133,12 @@ section.has-panel .inner::before{
   transform:translateX(-50%);
   width:160px; height:14px; pointer-events:none;
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z' fill='%23ffffff'/%3E%3C/svg%3E"),
-    linear-gradient(90deg, rgba(177,90,114,0), rgba(177,90,114,.45) 50%, rgba(177,90,114,0));
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z' fill='%23b34a72'/%3E%3C/svg%3E"),
+    linear-gradient(90deg, rgba(160,70,95,0), rgba(160,70,95,.7) 50%, rgba(160,70,95,0));
   background-repeat:no-repeat, no-repeat;
   background-position:center center, center center;
-  background-size:13px 13px, 100% 1px;
-  filter:drop-shadow(0 0 5px rgba(255,255,255,.85));
+  background-size:15px 15px, 100% 1.5px;
+  filter:drop-shadow(0 0 3px rgba(255,255,255,.95));
 }
 
 /* sparkles flotantes muy sutiles a los costados (rhinestones) */
@@ -146,13 +146,13 @@ section.has-panel .inner::after{
   content:""; position:absolute; inset:-4px -26px; z-index:1;
   pointer-events:none;
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z' fill='white'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z' fill='%23ffd2e6'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z' fill='%23b34a72'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z' fill='%23c95f8a'/%3E%3C/svg%3E");
   background-repeat:no-repeat,no-repeat;
   background-position:3% 18%, 96% 32%;
-  background-size:11px 11px, 8px 8px;
-  filter:drop-shadow(0 1px 2px rgba(199,95,143,.3));
-  opacity:.85;
+  background-size:12px 12px, 9px 9px;
+  filter:drop-shadow(0 1px 2px rgba(150,50,90,.5));
+  opacity:.95;
   animation:twinkle 3s ease-in-out infinite;
 }
 
@@ -427,7 +427,7 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .polaroid.tender .name-img{ width:150px; margin:7px auto 11px; }
 /* === Segunda foto (book B&N): un toque más chica y SIN tinte rosé → blanco y negro puro === */
 .polaroid-wrap.sm .polaroid.tender .ph{ width:204px; filter:none; }   /* foto ORIGINAL: sin filtro */
-.polaroid-wrap.fit916 .polaroid.tender .ph{ aspect-ratio:9 / 16; width:190px; }   /* foto del book (9:16) ENTERA + largo un poco menor */
+.polaroid-wrap.fit916 .polaroid.tender .ph{ aspect-ratio:9 / 16; width:200px; }   /* foto del book (9:16) ENTERA, un poquito más grande */
 .polaroid-wrap.mini .polaroid.tender .ph{ width:176px; }   /* última foto un poco más chica → margen arriba */
 .sec-book .photoblock{ transform:translateY(-16px); }    /* subir un poquito la foto y el XV → que el marco no choque abajo */
 .polaroid-wrap.sm .polaroid.tender .name-img{ width:136px; }
@@ -751,6 +751,9 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .lugar strong{ font-weight:500; }
 /* aclaración del dress code (el plateado es de Luana), más chiquita y suave */
 .dress-note{ display:block; margin-top:8px; font-size:12.5px; opacity:.9; }
+/* El dress code es la única sección SIN botón → su bloque es más corto y, al centrarse,
+   arranca más abajo. Este espaciador iguala la altura del botón (margin 22 + ~44 alto). */
+.dc-pad{ height:50px; pointer-events:none; }
 
 /* precios */
 .prices{ font-size:14px; font-weight:300; line-height:1; color:var(--pink); text-shadow:0 1px 2px rgba(255,255,255,.5); }
@@ -931,7 +934,7 @@ section.has-panel .poem strong{ color:#9c4a64; }
   letter-spacing:.26em;
   text-transform:uppercase;
   color:var(--pink-deep);
-  margin-bottom:4px;
+  margin-bottom:8px;
   opacity:.78;
   text-shadow:0 1px 2px rgba(255,255,255,.5);
 }
@@ -951,7 +954,7 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .footer a#btn-brand:hover{ opacity:1; }
 /* pantalla de cierre: foto enmarcada + nombre debajo, footer pegado al fondo
    minimal, todo en una pantalla sin scroll extra */
-section.closing{ justify-content:space-between; gap:12px; padding-top:2.4vh; padding-bottom:1.8vh; }
+section.closing{ justify-content:space-between; gap:12px; padding-top:2.4vh; padding-bottom:2.8vh; }
 section.closing .glam .ph{ width:226px; aspect-ratio:5 / 7; }   /* tercera foto un poco MÁS larga */
 /* "Luana" pegada a la foto y a un costado (abajo-izquierda, inclinada) → distinta al hero */
 section.closing .photo-name-img{
@@ -960,9 +963,14 @@ section.closing .photo-name-img{
 }
 /* Footer en FLUJO (no pegado al borde) → nombre + instagram quedan dentro del video.
    Compacto para que entre completo aun en celus con barra de navegador alta. */
-section.closing .photoblock{ margin-top:30px; }   /* aire arriba: que la última foto no toque el top */
+section.closing .photoblock{ margin-top:20px; }   /* aire arriba (el book es más alto → menos margen) */
 section.closing .footer{ position:static; padding:0; z-index:6; }
-section.closing .end-controls{ margin-bottom:10px; }
+section.closing .end-controls{ margin-bottom:20px; }   /* botones más arriba + más separados del nombre */
+/* En celular la última foto se veía chica y con mucho aire hasta los botones → la agrandamos un poco (desktop queda igual) */
+@media (max-width:520px){
+  .polaroid-wrap.mini .polaroid.tender .ph{ width:212px; }
+  .polaroid-wrap.mini .polaroid.tender .name-img{ width:152px; }
+}
 
 /* ============ ANIMACIÓN HERO (intro al cargar) ============ */
 .hero .inner{ will-change:transform, opacity; }
@@ -1367,6 +1375,7 @@ body.sobre-locked{ overflow:hidden; }
         <strong>Elegante Sport</strong><br>
         <span class="dress-note">El plateado queda reservado<br>para la quinceañera ✨</span>
       </p>
+      <div class="dc-pad" aria-hidden="true"></div>
     </div>
   </section>
 
@@ -1376,11 +1385,11 @@ body.sobre-locked{ overflow:hidden; }
   <section class="photo-full sec-book">
     <div class="inner photoblock">
       <span class="kicker">XV</span>
-      <div class="polaroid-wrap glow luxe sm fit916">
+      <div class="polaroid-wrap glow luxe sm">
 
         <!-- Segunda polaroid detrás, casi transparente → profundidad (misma memoria) -->
         <figure class="polaroid tender ghost" aria-hidden="true">
-          <span class="ph" style="background-image:url('assets/lu3.jpg')"></span>
+          <span class="ph" style="background-image:url('assets/lu2.jpg')"></span>
         </figure>
 
         <!-- Atmósfera de lujo: flores, cristales, mariposas, perlas y destellos -->
@@ -1433,7 +1442,7 @@ body.sobre-locked{ overflow:hidden; }
             </g>
             <circle cx="32" cy="18" r="3.1" fill="#d96f92" stroke="#fff" stroke-width="1.1"/>
           </svg>
-          <span class="ph" style="background-image:url('assets/lu3.jpg')"></span>
+          <span class="ph" style="background-image:url('assets/lu2.jpg')"></span>
           <img class="name-img" src="assets/luana-name.png" alt="Luana">
         </figure>
       </div>
@@ -1537,11 +1546,11 @@ body.sobre-locked{ overflow:hidden; }
        ================================================= -->
   <section class="closing">
     <div class="inner photoblock">
-      <div class="polaroid-wrap glow luxe sm mini">
+      <div class="polaroid-wrap glow luxe sm fit916 mini">
 
         <!-- Segunda polaroid detrás, casi transparente → profundidad (misma memoria) -->
         <figure class="polaroid tender ghost" aria-hidden="true">
-          <span class="ph" style="background-image:url('assets/lu2.jpg')"></span>
+          <span class="ph" style="background-image:url('assets/lu3.jpg')"></span>
         </figure>
 
         <!-- Atmósfera de lujo: flores, cristales, mariposas, perlas y destellos -->
@@ -1594,7 +1603,7 @@ body.sobre-locked{ overflow:hidden; }
             </g>
             <circle cx="32" cy="18" r="3.1" fill="#d96f92" stroke="#fff" stroke-width="1.1"/>
           </svg>
-          <span class="ph" style="background-image:url('assets/lu2.jpg')"></span>
+          <span class="ph" style="background-image:url('assets/lu3.jpg')"></span>
           <img class="name-img" src="assets/luana-name.png" alt="Luana">
         </figure>
       </div>
