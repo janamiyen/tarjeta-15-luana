@@ -1522,17 +1522,6 @@ setAppH();
    reajustaban en pleno scroll y se "tildaba". Fijamos el alto una vez (y al rotar). */
 window.addEventListener("orientationchange", () => setTimeout(setAppH, 250));
 
-/* "Volver arriba" recarga la página (forma 100% confiable en iPhone/Android/etc.).
-   Si venimos de esa recarga, salteamos el sobre y caemos directo en el hero. */
-try {
-  if (sessionStorage.getItem("lu_skipSobre")) {
-    sessionStorage.removeItem("lu_skipSobre");
-    const si = document.getElementById("sobre-intro");
-    if (si) si.style.display = "none";
-    if (document.body) document.body.classList.remove("sobre-locked");
-    goTop();
-  }
-} catch (e) {}
 // El navegador (sobre todo en celu) puede restaurar el scroll DESPUÉS de que
 // corre este script (cuando terminan de cargar fuentes/imágenes), así que
 // repetimos el "ir arriba" en cada momento clave de la carga:
@@ -1753,20 +1742,12 @@ const CONFIG = {
   function abrirSobre(){
     if (sobreAbierto || !sobreIntro) return;
     sobreAbierto = true;
+    document.body.classList.remove("sobre-locked");   // DESBLOQUEAR YA: la página nunca queda trabada
     sobreIntro.classList.add("is-open");
-    // Forzar ARRIBA mientras el body sigue BLOQUEADO: así la restauración de scroll
-    // del celu/WhatsApp no puede moverlo. Recién soltamos el scroll cuando ya está
-    // en la portada → al abrir SIEMPRE arranca desde el principio, no donde quedó.
+    // Nudges al tope ~400ms (sin lockear el scroll) para arrancar en la portada
     goTop();
     let pinN = 0;
-    const pinTop = setInterval(() => {
-      goTop();
-      if (++pinN >= 20) {                  // ~500ms clavado arriba
-        clearInterval(pinTop);
-        document.body.classList.remove("sobre-locked");
-        goTop();
-      }
-    }, 25);
+    const pinTop = setInterval(() => { goTop(); if (++pinN >= 16) clearInterval(pinTop); }, 25);
     audio.play().catch(()=>{});            // gesto del usuario → la música puede sonar
     setTimeout(() => { sobreIntro.style.display = "none"; }, 1100);
   }
@@ -1935,12 +1916,7 @@ const CONFIG = {
 
   // Botón "volver arriba" del footer → mismo fundido del loop (forma confiable de subir)
   const btnUp = document.getElementById("btn-up");
-  if (btnUp) btnUp.addEventListener("click", () => {
-    // Recarga INMEDIATA dentro del gesto (en iOS, diferirla con setTimeout la bloquea
-    // y deja la pantalla congelada). Cae directo en el hero (saltea el sobre).
-    try { sessionStorage.setItem("lu_skipSobre", "1"); } catch (e) {}
-    location.reload();
-  });
+  if (btnUp) btnUp.addEventListener("click", () => { goTop(); });   // scroll directo al hero (sin overlay ni reload)
 
   // ---- Loop en mobile: swipe hacia arriba estando ya en la pantalla de cierre → vuelve al hero ----
   // OJO (celu): la pantalla de cierre mide 100vh pero la ventana visible es
@@ -1965,11 +1941,7 @@ const CONFIG = {
     if (touchY0 === null) return;
     if (document.querySelector(".modal-overlay.open")) { touchY0 = null; return; } // con modal abierto, nada de loop
     const swipeUp = touchY0 - e.changedTouches[0].clientY; // >0 = el dedo subió = quiere seguir bajando
-    if (wasAtEnd && swipeUp > 45 && (onClosingScreen() || atBottom())) {
-      // Volver al hero por recarga (en iOS el scroll programático no responde acá)
-      try { sessionStorage.setItem("lu_skipSobre", "1"); } catch (er) {}
-      location.reload();
-    }
+    if (wasAtEnd && swipeUp > 45 && (onClosingScreen() || atBottom())) goTop();
     touchY0 = null;
   }, { passive: true });
 })();
