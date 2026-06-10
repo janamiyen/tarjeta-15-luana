@@ -222,14 +222,12 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .hero-title-wrap .t-15{
   position:absolute; top:0; right:11%;
   width:36%; height:auto;        /* ↑ % = 15 más grande / ↓ = Luana más protagonista */
-  filter:drop-shadow(0 6px 14px rgba(208,120,141,.36))
-         drop-shadow(0 2px 5px rgba(157,42,79,.28));
+  filter:drop-shadow(0 2px 5px rgba(157,42,79,.3));   /* una sola sombra sutil (sin fantasma) */
 }
 .hero-title-wrap .t-luana{
   position:absolute; left:0; bottom:0;
   width:100%; height:auto;       /* Luana ocupa todo el ancho = protagonista */
-  filter:drop-shadow(0 8px 16px rgba(208,120,141,.42))
-         drop-shadow(0 2px 4px rgba(157,42,79,.44));
+  filter:drop-shadow(0 2px 5px rgba(157,42,79,.3));   /* una sola sombra sutil (sin fantasma) */
 }
 .hero-title-wrap .mis{
   position:absolute; top:19%; left:17%;
@@ -347,22 +345,31 @@ section.has-panel .poem strong{ color:#9c4a64; }
   font-family:var(--font-script); font-size:42px; color:var(--pink-deep);
   margin-top:20px; text-shadow:0 2px 8px rgba(255,255,255,.55);
 }
+/* Nombre "Luana" como logotipo manuscrito (imagen) en foto teen y cierre */
+.luana-script{ display:block; width:140px; height:auto; margin:0 auto;
+  filter:drop-shadow(0 2px 5px rgba(157,42,79,.28)); }
+.photo-name-img{ width:158px; margin-top:20px; }
 
 /* ============ TEEN · MARCO GLAM (espejo deluxe, cromo rosa-plata) ============ */
 .glam{
-  position:relative; padding:13px; border-radius:130px 130px 18px 18px;
-  background:linear-gradient(145deg, #ffffff 0%, #f3d4e2 16%, #cfa7bd 33%, #ffffff 50%, #ecc2d5 64%, #c49ab2 82%, #ffffff 100%);
+  position:relative; padding:8px; border-radius:104px 104px 14px 14px;
+  /* Glam: filo fino de cebra B&N couture + brillo de cristal + borde lacado/cromo */
+  background:
+    linear-gradient(150deg, rgba(255,255,255,.7) 0%, rgba(255,255,255,0) 34%, rgba(255,255,255,.42) 58%, rgba(255,255,255,0) 100%),
+    repeating-linear-gradient(118deg,
+      #141414 0 4px, #f7f7f7 4px 8px,
+      #141414 8px 10px, #f7f7f7 10px 16px,
+      #141414 16px 19px, #f7f7f7 19px 25px);
   box-shadow:
-    inset 0 2px 3px rgba(255,255,255,.95),
-    inset 0 -4px 8px rgba(150,90,120,.45),
-    inset 0 0 0 1px rgba(255,255,255,.6),
-    0 22px 46px rgba(110,40,75,.45),
-    0 0 26px rgba(255,140,185,.45);
+    inset 0 1px 2px rgba(255,255,255,.9),
+    inset 0 0 0 1px rgba(0,0,0,.55),
+    0 16px 36px rgba(25,12,20,.5),
+    0 0 16px rgba(255,255,255,.18);
 }
 .glam .ph{
   width:226px; aspect-ratio:4/5; display:block;
   background-size:cover; background-position:center 16%;
-  border-radius:118px 118px 10px 10px; box-shadow:inset 0 0 0 1px rgba(0,0,0,.18);
+  border-radius:96px 96px 7px 7px; box-shadow:inset 0 0 0 1px rgba(0,0,0,.25);
 }
 .glam .charm{ position:absolute; top:-16px; left:50%; transform:translateX(-50%) rotate(-6deg);
   width:34px; z-index:4; filter:drop-shadow(0 3px 6px rgba(150,40,80,.5)); }
@@ -371,13 +378,50 @@ section.has-panel .poem strong{ color:#9c4a64; }
   border:1px solid rgba(255,255,255,.95); box-shadow:0 0 8px rgba(255,120,170,.7), inset 0 -1px 2px rgba(160,60,100,.5); }
 .glam .gem::after{ content:""; position:absolute; top:1.5px; left:2px; width:2.5px; height:2.5px; border-radius:50%; background:#fff; }
 .glam .gem.bl{ bottom:12px; left:11px; } .glam .gem.br{ bottom:12px; right:11px; }
-.glam-cap{ margin-top:26px; display:flex; flex-direction:column; align-items:center; gap:6px; }
+.glam-cap{ margin-top:14px; display:flex; flex-direction:column; align-items:center; gap:6px; }
 .g-name{ font-family:var(--font-script); font-size:42px; color:var(--pink-deep); line-height:1; text-shadow:0 2px 8px rgba(255,255,255,.5); }
 .g-sub{ font-family:var(--font-date); text-transform:uppercase; letter-spacing:.4em; font-size:10px; color:var(--pink); }
 
 /* ============ NIÑA · POLAROID TIERNA (revelada, nostálgica) ============ */
-.polaroid.tender{ background:#fffaf3; }
-.polaroid.tender .ph{ filter:sepia(.24) saturate(.9) contrast(.98) brightness(1.02); }
+.polaroid.tender{
+  background:rgba(255,252,248,.2);                  /* marco muy translúcido (~20%): se ve el fondo */
+  -webkit-backdrop-filter:blur(14px) saturate(1.2); backdrop-filter:blur(14px) saturate(1.2);
+  padding:9px 9px 0;                                /* marco más fino → la foto protagoniza */
+  border:1px solid rgba(255,255,255,.55);
+}
+/* Vidrio encapsulado: brillo de superficie + borde luminoso (sobre todo abajo) */
+.polaroid.tender::before{
+  content:""; position:absolute; inset:0; z-index:4; pointer-events:none;
+  border-radius:inherit;
+  background:linear-gradient(155deg, rgba(255,255,255,.30), rgba(255,255,255,.05) 32%, rgba(255,255,255,0) 60%);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.65),
+    inset 0 -7px 11px rgba(255,255,255,.20),
+    inset 0 0 0 1px rgba(255,255,255,.22);
+}
+/* Luana es la protagonista. La foto es 9:16 (675×1200), así que el cuadro de la
+   polaroid es vertical en esa misma proporción → se ve la foto COMPLETA, sin recorte. */
+.polaroid.tender .ph{
+  width:224px; aspect-ratio:3 / 5;   /* un pelín menos larga que el 9:16 (recorta apenas arriba/abajo) */
+  position:relative; overflow:hidden; isolation:isolate;
+  background-size:cover; background-position:center;
+  filter:contrast(1.02) brightness(1.05);
+}
+/* Duotono rosé: tiñe la foto B&N y la marida con el universo rosa.
+   'color' conserva la luz de la foto y le presta el tono → blush editorial. */
+.polaroid.tender .ph::before{
+  content:""; position:absolute; inset:0; pointer-events:none; z-index:1;
+  mix-blend-mode:color; opacity:.8;
+  background:linear-gradient(155deg, #f2bcd2 0%, #db96b4 55%, #b87b9c 100%);
+}
+/* Luz soñada arriba + viñeta tierna en los bordes → recuerdo, no snapshot */
+.polaroid.tender .ph::after{
+  content:""; position:absolute; inset:0; pointer-events:none; z-index:2;
+  background:
+    radial-gradient(125% 100% at 50% 30%, rgba(255,246,250,.30), rgba(255,246,250,0) 46%),
+    radial-gradient(130% 118% at 50% 54%, rgba(110,50,75,0) 56%, rgba(110,50,75,.30) 100%);
+}
+.polaroid.tender .name-img{ width:150px; margin:7px auto 11px; }
 /* textura de papel revelado (grano sutil) */
 .polaroid.tender::after{ content:""; position:absolute; inset:0; pointer-events:none;
   border-radius:3px; opacity:.5; mix-blend-mode:multiply;
@@ -389,6 +433,89 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .kicker.soft::before,.kicker.soft::after{ display:none; }
 .foot{ margin-top:24px; font-family:var(--font-serif); font-style:italic; font-size:13.5px;
   color:var(--pink-deep); opacity:.92; text-shadow:0 1px 3px rgba(255,255,255,.6); }
+
+/* ============ LUXE · ATMÓSFERA SOÑADA ALREDEDOR DE LA POLAROID ============
+   Capas decorativas (flores translúcidas, cristales, mariposas, perlas,
+   destellos y partículas) que rodean y sobresalen del marco para dar
+   profundidad 3D y glow de cuento de hadas. Sólo en .polaroid-wrap.luxe.
+   Todo pointer-events:none → no interfiere con el toque. */
+.polaroid-wrap.luxe{ overflow:visible; }
+
+/* Halo en dos capas: difuso amplio + núcleo brillante (la foto se despega) */
+.polaroid-wrap.luxe::before{
+  width:446px; height:512px;
+  background:radial-gradient(closest-side, rgba(255,167,203,.58), rgba(255,167,203,0) 70%);
+  filter:blur(34px);
+}
+.polaroid-wrap.luxe::after{
+  content:""; position:absolute; top:48%; left:50%;
+  width:280px; height:312px; transform:translate(-50%,-50%);
+  border-radius:50%; z-index:0; pointer-events:none;
+  background:radial-gradient(closest-side, rgba(255,229,241,.72), rgba(255,229,241,0) 66%);
+  filter:blur(15px);
+}
+
+/* Contenedor de adornos: absoluto, no altera el layout. Cada span ancla en el
+   centro de la polaroid; su transform inline lo coloca y lo orienta.
+   La escala empuja la atmósfera al borde de la foto (más grande). */
+.deco{ position:absolute; inset:0; pointer-events:none; transform:scale(1.3); }
+.deco > span{ position:absolute; top:50%; left:50%; display:block; }
+.deco .behind{ z-index:0; }   /* detrás de la foto (z-index:1) */
+.deco .front { z-index:3; }   /* sobresale del marco → 3D */
+
+/* Flores (peonías de vidrio rosa) */
+.bloom{ display:block; width:116px; height:116px; }
+.bloom.soft  { opacity:.34; filter:blur(5px) saturate(.6); mix-blend-mode:screen; }
+.bloom.glassy{ opacity:.6;  filter:blur(.5px) saturate(.82) drop-shadow(0 6px 12px rgba(190,90,130,.25)); }
+
+/* Mariposas */
+.bfly{ display:block; width:46px; height:38px; transform-origin:center; }
+.flit{ animation:flit 6.5s ease-in-out infinite; }
+@keyframes flit{ 0%,100%{ transform:translateY(0) rotate(0deg); }
+                 50%{ transform:translateY(-9px) rotate(3deg); } }
+
+/* Cristales facetados */
+.gem2{ display:block; width:20px; height:25px; }
+.glint{ animation:glint 3.8s ease-in-out infinite; }
+@keyframes glint{ 0%,100%{ filter:drop-shadow(0 0 3px rgba(255,150,195,.55)); }
+                  50%{ filter:drop-shadow(0 0 10px rgba(255,150,195,.95)); } }
+
+/* Perlas */
+.pearl{ display:block; border-radius:50%;
+  background:radial-gradient(circle at 34% 28%, #ffffff 0%, #fff0f6 42%, #f3c4d8 78%, #d99bb6 100%);
+  box-shadow:0 1px 3px rgba(150,80,110,.35), inset 0 -1px 2px rgba(170,100,135,.45),
+             inset 0 1px 2px rgba(255,255,255,.9); }
+
+/* Destellos (estrella de 4 puntas) */
+.sparkle{ display:block; width:18px; height:18px; fill:#fff;
+  filter:drop-shadow(0 0 4px rgba(255,170,205,.9)); }
+.tw{ animation:tw 2.8s ease-in-out infinite; }
+@keyframes tw{ 0%,100%{ opacity:.25; } 50%{ opacity:1; } }
+
+/* Partículas luminosas a la deriva */
+.particle{ display:block; border-radius:50%;
+  background:radial-gradient(circle, rgba(255,242,248,.95), rgba(255,200,225,0) 70%);
+  filter:blur(.4px); }
+.drift{ animation:drift 9s ease-in-out infinite; }
+@keyframes drift{ 0%{ opacity:0; transform:translateY(8px) scale(.8); }
+                  30%,70%{ opacity:.9; }
+                  100%{ opacity:0; transform:translateY(-18px) scale(1); } }
+
+/* — Composición en capas: tilt + polaroid hermana + espejo ornamental — */
+.polaroid.tender{ transform:rotate(-4deg); }   /* inclinación deliberada (override del base) */
+
+.polaroid.tender.ghost{                         /* 2ª foto detrás, casi transparente */
+  position:absolute; top:50%; left:50%; z-index:0;
+  transform:translate(-50%,-50%) translate(22px,-18px) rotate(5deg);
+  opacity:.3; filter:blur(.6px);
+  box-shadow:0 16px 30px rgba(110,50,75,.18);
+}
+.polaroid.tender.ghost .ph{ filter:sepia(.32) saturate(.65) brightness(1.05); }
+
+/* En pantallas chicas la atmósfera se recoge apenas para no apretar */
+@media (max-width:400px){
+  .polaroid-wrap.luxe .deco{ transform:scale(1.18); }
+}
 
 /* ============ CHARM delicado (icono) ============
    Gema translúcida frosted, chica, con aro finito de cromo. Charm,
@@ -799,9 +926,9 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .footer a#btn-brand:hover{ opacity:1; }
 /* pantalla de cierre: foto enmarcada + nombre debajo, footer pegado al fondo
    minimal, todo en una pantalla sin scroll extra */
-section.closing{ justify-content:center; padding-bottom:88px; }
+section.closing{ justify-content:center; padding-top:9vh; padding-bottom:92px; }
 section.closing .glam .ph{ width:178px; }   /* glam un toque menor para que entren nombre + footer */
-section.closing .photo-name{ font-size:46px; }
+section.closing .photo-name-img{ width:170px; margin-top:42px; }   /* "Luana" bien bajo respecto a la foto */
 section.closing .footer{
   position:absolute; left:0; right:0; bottom:0;
   padding:0 24px 22px;
@@ -811,16 +938,8 @@ section.closing .footer{
 .hero .inner{ will-change:transform, opacity; }
 @keyframes heroIn { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
 
-.hero-title-wrap,
-.hero .datebar,
-.hero .datebar-month,
-.hero .play-wrap{
-  opacity:0; animation:heroIn .9s cubic-bezier(.22,1,.36,1) forwards;
-}
-.hero-title-wrap{ animation-delay:.30s; }
-.hero .datebar{ animation-delay:1.55s; }
-.hero .datebar-month{ animation-delay:1.70s; }
-.hero .play-wrap{ animation-delay:1.95s; }
+/* La intro ahora es el sobre. Al abrir, el texto del hero (Mis 15 · Luana ·
+   fecha) ya está TODO escrito — sin stagger ni delay. Solo el "deslizá" anima. */
 
 /* ============ REVEAL ON SCROLL ============ */
 .reveal{
@@ -831,9 +950,13 @@ section.closing .footer{
 .reveal.is-visible{ opacity:1; transform:none; }
 
 /* la foto entra subiendo desde MÁS abajo y MÁS lento (efecto suave) */
+/* Las polaroids deslizan al revelar pero SIN fundir opacidad. El fade chocaba con
+   el backdrop-filter del vidrio (frost suave → oscuro) y transparentaba el marco glam.
+   Solo deslizan; el frost queda estable de principio a fin. */
 .polaroid-wrap.reveal{
+  opacity:1;
   transform:translateY(64px);
-  transition:opacity 1.2s ease, transform 1.3s cubic-bezier(.22,1,.36,1);
+  transition:transform 1.3s cubic-bezier(.22,1,.36,1);
 }
 .polaroid-wrap.reveal.is-visible{ transform:none; }
 
@@ -844,7 +967,8 @@ section.closing .footer{
     opacity:1 !important; transform:none !important;
     animation:none !important; transition:none !important;
   }
-  .btn, .btn::after, .countdown-card, .countdown-card::after, .cd-sep{
+  .btn, .btn::after, .countdown-card, .countdown-card::after, .cd-sep,
+  .flit, .glint, .tw, .drift, .sobre-abrir, .swipe-cue svg{
     animation:none !important;
   }
 }
@@ -852,10 +976,77 @@ section.closing .footer{
 @media (max-width:380px){
   section{ padding:54px 22px; }
 }
+
+/* ============ SOBRE DE APERTURA ============ */
+body.sobre-locked{ overflow:hidden; }
+#sobre-intro{
+  position:fixed; inset:0; z-index:9999;
+  display:flex; align-items:center; justify-content:center;
+  background:radial-gradient(120% 90% at 50% 38%, #f3cfdd 0%, #e9c0d0 55%, #ddb0c3 100%);
+  transition:opacity .9s ease;
+}
+#sobre-intro.is-open{ opacity:0; pointer-events:none; }
+.sobre-stage{ position:relative; display:inline-flex; }
+/* Franja invisible: ocupa TODO el ancho y ~34% del alto, centrada en el sello.
+   Transparente total (no existe a la vista), pero tocable en toda la banda. */
+.sobre-open{
+  position:absolute; left:0; right:0; top:46%; height:34%; width:100%;
+  margin:0; padding:0; border:0; background:transparent; cursor:pointer;
+  -webkit-tap-highlight-color:transparent; z-index:2;
+}
+.sobre-img{
+  display:block; max-width:100vw; max-height:100vh; width:auto; height:auto;
+  user-select:none; -webkit-user-drag:none; pointer-events:none;
+  filter:drop-shadow(0 24px 60px rgba(150,80,110,.45));
+  transition:transform 1s cubic-bezier(.22,1,.36,1), opacity .85s ease;
+}
+#sobre-intro.is-open .sobre-img{ transform:scale(1.18); opacity:0; }
+/* "abrir" sobre el sello (cue pulsante; el botón es todo el sobre, invisible) */
+.sobre-abrir{
+  position:absolute; left:50%; top:71%; transform:translate(-50%,0);
+  font-family:var(--font-date); text-transform:uppercase;
+  letter-spacing:.5em; padding-left:.5em; font-size:11px; color:#8a6a3e;
+  text-shadow:0 1px 2px rgba(255,255,255,.55); pointer-events:none;
+  animation:abrirPulse 1.9s ease-in-out infinite;
+}
+@keyframes abrirPulse{ 0%,100%{ opacity:.42; } 50%{ opacity:1; } }
+#sobre-intro.is-open .sobre-abrir{ opacity:0; }
+
+/* ============ PORTADA: pausa en esquina + aviso de deslizar ============ */
+.music-btn{
+  width:46px; height:46px; border-radius:50%; cursor:pointer; padding:0;
+  background:radial-gradient(circle at 35% 30%, rgba(255,255,255,.92), rgba(255,206,224,.55));
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.6);
+  box-shadow:0 6px 16px rgba(201,101,127,.32), inset 0 1px 2px rgba(255,255,255,.8);
+  color:var(--pink-deep); display:flex; align-items:center; justify-content:center;
+  transition:transform .25s ease;
+}
+.music-btn:hover{ transform:scale(1.07); }
+.music-btn svg{ width:17px; height:17px; fill:currentColor; margin-left:1px; }
+
+.swipe-cue{ margin-top:40px; display:flex; flex-direction:column; align-items:center; gap:7px;
+  color:var(--pink); }
+.swipe-cue svg{ width:26px; height:28px; fill:none; stroke:currentColor; stroke-width:2.2;
+  stroke-linecap:round; stroke-linejoin:round;
+  filter:drop-shadow(0 1px 2px rgba(255,255,255,.6));
+  animation:swipeBob 1.7s ease-in-out infinite; }
+.swipe-cue span{ font-family:var(--font-date); text-transform:uppercase; letter-spacing:.42em;
+  padding-left:.42em; font-size:11px; opacity:.85; text-shadow:0 1px 3px rgba(255,255,255,.6); }
+@keyframes swipeBob{ 0%,100%{ transform:translateY(0); opacity:.55; } 50%{ transform:translateY(6px); opacity:1; } }
 </style>
 </head>
 
-<body>
+<body class="sobre-locked">
+
+<!-- ============ SOBRE DE APERTURA (franja invisible para abrir) ============ -->
+<div id="sobre-intro">
+  <div class="sobre-stage">
+    <img class="sobre-img" src="assets/sobre-rosa.png" alt="">
+    <button class="sobre-open" id="sobre-open" type="button" aria-label="Abrir la invitación de Luana"></button>
+    <span class="sobre-abrir">abrir</span>
+  </div>
+</div>
 
 <!-- Video de fondo (compartido en TODAS las secciones, fijo a la viewport) -->
 <video class="bg-video" autoplay muted loop playsinline preload="auto">
@@ -866,7 +1057,6 @@ section.closing .footer{
 <nav class="progress" id="progress" aria-label="Progreso de la invitación">
   <span class="bar"></span>
 </nav>
-
 <main class="card">
 
   <!-- SVG defs (gradiente corazon, etc) -->
@@ -876,6 +1066,68 @@ section.closing .footer{
         <stop offset="0" stop-color="#f6a8bd"/>
         <stop offset="1" stop-color="#d0788d"/>
       </linearGradient>
+
+      <!-- ===== Símbolos decorativos del hero (peonía, mariposa, cristal, destello) ===== -->
+      <!-- Flor: peonía con doble corona de pétalos + centro perlado -->
+      <symbol id="symBloom" viewBox="-60 -60 120 120">
+        <g fill="#ffb9d2">
+          <ellipse cx="0" cy="-32" rx="13" ry="30"/>
+          <ellipse cx="0" cy="-32" rx="13" ry="30" transform="rotate(45)"/>
+          <ellipse cx="0" cy="-32" rx="13" ry="30" transform="rotate(90)"/>
+          <ellipse cx="0" cy="-32" rx="13" ry="30" transform="rotate(135)"/>
+          <ellipse cx="0" cy="-32" rx="13" ry="30" transform="rotate(180)"/>
+          <ellipse cx="0" cy="-32" rx="13" ry="30" transform="rotate(225)"/>
+          <ellipse cx="0" cy="-32" rx="13" ry="30" transform="rotate(270)"/>
+          <ellipse cx="0" cy="-32" rx="13" ry="30" transform="rotate(315)"/>
+        </g>
+        <g fill="#ffd6e6">
+          <ellipse cx="0" cy="-18" rx="8.5" ry="18" transform="rotate(22.5)"/>
+          <ellipse cx="0" cy="-18" rx="8.5" ry="18" transform="rotate(67.5)"/>
+          <ellipse cx="0" cy="-18" rx="8.5" ry="18" transform="rotate(112.5)"/>
+          <ellipse cx="0" cy="-18" rx="8.5" ry="18" transform="rotate(157.5)"/>
+          <ellipse cx="0" cy="-18" rx="8.5" ry="18" transform="rotate(202.5)"/>
+          <ellipse cx="0" cy="-18" rx="8.5" ry="18" transform="rotate(247.5)"/>
+          <ellipse cx="0" cy="-18" rx="8.5" ry="18" transform="rotate(292.5)"/>
+          <ellipse cx="0" cy="-18" rx="8.5" ry="18" transform="rotate(337.5)"/>
+        </g>
+        <circle cx="0" cy="0" r="12" fill="#fff3f8"/>
+        <circle cx="0" cy="0" r="5.5" fill="#ffcfe1"/>
+      </symbol>
+
+      <!-- Mariposa simétrica -->
+      <symbol id="symBfly" viewBox="0 0 60 50">
+        <g fill="#ffc4dc">
+          <path d="M30 24 C28 8 12 2 6 12 C1 21 16 28 30 24 Z"/>
+          <path d="M30 26 C26 36 12 40 8 32 C5 26 20 23 30 26 Z"/>
+          <path d="M30 24 C32 8 48 2 54 12 C59 21 44 28 30 24 Z"/>
+          <path d="M30 26 C34 36 48 40 52 32 C55 26 40 23 30 26 Z"/>
+        </g>
+        <g fill="#fff" opacity=".55">
+          <circle cx="15" cy="14" r="3"/>
+          <circle cx="45" cy="14" r="3"/>
+        </g>
+        <ellipse cx="30" cy="26" rx="2.2" ry="12" fill="#bd6489"/>
+        <circle cx="30" cy="13.5" r="2.4" fill="#bd6489"/>
+        <path d="M30 13 C27 7 24 5 22 4" stroke="#bd6489" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+        <path d="M30 13 C33 7 36 5 38 4" stroke="#bd6489" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      </symbol>
+
+      <!-- Cristal facetado tipo Swarovski -->
+      <symbol id="symGem" viewBox="0 0 28 34">
+        <polygon points="14,1 27,12 14,33 1,12" fill="#ff9ec4"/>
+        <polygon points="14,1 20,12 27,12" fill="#ffaccd"/>
+        <polygon points="14,1 8,12 1,12" fill="#ffc2dc"/>
+        <polygon points="1,12 8,12 14,33" fill="#f48bb6"/>
+        <polygon points="27,12 20,12 14,33" fill="#ffa6cb"/>
+        <polygon points="8,12 20,12 14,33" fill="#ffb9d6"/>
+        <polygon points="14,1 17,8.5 14,12 11,8.5" fill="#ffffff" opacity=".9"/>
+      </symbol>
+
+      <!-- Destello (estrella de 4 puntas) -->
+      <symbol id="symSpark" viewBox="0 0 24 24">
+        <path d="M12 0 C13.2 8 16 10.8 24 12 C16 13.2 13.2 16 12 24 C10.8 16 8 13.2 0 12 C8 10.8 10.8 8 12 0 Z"/>
+      </symbol>
+
     </defs>
   </svg>
 
@@ -902,13 +1154,17 @@ section.closing .footer{
       <div class="datebar-month" data-monthyear>Enero 2026</div>
 
       <div class="play-wrap">
-        <svg class="play-arc" viewBox="0 0 140 40">
-          <path id="arc" d="M14,38 A100,100 0 0,1 126,38" fill="none"/>
-          <text><textPath href="#arc" startOffset="50%" text-anchor="middle">dale play</textPath></text>
-        </svg>
-        <button class="play-btn" id="btn-music" type="button" aria-label="Reproducir música">
+        <button class="music-btn" id="btn-music" type="button" aria-label="Pausar / reproducir música">
           <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </button>
+      </div>
+
+      <div class="swipe-cue" aria-hidden="true">
+        <svg class="swipe-chevrons" viewBox="0 0 24 26">
+          <path d="M6 4l6 5 6-5"/>
+          <path d="M6 12l6 5 6-5"/>
+        </svg>
+        <span>deslizá</span>
       </div>
     </div>
   </section>
@@ -918,8 +1174,56 @@ section.closing .footer{
        ================================================= -->
   <section class="photo-full">
     <div class="inner photoblock">
-      <span class="kicker soft">érase una vez…</span>
-      <div class="polaroid-wrap glow">
+      <div class="polaroid-wrap glow luxe">
+
+        <!-- Segunda polaroid detrás, casi transparente → profundidad (misma memoria) -->
+        <figure class="polaroid tender ghost" aria-hidden="true">
+          <span class="ph" style="background-image:url('assets/lu1.jpg')"></span>
+        </figure>
+
+        <!-- Atmósfera de lujo: flores, cristales, mariposas, perlas y destellos -->
+        <div class="deco" aria-hidden="true">
+          <!-- FLORES detrás (difusas, asoman por las esquinas) -->
+          <span class="behind" style="transform:translate(-50%,-50%) translate(-128px,-118px) rotate(-15deg) scale(1.18)"><svg class="bloom soft"><use href="#symBloom"/></svg></span>
+          <span class="behind" style="transform:translate(-50%,-50%) translate(120px,128px) rotate(20deg) scale(1.08)"><svg class="bloom soft"><use href="#symBloom"/></svg></span>
+          <span class="behind" style="transform:translate(-50%,-50%) translate(134px,-94px) rotate(8deg) scale(.8)"><svg class="bloom soft"><use href="#symBloom"/></svg></span>
+
+          <!-- FLORES al frente (nítidas, sobresalen del marco) -->
+          <span class="front" style="transform:translate(-50%,-50%) translate(-116px,90px) rotate(-8deg) scale(.78)"><svg class="bloom glassy"><use href="#symBloom"/></svg></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(108px,-118px) rotate(14deg) scale(.5)"><svg class="bloom glassy"><use href="#symBloom"/></svg></span>
+
+          <!-- MARIPOSAS (flotan suave) -->
+          <span class="front" style="transform:translate(-50%,-50%) translate(122px,-128px) rotate(-12deg)"><svg class="bfly flit"><use href="#symBfly"/></svg></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(-120px,28px) rotate(10deg) scale(.7)"><svg class="bfly flit" style="animation-delay:1.4s"><use href="#symBfly"/></svg></span>
+
+          <!-- CRISTALES facetados (centellean en los bordes) -->
+          <span class="front" style="transform:translate(-50%,-50%) translate(-8px,-156px) scale(.95)"><svg class="gem2 glint"><use href="#symGem"/></svg></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(132px,-6px) rotate(12deg) scale(.85)"><svg class="gem2 glint" style="animation-delay:1.2s"><use href="#symGem"/></svg></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(-104px,140px) rotate(-10deg) scale(.7)"><svg class="gem2 glint" style="animation-delay:2.1s"><use href="#symGem"/></svg></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(88px,122px) scale(.62)"><svg class="gem2 glint" style="animation-delay:.6s"><use href="#symGem"/></svg></span>
+
+          <!-- PERLAS (racimo + sueltas) -->
+          <span class="front" style="transform:translate(-50%,-50%) translate(96px,150px)"><i class="pearl" style="width:11px;height:11px"></i></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(108px,142px)"><i class="pearl" style="width:8px;height:8px"></i></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(101px,161px)"><i class="pearl" style="width:7px;height:7px"></i></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(-122px,-72px)"><i class="pearl" style="width:9px;height:9px"></i></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(126px,-46px)"><i class="pearl" style="width:7px;height:7px"></i></span>
+
+          <!-- DESTELLOS (titilan) -->
+          <span class="front" style="transform:translate(-50%,-50%) translate(-92px,-150px) scale(.7)"><svg class="sparkle tw"><use href="#symSpark"/></svg></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(118px,-150px)"><svg class="sparkle tw" style="animation-delay:.6s"><use href="#symSpark"/></svg></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(142px,42px) scale(.6)"><svg class="sparkle tw" style="animation-delay:1.2s"><use href="#symSpark"/></svg></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(-132px,116px) scale(.85)"><svg class="sparkle tw" style="animation-delay:.4s"><use href="#symSpark"/></svg></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(64px,-150px) scale(.5)"><svg class="sparkle tw" style="animation-delay:1.6s"><use href="#symSpark"/></svg></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(-64px,152px) scale(.6)"><svg class="sparkle tw" style="animation-delay:.9s"><use href="#symSpark"/></svg></span>
+
+          <!-- PARTÍCULAS a la deriva -->
+          <span class="front" style="transform:translate(-50%,-50%) translate(-58px,118px)"><i class="particle drift" style="width:6px;height:6px"></i></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(80px,-88px)"><i class="particle drift" style="width:5px;height:5px;animation-delay:2.2s"></i></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(40px,150px)"><i class="particle drift" style="width:7px;height:7px;animation-delay:4.1s"></i></span>
+          <span class="front" style="transform:translate(-50%,-50%) translate(-100px,-18px)"><i class="particle drift" style="width:5px;height:5px;animation-delay:1.3s"></i></span>
+        </div>
+
         <figure class="polaroid tender">
           <svg class="bow" viewBox="0 0 64 36" aria-hidden="true">
             <g fill="none" stroke="#d96f92" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
@@ -934,7 +1238,6 @@ section.closing .footer{
           <img class="name-img" src="assets/luana-name.png" alt="Luana">
         </figure>
       </div>
-      <span class="foot">la que un día soñó con esta noche</span>
     </div>
   </section>
 
@@ -1039,17 +1342,13 @@ section.closing .footer{
        ================================================= -->
   <section class="photo-full">
     <div class="inner photoblock">
-      <span class="kicker">la quinceañera</span>
+      <span class="kicker">XV</span>
       <div class="polaroid-wrap">
         <figure class="glam">
-          <svg class="charm" viewBox="0 0 24 22" aria-hidden="true"><defs><linearGradient id="charmA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb9d8"/><stop offset=".55" stop-color="#f06ba2"/><stop offset="1" stop-color="#c94f85"/></linearGradient></defs>
-            <path fill="url(#charmA)" stroke="#fff" stroke-width="1.3" d="M12 20S3 14.4 1.6 9C.6 5 3.6 1.6 7.2 1.6c2.8 0 4.8 2.6 4.8 2.6s2-2.6 4.8-2.6c3.6 0 6.6 3.4 5.6 7.4C21 14.4 12 20 12 20Z"/>
-            <ellipse fill="rgba(255,255,255,.7)" cx="7.6" cy="6" rx="2.9" ry="1.7" transform="rotate(-20 7.6 6)"/></svg>
-          <span class="gem bl"></span><span class="gem br"></span>
           <span class="ph" style="background-image:url('assets/lu2.jpg')"></span>
         </figure>
       </div>
-      <div class="glam-cap"><span class="g-name">Luana</span><span class="g-sub">mis 15 años</span></div>
+      <div class="glam-cap"><img class="luana-script" src="assets/luana-script.png" alt="Luana"></div>
     </div>
   </section>
 
@@ -1152,14 +1451,10 @@ section.closing .footer{
     <div class="inner photoblock">
       <div class="polaroid-wrap">
         <figure class="glam">
-          <svg class="charm" viewBox="0 0 24 22" aria-hidden="true"><defs><linearGradient id="charmB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb9d8"/><stop offset=".55" stop-color="#f06ba2"/><stop offset="1" stop-color="#c94f85"/></linearGradient></defs>
-            <path fill="url(#charmB)" stroke="#fff" stroke-width="1.3" d="M12 20S3 14.4 1.6 9C.6 5 3.6 1.6 7.2 1.6c2.8 0 4.8 2.6 4.8 2.6s2-2.6 4.8-2.6c3.6 0 6.6 3.4 5.6 7.4C21 14.4 12 20 12 20Z"/>
-            <ellipse fill="rgba(255,255,255,.7)" cx="7.6" cy="6" rx="2.9" ry="1.7" transform="rotate(-20 7.6 6)"/></svg>
-          <span class="gem bl"></span><span class="gem br"></span>
           <span class="ph" style="background-image:url('assets/lu2.jpg')"></span>
         </figure>
       </div>
-      <div class="photo-name" data-name>Luana</div>
+      <img class="luana-script photo-name-img" src="assets/luana-script.png" alt="Luana">
     </div>
 
     <footer class="footer">
@@ -1413,6 +1708,21 @@ const CONFIG = {
   audio.addEventListener("play",  function(){ playing = true;  if (music) music.innerHTML = ICON_PAUSE; });
   audio.addEventListener("pause", function(){ playing = false; if (music) music.innerHTML = ICON_PLAY;  });
   audio.addEventListener("ended", function(){ playing = false; if (music) music.innerHTML = ICON_PLAY;  });
+
+  // ---- Sobre de apertura: franja invisible; al abrir, arranca la música ----
+  const sobreIntro = document.getElementById("sobre-intro");
+  const sobreOpen  = document.getElementById("sobre-open");
+  let sobreAbierto = false;
+  function abrirSobre(){
+    if (sobreAbierto || !sobreIntro) return;
+    sobreAbierto = true;
+    sobreIntro.classList.add("is-open");
+    document.body.classList.remove("sobre-locked");
+    goTop();
+    audio.play().catch(()=>{});            // gesto del usuario → la música puede sonar
+    setTimeout(() => { sobreIntro.style.display = "none"; }, 1050);
+  }
+  if (sobreOpen) sobreOpen.addEventListener("click", abrirSobre);
 
   // ---- Countdown live ----
   const $d = document.querySelector("[data-d]"),
