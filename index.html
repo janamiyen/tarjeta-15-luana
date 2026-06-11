@@ -980,8 +980,8 @@ section.has-panel .poem strong{ color:#9c4a64; }
 /* El cierre hereda 100dvh (= exactamente lo que se ve) → ni hueco/scroll de más al final
    ni asomo en la sección anterior. Contenido centrado; entra completo con su footer. */
 section.closing{
-  justify-content:center; gap:14px;
-  padding-top:18px; padding-bottom:18px;
+  justify-content:space-between; gap:14px;   /* foto protagonista arriba, invitaciones ancladas abajo; el sobrante va al medio → se adapta a todo alto de pantalla sin hueco encima de la foto */
+  padding-top:30px; padding-bottom:18px;
 }
 section.closing .glam .ph{ width:226px; aspect-ratio:5 / 7; }   /* tercera foto un poco MÁS larga */
 /* "Luana" pegada a la foto y a un costado (abajo-izquierda, inclinada) → distinta al hero */
@@ -991,8 +991,8 @@ section.closing .photo-name-img{
 }
 /* Footer en FLUJO (no pegado al borde) → nombre + instagram quedan dentro del video.
    Compacto para que entre completo aun en celus con barra de navegador alta. */
-section.closing .photoblock{ margin-top:auto; }   /* margin-top:auto en foto + footer → reparte el aire parejo: foto centrada en el medio, footer abajo */
-section.closing .footer{ position:static; padding:0; z-index:6; margin-top:10px; }   /* gap chico: la foto (con margin-top:auto) baja y queda casi tocando los botones; el footer cierra abajo */
+section.closing .photoblock{ margin-top:0; }   /* sin auto: foto + footer forman UN bloque centrado por justify-content:center → aire parejo arriba/abajo, se adapta a todo formato */
+section.closing .footer{ position:static; padding:0; z-index:6; margin-top:0; }   /* space-between de la sección ancla el footer abajo */
 section.closing .end-controls{ margin-bottom:14px; gap:18px; }   /* botones separados entre sí (no se pisan) */
 /* Botones play/subir del cierre más chicos → dejan aire para el branding */
 section.closing .music-btn{ width:38px; height:38px; }
