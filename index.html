@@ -103,8 +103,10 @@ section{
   text-align:center;
   z-index:1;
   min-height:100vh;
-  min-height:100dvh;                /* viewport real en mobile */
-  min-height:var(--app-h, 100dvh);  /* alto REAL medido por JS (evita huecos en webview WhatsApp) */
+  min-height:var(--app-h, 100lvh);  /* respaldo: alto medido por JS (webviews viejos sin lvh) */
+  min-height:100lvh;                /* PRINCIPAL: alto del viewport GRANDE (barra oculta) y FIJO →
+                                       siempre llena la pantalla (no asoma la sección siguiente) y al ser
+                                       fijo no hay reflow/"tick" cuando la barra de Safari aparece/desaparece. */
   scroll-snap-align:start;          /* punto de snap (proximity: no obliga a frenar) */
   display:flex;
   flex-direction:column;
@@ -617,21 +619,28 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .btn:hover svg, .btn:focus-visible svg{ transform:scale(1.15) rotate(-6deg); }
 /* primario: la acción estrella (confirmar asistencia, copiar alias) */
 .btn-primary{
-  color:#7e1f45;
-  text-shadow:0 1px 1px rgba(255,255,255,.85);
-  /* mismo pastel que los demás pero pastilla un toque más rosada → sigue siendo la estrella, sin magenta */
+  color:#fff;
+  font-size:14.5px; letter-spacing:.08em;
+  padding:17px 38px;                 /* más grande → jerarquía: es LA acción clave (confirmar asistencia) */
+  text-shadow:0 1px 2px rgba(150,30,75,.55);
+  /* rosa VIVO y lindo (no el magenta apagado anterior) → resalta sobre los pastel */
   background:
-    linear-gradient(180deg, rgba(255,255,255,.8) 0%, rgba(255,255,255,.24) 45%, rgba(255,255,255,0) 100%),
-    linear-gradient(165deg, #fff0f7 0%, #ffd7ea 100%);
-  border-color:rgba(255,255,255,.55);
+    linear-gradient(180deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,.04) 44%, rgba(0,0,0,.02) 100%),
+    linear-gradient(165deg, #ff7cb8 0%, #ff4f9e 60%, #ff3f93 100%);
+  border-color:#fff;
   box-shadow:
-    inset 0 2px 2px rgba(255,255,255,1),
-    inset 0 -7px 13px rgba(255,180,210,.34),
-    0 8px 20px rgba(220,140,175,.32),
-    0 2px 6px rgba(190,140,160,.2),
-    0 0 18px rgba(255,190,220,.4);
+    inset 0 2px 2px rgba(255,255,255,.92),
+    inset 0 -8px 15px rgba(210,55,115,.42),
+    0 12px 28px rgba(230,70,140,.5),
+    0 3px 8px rgba(160,40,90,.32),
+    0 0 28px rgba(255,90,165,.6);
 }
-.btn-primary::before{ opacity:.72; }   /* el primario lleva un poco más de glow para destacar */
+/* glow más fuerte y con LATIDO → atrae la mirada hacia el confirmar */
+.btn-primary::before{
+  opacity:.95;
+  animation: btnGlowSpin 2.6s linear infinite, priGlow 1.9s ease-in-out infinite;
+}
+@keyframes priGlow{ 0%,100%{ opacity:.7; } 50%{ opacity:1; } }
 /* GLOW giratorio estilo Uiverse: blob magenta difuminado que gira por detrás del texto.
    Centrado con márgenes (no transform) para no pisar la animación de rotación. */
 .btn::before{
@@ -1018,6 +1027,9 @@ section.closing .music-btn svg{ width:14px; height:14px; }
   transition:transform 1.3s cubic-bezier(.22,1,.36,1);
 }
 .polaroid-wrap.reveal.is-visible{ transform:none; }
+/* En el CIERRE no deslizamos la foto: es la última pantalla y en mobile el deslizamiento
+   se veía como un "tick" que acomoda la foto. Queda fija desde el inicio. */
+section.closing .polaroid-wrap.reveal{ transform:none; transition:none; }
 
 @media (prefers-reduced-motion: reduce){
   .reveal,
