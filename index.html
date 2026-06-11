@@ -973,14 +973,14 @@ section.has-panel .poem strong{ color:#9c4a64; }
 /* MISMO encuadre que las demás fotos: la polaroid CENTRADA (no pegada al borde),
    y el footer (JANA) en flujo, justo debajo → sin hueco colgado ni franja que
    asome en la sección anterior. */
-/* Cierre medido con la altura VISIBLE real (svh = viewport chico, con la barra de Safari).
-   Así el contenido centrado entra SIEMPRE completo y el footer/branding nunca queda cortado.
-   (Las demás secciones usan --app-h; el cierre necesita el alto chico porque lleva footer.) */
+/* El cierre LLENA la pantalla igual que las demás (hereda 100lvh) → no queda hueco abajo
+   ni rebota el scroll-snap al final. Pero el contenido se centra dentro del área VISIBLE
+   (100svh, sin la barra) con un padding-top calculado → el footer/branding nunca se corta,
+   y como svh/lvh son fijos (no cambian con la barra) tampoco hay reflow/"tick". */
 section.closing{
-  min-height:100vh;
-  min-height:100svh;
-  justify-content:center; gap:14px;
-  padding-top:16px; padding-bottom:16px;
+  justify-content:flex-start; gap:14px;
+  padding-top: max(18px, calc((100svh - 540px) / 2));
+  padding-bottom:18px;
 }
 section.closing .glam .ph{ width:226px; aspect-ratio:5 / 7; }   /* tercera foto un poco MÁS larga */
 /* "Luana" pegada a la foto y a un costado (abajo-izquierda, inclinada) → distinta al hero */
