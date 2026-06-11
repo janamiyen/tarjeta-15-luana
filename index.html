@@ -413,7 +413,7 @@ section.has-panel .poem strong{ color:#9c4a64; }
 /* Luana es la protagonista. La foto es 9:16 (675×1200), así que el cuadro de la
    polaroid es vertical en esa misma proporción → se ve la foto COMPLETA, sin recorte. */
 .polaroid.tender .ph{
-  width:216px; aspect-ratio:3 / 5;   /* TAMAÑO ÚNICO de todas las fotos (lu1/lu2/lu3 idénticas, mismo px en todo celular) */
+  aspect-ratio:3 / 5; height:min(58svh, 520px); width:auto;   /* TAMAÑO ÚNICO: medido por alto de pantalla → llena proporcionalmente todo celular (alto o bajo) y las 3 quedan iguales */
   position:relative; overflow:hidden; isolation:isolate;
   background-size:cover; background-position:center;
   filter:grayscale(1) contrast(1.02) brightness(1.05);   /* full B&N (sin tinte) */
@@ -432,9 +432,8 @@ section.has-panel .poem strong{ color:#9c4a64; }
 }
 .polaroid.tender .name-img{ width:150px; margin:7px auto 11px; }
 /* === Segunda foto (book B&N): un toque más chica y SIN tinte rosé → blanco y negro puro === */
-.polaroid-wrap.sm .polaroid.tender .ph{ width:216px; filter:none; }   /* mismo tamaño que el resto; .sm sólo quita el filtro (foto original) */
-.polaroid-wrap.fit916 .polaroid.tender .ph{ aspect-ratio:3 / 5; width:216px; }   /* mismo cuadro que las demás (la mamá las hizo todas igual) */
-.polaroid-wrap.mini .polaroid.tender .ph{ width:216px; }   /* mismo tamaño que el resto */
+.polaroid-wrap.sm .polaroid.tender .ph{ filter:none; }   /* .sm sólo quita el filtro (foto original); el tamaño lo fija la regla base por svh */
+.polaroid-wrap.fit916 .polaroid.tender .ph{ aspect-ratio:3 / 5; }   /* mismo cuadro que las demás (la mamá las hizo todas igual) */
 .sec-book .photoblock{ transform:translateY(-16px); }    /* subir un poquito la foto y el XV → que el marco no choque abajo */
 .polaroid-wrap.sm .polaroid.tender .name-img{ width:150px; }   /* nombre del mismo tamaño en todas */
 /* foto en crudo: fuera TODA máscara/efecto encima (luz, viñeta, brillo de vidrio, grano) */
@@ -1000,10 +999,10 @@ section.closing .photo-name-img{
 section.closing .photoblock{ margin-top:0; }   /* sin auto: foto + footer forman UN bloque centrado por justify-content:center → aire parejo arriba/abajo, se adapta a todo formato */
 section.closing .footer{ position:static; padding:0; z-index:6; margin-top:0; }   /* space-between de la sección ancla el footer abajo */
 section.closing .end-controls{ margin-bottom:0; margin-top:4px; gap:18px; }   /* botones pegados a la foto + 4px abajo */
-/* Botones play/subir del cierre más chicos → dejan aire para el branding */
-section.closing .music-btn{ width:38px; height:38px; }
-section.closing .music-btn svg{ width:14px; height:14px; }
-/* Sin override mobile para la última foto: todas comparten el mismo tamaño (216px) en todo celular */
+/* Botones play/subir del cierre, agrandados para acompañar la foto */
+section.closing .music-btn{ width:46px; height:46px; }
+section.closing .music-btn svg{ width:17px; height:17px; }
+/* Sin override mobile para la última foto: todas comparten el mismo tamaño (por svh) en todo celular */
 
 /* ============ ANIMACIÓN HERO (intro al cargar) ============ */
 .hero .inner{ will-change:transform, opacity; }
