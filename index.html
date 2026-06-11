@@ -61,13 +61,14 @@
 
 *{ margin:0; padding:0; box-sizing:border-box; }
 html{
-  /* sin scroll-behavior:smooth a propósito: el JS maneja el scroll suave y el salto
-     del loop; el smooth de CSS peleaba con eso y trababa la pantalla al final. */
-  scroll-snap-type: y mandatory;   /* te lleva directo a cada sección (firme). El cierre ahora entra exacto → no debería tildar al final */
-  /* ...pero SIN scroll-snap-stop:always (lo sacamos de section): así, cuando vas
-     rápido, podés pasar fluido sin frenar obligado en cada pantalla. */
+  height:100%;
+  overflow:hidden;   /* el scroll NO vive en el documento → vive en main.card (contenedor fijo).
+                        Así la barra de Safari nunca se oculta → el viewport queda QUIETO →
+                        sin tildado, sin franja, sin salto al final. */
 }
 body{
+  height:100%;
+  overflow:hidden;                  /* idem html: el documento no scrollea */
   font-family:var(--font-body);
   color:var(--pink);
   /* base rosa suave detrás del video (fallback si el autoplay se bloquea) */
@@ -87,13 +88,19 @@ body{
 }
 .bg-video.ready{ opacity:1; }
 
-/* ============ LIENZO ============ */
+/* ============ LIENZO (= CONTENEDOR DE SCROLL FIJO) ============
+   main.card es ahora el que scrollea (no el documento). Al ser position:fixed con
+   alto fijo (inset 0), la barra del navegador no se oculta → viewport estable. */
 .card{
-  max-width:var(--maxw);
-  margin:0 auto;
-  position:relative;
-  overflow-x:clip;
+  position:fixed;
+  top:0; bottom:0; left:50%; transform:translateX(-50%);
+  width:100%; max-width:var(--maxw);
+  overflow-y:auto; overflow-x:hidden;
+  scroll-snap-type:y mandatory;     /* el snap vive acá ahora (antes en html) */
+  -webkit-overflow-scrolling:touch; /* momentum en iOS */
+  overscroll-behavior-y:contain;    /* que el scroll no se "escape" al documento */
   background:transparent;
+  z-index:1;                        /* arriba del video de fondo */
 }
 
 /* ============ SECCIONES ============ */
@@ -102,11 +109,9 @@ section{
   padding:64px 28px;
   text-align:center;
   z-index:1;
-  min-height:100vh;
-  min-height:var(--app-h, 100dvh);  /* respaldo: webviews viejos sin dvh */
-  min-height:100dvh;                /* PRINCIPAL: viewport DINÁMICO → la sección mide SIEMPRE exactamente
-                                       lo que se ve (con o sin barra) → no asoma la siguiente NI sobra scroll al final. */
-  scroll-snap-align:start;          /* punto de snap (proximity: no obliga a frenar) */
+  min-height:100%;                  /* = alto del contenedor fijo main.card → estable (la barra de Safari
+                                       no lo cambia porque el documento no scrollea) → sin franja ni tildado. */
+  scroll-snap-align:start;          /* punto de snap */
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -210,7 +215,7 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .poem strong{ font-weight:500; }
 
 /* ============ HERO ============ */
-.hero{ padding-top:74px; padding-bottom:48px; min-height:100vh; display:flex; align-items:center; }
+.hero{ padding-top:74px; padding-bottom:48px; min-height:100%; display:flex; align-items:center; }
 .hero .mis{
   font-family:var(--font-date); text-transform:uppercase;
   letter-spacing:.55em; font-size:13px; opacity:.85;
@@ -1683,17 +1688,15 @@ body.sobre-locked{ overflow:hidden; }
    siempre empiece desde la primera pantalla.
    ============================================================ */
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+const scroller = document.querySelector("main.card");   // AHORA el scroll vive acá (no en el documento)
 let _snapTimer = null;
 const goTop = () => {
-  const d = document.documentElement, b = document.body;
-  if (d) d.style.scrollSnapType = "none";   // iOS Safari: el snap 'mandatory' BLOQUEA el scroll por código
-  try { window.scrollTo(0, 0); } catch (e) {}
-  const se = document.scrollingElement;
-  if (se) se.scrollTop = 0;
-  if (d) d.scrollTop = 0;
-  if (b) b.scrollTop = 0;
+  if (!scroller) { try { window.scrollTo(0, 0); } catch (e) {} return; }
+  scroller.style.scrollSnapType = "none";   // el snap 'mandatory' bloquea el scroll por código
+  try { scroller.scrollTo(0, 0); } catch (e) { scroller.scrollTop = 0; }
+  scroller.scrollTop = 0;
   clearTimeout(_snapTimer);                  // reactivar el snap recién después (debounce)
-  _snapTimer = setTimeout(() => { if (d) d.style.scrollSnapType = ""; }, 140);
+  _snapTimer = setTimeout(() => { if (scroller) scroller.style.scrollSnapType = ""; }, 140);
 };
 goTop();
 
@@ -1725,7 +1728,7 @@ let userMoved = false;
 ["touchstart","wheel","keydown","pointerdown"].forEach(ev =>
   window.addEventListener(ev, () => { userMoved = true; }, { passive:true, once:true })
 );
-const topGuard = setInterval(() => { if (!userMoved && window.scrollY > 2) goTop(); }, 100);
+const topGuard = setInterval(() => { if (!userMoved && scroller && scroller.scrollTop > 2) goTop(); }, 100);
 setTimeout(() => clearInterval(topGuard), 3000);
 
 /* ============================================================
@@ -1975,11 +1978,11 @@ const CONFIG = {
   const heroInner = document.querySelector(".hero .inner");
   if (heroInner){
     let lastY = 0, ticking = false;
-    window.addEventListener("scroll", () => {
-      lastY = window.scrollY;
+    scroller.addEventListener("scroll", () => {
+      lastY = scroller.scrollTop;
       if (!ticking){
         requestAnimationFrame(() => {
-          const limit = window.innerHeight;
+          const limit = scroller.clientHeight;
           const y = Math.min(lastY, limit);
           heroInner.style.transform = "translateY(" + (y * -0.18) + "px)";
           heroInner.style.opacity = String(Math.max(0, 1 - y / (limit * 0.85)));
@@ -2016,9 +2019,8 @@ const CONFIG = {
   // ---- Progreso: una línea fina según el scroll total ----
   const progBar = document.querySelector(".progress .bar");
   function updateProgress(){
-    const doc = document.documentElement;
-    const max = doc.scrollHeight - window.innerHeight;
-    const p = max > 0 ? Math.max(0, Math.min(1, window.scrollY / max)) : 0;
+    const max = scroller.scrollHeight - scroller.clientHeight;
+    const p = max > 0 ? Math.max(0, Math.min(1, scroller.scrollTop / max)) : 0;
     if (progBar) progBar.style.width = (p * 100) + "%";
   }
   let progTicking = false;
@@ -2028,7 +2030,7 @@ const CONFIG = {
       progTicking = true;
     }
   }
-  window.addEventListener("scroll", onScrollProg, { passive:true });
+  scroller.addEventListener("scroll", onScrollProg, { passive:true });
   window.addEventListener("resize", onScrollProg, { passive:true });
   updateProgress();
 
@@ -2042,14 +2044,14 @@ const CONFIG = {
   let isSmoothing = false;
   function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
   function smoothScrollTo(y, dur){
-    const start = window.scrollY;
+    const start = scroller.scrollTop;
     const dist = y - start;
     if (Math.abs(dist) < 1) return;
     const t0 = performance.now();
     isSmoothing = true;
     function step(now){
       const t = Math.min(1, (now - t0) / dur);
-      window.scrollTo(0, start + dist * easeOutCubic(t));
+      scroller.scrollTo(0, start + dist * easeOutCubic(t));
       if (t < 1) requestAnimationFrame(step);
       else setTimeout(() => { isSmoothing = false; }, 60);
     }
@@ -2090,7 +2092,7 @@ const CONFIG = {
     isSmoothing = true;
     loopFade.classList.add("on");
     setTimeout(() => {
-      window.scrollTo(0, 0);           // salto directo, tapado por el fundido
+      if (scroller) scroller.scrollTo(0, 0);   // salto directo, tapado por el fundido
       updateProgress();
       setTimeout(() => {
         loopFade.classList.remove("on");
@@ -2119,10 +2121,10 @@ const CONFIG = {
   // estás una sección antes, su techo está a una pantalla de distancia → no.
   function onClosingScreen(){
     const r = snapTargets[snapTargets.length - 1].getBoundingClientRect();
-    return r.top < window.innerHeight * 0.4;
+    return r.top < scroller.clientHeight * 0.4;
   }
   function atBottom(){
-    return window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 6;
+    return scroller.clientHeight + scroller.scrollTop >= scroller.scrollHeight - 6;
   }
   let touchY0 = null, wasAtEnd = false;
   window.addEventListener("touchstart", (e) => {
