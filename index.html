@@ -427,8 +427,8 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .polaroid.tender .name-img{ width:150px; margin:7px auto 11px; }
 /* === Segunda foto (book B&N): un toque más chica y SIN tinte rosé → blanco y negro puro === */
 .polaroid-wrap.sm .polaroid.tender .ph{ width:204px; filter:none; }   /* foto ORIGINAL: sin filtro */
-.polaroid-wrap.fit916 .polaroid.tender .ph{ aspect-ratio:9 / 16; width:200px; }   /* foto del book (9:16) ENTERA, un poquito más grande */
-.polaroid-wrap.mini .polaroid.tender .ph{ width:176px; }   /* última foto un poco más chica → margen arriba */
+.polaroid-wrap.fit916 .polaroid.tender .ph{ aspect-ratio:9 / 16; width:189px; }   /* foto del book (9:16) ENTERA, un poquito más grande */
+.polaroid-wrap.mini .polaroid.tender .ph{ width:176px; }   /* última foto: tamaño parejo con el book */
 .sec-book .photoblock{ transform:translateY(-16px); }    /* subir un poquito la foto y el XV → que el marco no choque abajo */
 .polaroid-wrap.sm .polaroid.tender .name-img{ width:136px; }
 /* foto en crudo: fuera TODA máscara/efecto encima (luz, viñeta, brillo de vidrio, grano) */
@@ -589,20 +589,20 @@ section.has-panel .poem strong{ color:#9c4a64; }
   margin-top:22px;
   padding:14px 32px; border-radius:999px;
   font-family:var(--font-body); font-weight:600; font-size:13px; letter-spacing:.07em;
-  color:#7e3450; text-decoration:none; cursor:pointer;
+  color:#7e1f45; text-decoration:none; cursor:pointer;
   -webkit-tap-highlight-color:transparent;
-  text-shadow:0 1px 1px rgba(255,255,255,.75);
-  /* perlado con más cuerpo (ya no translúcido lavado) + gloss superior fuerte */
+  text-shadow:0 1px 1px rgba(255,255,255,.85);
+  /* ROSA GLOW SUAVE (variante B): pastilla crema con gloss; glow rosa→coral suave GIRATORIO en ::before */
   background:
-    linear-gradient(180deg, rgba(255,255,255,.85) 0%, rgba(255,255,255,.14) 46%),
-    linear-gradient(165deg, #ffd9e8 0%, #f7b8d2 55%, #f0a6c5 100%);
-  border:2px solid rgba(255,255,255,.95);
+    linear-gradient(180deg, rgba(255,255,255,.78) 0%, rgba(255,255,255,.22) 45%, rgba(255,255,255,0) 100%),
+    linear-gradient(165deg, #fff4f9 0%, #ffe6f1 100%);
+  border:2px solid rgba(255,255,255,.5);
   box-shadow:
     inset 0 2px 2px rgba(255,255,255,1),
-    inset 0 -8px 14px rgba(232,120,165,.35),
-    0 10px 24px rgba(214,98,140,.4),
-    0 2px 6px rgba(177,90,114,.3),
-    0 0 18px rgba(255,130,175,.3);
+    inset 0 -7px 13px rgba(255,190,215,.3),
+    0 8px 20px rgba(220,150,180,.28),
+    0 2px 6px rgba(190,140,160,.2),
+    0 0 16px rgba(255,200,225,.35);
   transition:transform .22s cubic-bezier(.22,1,.36,1), box-shadow .25s ease;
   /* glow rosado que respira (vida también en mobile, sin hover) */
   animation:btnBreathe 3.6s ease-in-out infinite;
@@ -617,28 +617,35 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .btn:hover svg, .btn:focus-visible svg{ transform:scale(1.15) rotate(-6deg); }
 /* primario: la acción estrella (confirmar asistencia, copiar alias) */
 .btn-primary{
-  color:#fff;
-  text-shadow:0 1px 2px rgba(158,52,90,.6);
+  color:#7e1f45;
+  text-shadow:0 1px 1px rgba(255,255,255,.85);
+  /* mismo pastel que los demás pero pastilla un toque más rosada → sigue siendo la estrella, sin magenta */
   background:
-    linear-gradient(180deg, rgba(255,255,255,.7) 0%, rgba(255,255,255,.05) 44%),
-    linear-gradient(165deg, #ff9cc6 0%, #f06ba2 58%, #e85d98 100%);
-  border-color:#fff;
+    linear-gradient(180deg, rgba(255,255,255,.8) 0%, rgba(255,255,255,.24) 45%, rgba(255,255,255,0) 100%),
+    linear-gradient(165deg, #fff0f7 0%, #ffd7ea 100%);
+  border-color:rgba(255,255,255,.55);
   box-shadow:
-    inset 0 2px 2px rgba(255,255,255,.95),
-    inset 0 -8px 16px rgba(190,55,110,.45),
-    0 12px 28px rgba(214,80,135,.5),
-    0 2px 6px rgba(158,52,90,.35),
-    0 0 24px rgba(255,105,170,.45);
+    inset 0 2px 2px rgba(255,255,255,1),
+    inset 0 -7px 13px rgba(255,180,210,.34),
+    0 8px 20px rgba(220,140,175,.32),
+    0 2px 6px rgba(190,140,160,.2),
+    0 0 18px rgba(255,190,220,.4);
 }
-/* zebra VISIBLE en los botones (acá sí se nota, da la onda animal print) */
+.btn-primary::before{ opacity:.72; }   /* el primario lleva un poco más de glow para destacar */
+/* GLOW giratorio estilo Uiverse: blob magenta difuminado que gira por detrás del texto.
+   Centrado con márgenes (no transform) para no pisar la animación de rotación. */
 .btn::before{
-  content:""; position:absolute; inset:-40%;
+  content:""; position:absolute;
+  width:13rem; height:13rem; border-radius:50%;
+  top:50%; left:50%; margin:-6.5rem 0 0 -6.5rem;
   z-index:-1; pointer-events:none;
-  background-image:var(--zebra);
-  background-size:74px 74px;
-  opacity:.13;
-  transform:rotate(-16deg);
+  filter:blur(22px);
+  opacity:.55;
+  /* ROSA blush (sin amarillo): extremos rosados + centro blush cálido → glam pastel con vida, todo rosita */
+  background:linear-gradient(90deg, #ffa0c8 0%, #f2cdc2 50%, #ffb0d6 100%);
+  animation:btnGlowSpin 2.6s linear infinite;
 }
+@keyframes btnGlowSpin{ to{ transform:rotate(360deg); } }
 /* shimmer (barrido de luz): corre solo cada ~5s (ambiental) y al tocar */
 .btn::after{
   content:""; position:absolute; top:0; left:-65%;
@@ -934,7 +941,7 @@ section.has-panel .poem strong{ color:#9c4a64; }
   letter-spacing:.26em;
   text-transform:uppercase;
   color:var(--pink-deep);
-  margin-bottom:8px;
+  margin-bottom:3px;
   opacity:.78;
   text-shadow:0 1px 2px rgba(255,255,255,.5);
 }
@@ -954,7 +961,18 @@ section.has-panel .poem strong{ color:#9c4a64; }
 .footer a#btn-brand:hover{ opacity:1; }
 /* pantalla de cierre: foto enmarcada + nombre debajo, footer pegado al fondo
    minimal, todo en una pantalla sin scroll extra */
-section.closing{ justify-content:space-between; gap:12px; padding-top:2.4vh; padding-bottom:2.8vh; }
+/* MISMO encuadre que las demás fotos: la polaroid CENTRADA (no pegada al borde),
+   y el footer (JANA) en flujo, justo debajo → sin hueco colgado ni franja que
+   asome en la sección anterior. */
+/* Cierre medido con la altura VISIBLE real (svh = viewport chico, con la barra de Safari).
+   Así el contenido centrado entra SIEMPRE completo y el footer/branding nunca queda cortado.
+   (Las demás secciones usan --app-h; el cierre necesita el alto chico porque lleva footer.) */
+section.closing{
+  min-height:100vh;
+  min-height:100svh;
+  justify-content:center; gap:14px;
+  padding-top:16px; padding-bottom:16px;
+}
 section.closing .glam .ph{ width:226px; aspect-ratio:5 / 7; }   /* tercera foto un poco MÁS larga */
 /* "Luana" pegada a la foto y a un costado (abajo-izquierda, inclinada) → distinta al hero */
 section.closing .photo-name-img{
@@ -963,13 +981,16 @@ section.closing .photo-name-img{
 }
 /* Footer en FLUJO (no pegado al borde) → nombre + instagram quedan dentro del video.
    Compacto para que entre completo aun en celus con barra de navegador alta. */
-section.closing .photoblock{ margin-top:20px; }   /* aire arriba (el book es más alto → menos margen) */
+section.closing .photoblock{ margin-top:0; }   /* foto centrada como las demás → sin offset hacia abajo */
 section.closing .footer{ position:static; padding:0; z-index:6; }
-section.closing .end-controls{ margin-bottom:20px; }   /* botones más arriba + más separados del nombre */
+section.closing .end-controls{ margin-bottom:14px; gap:18px; }   /* botones separados entre sí (no se pisan) */
+/* Botones play/subir del cierre más chicos → dejan aire para el branding */
+section.closing .music-btn{ width:38px; height:38px; }
+section.closing .music-btn svg{ width:14px; height:14px; }
 /* En celular la última foto se veía chica y con mucho aire hasta los botones → la agrandamos un poco (desktop queda igual) */
 @media (max-width:520px){
-  .polaroid-wrap.mini .polaroid.tender .ph{ width:212px; }
-  .polaroid-wrap.mini .polaroid.tender .name-img{ width:152px; }
+  .polaroid-wrap.mini .polaroid.tender .ph{ width:194px; }
+  .polaroid-wrap.mini .polaroid.tender .name-img{ width:140px; }
 }
 
 /* ============ ANIMACIÓN HERO (intro al cargar) ============ */
@@ -1005,7 +1026,7 @@ section.closing .end-controls{ margin-bottom:20px; }   /* botones más arriba + 
     opacity:1 !important; transform:none !important;
     animation:none !important; transition:none !important;
   }
-  .btn, .btn::after, .countdown-card, .countdown-card::after, .cd-sep,
+  .btn, .btn::before, .btn::after, .countdown-card, .countdown-card::after, .cd-sep,
   .flit, .glint, .tw, .drift, .sobre-abrir, .swipe-cue svg{
     animation:none !important;
   }
