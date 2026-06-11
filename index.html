@@ -413,7 +413,7 @@ section.has-panel .poem strong{ color:#9c4a64; }
 /* Luana es la protagonista. La foto es 9:16 (675×1200), así que el cuadro de la
    polaroid es vertical en esa misma proporción → se ve la foto COMPLETA, sin recorte. */
 .polaroid.tender .ph{
-  width:224px; aspect-ratio:3 / 5;   /* un pelín menos larga que el 9:16 (recorta apenas arriba/abajo) */
+  width:216px; aspect-ratio:3 / 5;   /* TAMAÑO ÚNICO de todas las fotos (lu1/lu2/lu3 idénticas, mismo px en todo celular) */
   position:relative; overflow:hidden; isolation:isolate;
   background-size:cover; background-position:center;
   filter:grayscale(1) contrast(1.02) brightness(1.05);   /* full B&N (sin tinte) */
@@ -432,11 +432,11 @@ section.has-panel .poem strong{ color:#9c4a64; }
 }
 .polaroid.tender .name-img{ width:150px; margin:7px auto 11px; }
 /* === Segunda foto (book B&N): un toque más chica y SIN tinte rosé → blanco y negro puro === */
-.polaroid-wrap.sm .polaroid.tender .ph{ width:204px; filter:none; }   /* foto ORIGINAL: sin filtro */
-.polaroid-wrap.fit916 .polaroid.tender .ph{ aspect-ratio:9 / 16; width:189px; }   /* foto del book (9:16) ENTERA, un poquito más grande */
-.polaroid-wrap.mini .polaroid.tender .ph{ width:176px; }   /* última foto: tamaño parejo con el book */
+.polaroid-wrap.sm .polaroid.tender .ph{ width:216px; filter:none; }   /* mismo tamaño que el resto; .sm sólo quita el filtro (foto original) */
+.polaroid-wrap.fit916 .polaroid.tender .ph{ aspect-ratio:3 / 5; width:216px; }   /* mismo cuadro que las demás (la mamá las hizo todas igual) */
+.polaroid-wrap.mini .polaroid.tender .ph{ width:216px; }   /* mismo tamaño que el resto */
 .sec-book .photoblock{ transform:translateY(-16px); }    /* subir un poquito la foto y el XV → que el marco no choque abajo */
-.polaroid-wrap.sm .polaroid.tender .name-img{ width:136px; }
+.polaroid-wrap.sm .polaroid.tender .name-img{ width:150px; }   /* nombre del mismo tamaño en todas */
 /* foto en crudo: fuera TODA máscara/efecto encima (luz, viñeta, brillo de vidrio, grano) */
 .polaroid-wrap.sm .polaroid.tender .ph::after,
 .polaroid-wrap.sm .polaroid.tender::before,
@@ -983,7 +983,7 @@ section.closing{
   justify-content:center; gap:14px;   /* grupo centrado; la foto grande (protagonista) llena el aire → se adapta a todo alto de pantalla */
   padding-top:18px; padding-bottom:18px;
 }
-section.closing .glam .ph{ width:250px; aspect-ratio:5 / 7; }   /* foto protagonista: más grande para que Luana domine el cierre */
+section.closing .glam .ph{ width:226px; aspect-ratio:5 / 7; }   /* (regla heredada; la foto del cierre es .tender, no .glam → tamaño real lo fija .polaroid.tender .ph) */
 /* "Luana" pegada a la foto y a un costado (abajo-izquierda, inclinada) → distinta al hero */
 section.closing .photo-name-img{
   width:170px; margin:-16px 0 0; align-self:flex-start; margin-left:7%;
@@ -997,11 +997,7 @@ section.closing .end-controls{ margin-bottom:14px; gap:18px; }   /* botones sepa
 /* Botones play/subir del cierre más chicos → dejan aire para el branding */
 section.closing .music-btn{ width:38px; height:38px; }
 section.closing .music-btn svg{ width:14px; height:14px; }
-/* En celular la última foto se veía chica y con mucho aire hasta los botones → la agrandamos un poco (desktop queda igual) */
-@media (max-width:520px){
-  .polaroid-wrap.mini .polaroid.tender .ph{ width:232px; }
-  .polaroid-wrap.mini .polaroid.tender .name-img{ width:158px; }
-}
+/* Sin override mobile para la última foto: todas comparten el mismo tamaño (216px) en todo celular */
 
 /* ============ ANIMACIÓN HERO (intro al cargar) ============ */
 .hero .inner{ will-change:transform, opacity; }
