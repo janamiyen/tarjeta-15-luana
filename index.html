@@ -980,10 +980,10 @@ section.has-panel .poem strong{ color:#9c4a64; }
 /* El cierre hereda 100dvh (= exactamente lo que se ve) → ni hueco/scroll de más al final
    ni asomo en la sección anterior. Contenido centrado; entra completo con su footer. */
 section.closing{
-  justify-content:space-between; gap:14px;   /* foto protagonista arriba, invitaciones ancladas abajo; el sobrante va al medio → se adapta a todo alto de pantalla sin hueco encima de la foto */
-  padding-top:30px; padding-bottom:18px;
+  justify-content:center; gap:14px;   /* grupo centrado; la foto grande (protagonista) llena el aire → se adapta a todo alto de pantalla */
+  padding-top:18px; padding-bottom:18px;
 }
-section.closing .glam .ph{ width:226px; aspect-ratio:5 / 7; }   /* tercera foto un poco MÁS larga */
+section.closing .glam .ph{ width:250px; aspect-ratio:5 / 7; }   /* foto protagonista: más grande para que Luana domine el cierre */
 /* "Luana" pegada a la foto y a un costado (abajo-izquierda, inclinada) → distinta al hero */
 section.closing .photo-name-img{
   width:170px; margin:-16px 0 0; align-self:flex-start; margin-left:7%;
@@ -999,8 +999,8 @@ section.closing .music-btn{ width:38px; height:38px; }
 section.closing .music-btn svg{ width:14px; height:14px; }
 /* En celular la última foto se veía chica y con mucho aire hasta los botones → la agrandamos un poco (desktop queda igual) */
 @media (max-width:520px){
-  .polaroid-wrap.mini .polaroid.tender .ph{ width:194px; }
-  .polaroid-wrap.mini .polaroid.tender .name-img{ width:140px; }
+  .polaroid-wrap.mini .polaroid.tender .ph{ width:232px; }
+  .polaroid-wrap.mini .polaroid.tender .name-img{ width:158px; }
 }
 
 /* ============ ANIMACIÓN HERO (intro al cargar) ============ */
